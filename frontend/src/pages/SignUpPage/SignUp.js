@@ -1,16 +1,12 @@
 import * as React from "react";
 import { Button, CssBaseline,  TextField, Link, Grid, Typography, Container, Box} from "@mui/material";
-// import { CssBaseline } from "@mui/material/CssBaseline";
-// import { TextField } from "@mui/material/TextField";
-// import { Link } from "@mui/material/Link";
-// import { Grid } from "@mui/material/Grid";
-// import { Typography } from "@mui/material/Typography";
-// import { Container } from "@mui/material/Container";
-// import { Box } from "@mui/material/Box";
 import { useStyles } from "./styles";
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const classes = useStyles();
+    const navigate = useNavigate();
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -47,6 +43,16 @@ const SignUp = () => {
                                 autoFocus
                             />
                         </Grid>
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                required
+                                fullWidth
+                                id="lastName"
+                                label="Last Name"
+                                name="lastName"
+                                autoComplete="off"
+                            />
+                        </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 required
@@ -54,7 +60,7 @@ const SignUp = () => {
                                 id="email"
                                 label="Email Address"
                                 name="email"
-                                autoComplete="email"
+                                autoComplete="off"
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -65,7 +71,7 @@ const SignUp = () => {
                                 label="Password"
                                 type="password"
                                 id="password"
-                                autoComplete="new-password"
+                                autoComplete="off"
                             />
                         </Grid>
                     </Grid>
@@ -79,7 +85,7 @@ const SignUp = () => {
                     </Button>
                     <Grid container justifyContent="flex-end">
                         <Grid item>
-                            <Link href="#" variant="body2">
+                            <Link href="#" variant="body2" onClick={() => navigate('/sign-in')}>
                                 Already have an account? Sign In!
                             </Link>
                         </Grid>
