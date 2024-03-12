@@ -6,8 +6,9 @@ const App = () => {
     return (
         <div className="App">
             <Routes>
+                <Route path='/' element={<SignUp/>}/> // Define the sign-up page as the root URL
                 <Route path='/sign-in' element={<SignIn/>}/>
-                <Route path='/sign-up' element={<SignUp/>}/>
+                {/* You can keep other routes for different pages */}
             </Routes>
         </div>
     );
