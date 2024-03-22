@@ -53,3 +53,4 @@ const App = () => {
       </Routes>
     </div>
   );
+};
