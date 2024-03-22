@@ -2,13 +2,13 @@ import { useContext } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
 import { useStyles } from "./styles";
 
-import HomePage from "../HomePage/HomePage";
 import SignIn from "../SignInPage/SignIn";
 import SignUp from "../SignUpPage/SignUp";
 import AuthContext from "../../context/auth-context";
-import SideMenu from "../../components/SideMenu/SideMenu";
-import Navbar from "../../components/Navbar/Navbar";
-import Tabbar from "../../components/Tabbar/Tabbar";
+//uploadpage
+//preproccesing page
+//ocr page
+//summarypage
 
 const App = () => {
   const ctx = useContext(AuthContext);
