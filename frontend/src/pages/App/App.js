@@ -6,9 +6,13 @@ import SignIn from "../SignInPage/SignIn";
 import SignUp from "../SignUpPage/SignUp";
 import AuthContext from "../../context/auth-context";
 //uploadpage
+import UploadPage from "../UploadPage/HomePage";
 //preproccesing page
+import PreprocessingPage from "../PreprocessingPage/PreprocessingPage";
 //ocr page
+import OCRPage from "../OCRPage/OCRPage";
 //summarypage
+import SummaryPage from "../SummaryPage/SummaryPage";
 
 const App = () => {
   const ctx = useContext(AuthContext);
