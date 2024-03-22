@@ -13,6 +13,24 @@ const HomePage = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
 
+  function getData() {
+    axios({
+      method: "GET",
+      url: "http://localhost:5000/hello",
+    })
+      .then((response) => {
+        const res = response.data;
+        console.log(res);
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
+  }
+
   const [activePage, setActivePage] = useState(0);
 
   useEffect(() => {

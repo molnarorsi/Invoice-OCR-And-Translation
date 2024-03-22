@@ -14,7 +14,7 @@ const Tabbar = (props) => {
     const [value, setValue] = useState(0);
     const ocrCtx = useContext(OCRContext);
 
-    const HandleChange = (event, newValue) => {
+    const handleChange = (event, newValue) => {
         setValue(newValue);
         ocrCtx.setActivePage(newValue);
     };

@@ -5,6 +5,8 @@ import AuthContext from "../../context/auth-context";
 import HistoryPage from "../HistoryPage/HistoryPage";
 import HomePage from "../HomePage/HomePage";
 import { Navigate } from "react-router-dom";
+import { Route } from "react-router-dom";
+import { useContext } from "react";
 
 
 const App = () => {
@@ -36,3 +38,5 @@ const App = () => {
     </div>
   );
 };
+
+export default App;
