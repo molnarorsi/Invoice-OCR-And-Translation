@@ -2,7 +2,7 @@ import { Button, Typography } from "@mui/material";
 import { useStyles } from "./styles";
 const cv = window.cv;
 
-const SelectCard = () => {
+const UploadCard = () => {
     const classes = useStyles();
 
     const handleImageUpload = (event) => {
@@ -36,4 +36,4 @@ const SelectCard = () => {
     );
 };
 
-export default SelectCard;
+export default UploadCard;

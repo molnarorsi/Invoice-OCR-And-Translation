@@ -1,6 +1,6 @@
 //import Navbar from "../../components/Navbar/Navbar";
 //import SideMenu from "../../components/SideMenu/SideMenu";
-import SelectCard from "../../components/SelectCard/SelectCard";
+import UploadCard from "../../components/UploadCard/UploadCard";
 import AppLayout from "../../components/AppLayout/AppLayout";
 
 
@@ -12,7 +12,7 @@ const UploadPage = () => {
   return (
     <>
       <AppLayout pageNumber={0}>
-        <SelectCard />
+        <UploadCard />
         <canvas className={classes.invoice} id="output" />
       </AppLayout>
     </>
