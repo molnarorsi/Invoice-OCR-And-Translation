@@ -42,7 +42,7 @@ const SignUp = () => {
       })
       .then((data) => {
         authCtx.login(data.idToken);
-        navigate("/upload");
+        navigate("/");
       })
       .catch((err) => {
         alert(err.message);

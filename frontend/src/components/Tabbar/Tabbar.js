@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useContext } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
@@ -8,14 +7,16 @@ import EyeIcon from "@mui/icons-material/RemoveRedEye";
 import SummaryIcon from '@mui/icons-material/List';
 import {useStyles} from "./styles";
 import {Typography} from "@mui/material";
+import OCRContext from "../../context/ocr-context";
 
 const Tabbar = (props) => {
     const classes = useStyles();
-    const [value, setValue] = useState(props.pageNumber);
-    const navigate = useNavigate();
+    const [value, setValue] = useState(0);
+    const ocrCtx = useContext(OCRContext);
 
     const HandleChange = (event, newValue) => {
         setValue(newValue);
+        ocrCtx.setActivePage(newValue);
     };
 
     return (
@@ -28,7 +29,6 @@ const Tabbar = (props) => {
                 onChange={handleChange}
             >
                 <Tab
-                    onClick={() => navigate("/upload")}
                     sx={{mx:5, p:2}}
                     label={
                         <Typography>
@@ -38,7 +38,6 @@ const Tabbar = (props) => {
                     }
                 />
                 <Tab
-                    onClick={() => navigate("/preprocessing")}
                     sx={{ms:5, p:2}}
                     label={
                         <Typography>
@@ -48,7 +47,6 @@ const Tabbar = (props) => {
                     }
                 />
                 <Tab
-                    onClick={() => navigate("/ocr")}
                     sx={{mx:5, p:2}}
                     label={
                         <Typography>
@@ -58,7 +56,6 @@ const Tabbar = (props) => {
                     }
                 />
                 <Tab
-                    onClick={() => navigate("/summary")}
                     sx={{mx:5, p:2}}
                     label={
                         <Typography>

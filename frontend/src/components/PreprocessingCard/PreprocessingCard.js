@@ -1,12 +1,12 @@
 import { Button, Typography } from "@mui/material";
 import { useStyles } from "./styles";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import OCRContext from "../../context/ocr-context";
 const cv = window.cv;
 
 const PreprocessingCard = () => {
   const classes = useStyles();
-  const navigate = useNavigate();
-
+  const ocrCtx = useContext(OCRContext)
   return (
     <>
       <div className={classes.rootContainer}>
@@ -16,7 +16,7 @@ const PreprocessingCard = () => {
 
         <Button
           variant="contained"
-          onClick={() => navigate("/ocr")}
+          onClick={() => ocrCtx.setActivePage(2)}
           sx={{ margin: "20px", px: "10%" }}
         >
           NEXT

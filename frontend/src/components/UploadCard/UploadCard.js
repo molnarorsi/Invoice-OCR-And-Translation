@@ -1,11 +1,12 @@
 import { Button, Typography } from "@mui/material";
 import { useStyles } from "./styles";
-import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import OCRContext from "../../context/ocr-context";
 const cv = window.cv;
 
 const UploadCard = () => {
     const classes = useStyles();
-    const navigate = useNavigate();
+    const ocrCtx = useContext(OCRContext);
 
     const handleImageUpload = (event) => {
         const img = new Image();
@@ -31,7 +32,7 @@ const UploadCard = () => {
                 />
             </div>
             <Button 
-                onClick={() => navigate("/preprocessing")}
+                onClick={() => ocrCtx.setActivePage(1)}
                 variant="contained" 
                 sx={{margin: "20px", px: "10%"}}>
                 Next
