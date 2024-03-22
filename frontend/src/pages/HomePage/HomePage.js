@@ -9,6 +9,8 @@ import { useStyles } from "./styles";
 import PreprocessingCard from "../../components/PreprocessingCard/PreprocessingCard";
 import OCRCard from "../../components/OCRCard/OCRCard";
 
+import axios from "axios";
+
 const HomePage = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
@@ -35,16 +37,17 @@ const HomePage = () => {
 
   useEffect(() => {
     setActivePage(ocrCtx.activePage);
-  });
+    getData();
+  }, [ocrCtx]);
 
   return (
     <>
       <AppLayout>
         <Tabbar />
         <div className={classes.content}>
-          {activePage == 0 && <UploadCard />}
-          {activePage == 1 && <PreprocessingCard />}
-          {activePage == 2 && <OCRCard />}
+          {activePage === 0 && <UploadCard />}
+          {activePage === 1 && <PreprocessingCard />}
+          {activePage === 2 && <OCRCard />}
           <canvas className={classes.invoice} id="output" />
         </div>
       </AppLayout>

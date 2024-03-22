@@ -1,4 +1,3 @@
-import { useStyles } from "./styles";
 import SignIn from "../SignInPage/SignIn";
 import SignUp from "../SignUpPage/SignUp";
 import AuthContext from "../../context/auth-context";
@@ -6,12 +5,13 @@ import HistoryPage from "../HistoryPage/HistoryPage";
 import HomePage from "../HomePage/HomePage";
 import { Navigate } from "react-router-dom";
 import { Route } from "react-router-dom";
+import { Routes } from "react-router-dom";
 import { useContext } from "react";
 
 
 const App = () => {
   const ctx = useContext(AuthContext);
-  const classes = useStyles();
+  
   return (
     <div className="App">
       <Routes>

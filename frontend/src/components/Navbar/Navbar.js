@@ -1,5 +1,5 @@
 import Button from "@mui/material/Button";
-import AuthContext from "../../context/authcontext";
+import AuthContext from "../../context/auth-context";
 
 import React, {useContext} from "react";
 import {useStyles} from "./styles"
