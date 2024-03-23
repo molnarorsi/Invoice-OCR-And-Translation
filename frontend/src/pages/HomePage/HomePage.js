@@ -10,7 +10,7 @@ import PreprocessingCard from "../../components/PreprocessingCard/PreprocessingC
 import OCRCard from "../../components/OCRCard/OCRCard";
 
 import axios from "axios";
-import httpClient from "../../httpClient";
+import httpRequest from "../../httpRequest";
 
 const HomePage = () => {
   const classes = useStyles();
@@ -20,7 +20,7 @@ const HomePage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const resp = await httpClient.get("http://localhost:5000/@me");
+        const resp = await httpRequest.get("http://localhost:5000/@me");
         console.log(resp.data);
         setUser(resp.data);
       } catch (error) {

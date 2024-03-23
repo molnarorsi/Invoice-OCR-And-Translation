@@ -7,31 +7,26 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { useContext } from "react";
 import { useStyles } from "./styles";
 import { useNavigate } from "react-router-dom";
-import AuthContext from '../../context/auth-context';
-import httpClient from "../../httpClient";
+import httpRequest from "../../httpRequest";
 
 
 const RegisterPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const authCtx = useContext(AuthContext);
-
-
+  
   const submitHandler = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
     const password = data.get("password");
     try {
-      const resp = await httpClient.post("http://localhost:5000/register", {
+      const resp = await httpRequest.post("http://localhost:5000/register", {
         email,
         password,
       });
 
-      console.log(resp);
       window.location.href = "/";
     } catch (error) {
       if (error.response.status === 401) {

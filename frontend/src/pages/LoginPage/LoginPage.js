@@ -1,11 +1,9 @@
 import * as React from "react";
-import { useRef, useContext, useState, useEffect } from "react";
+import { useRef } from "react";
 
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -13,18 +11,15 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useStyles } from "./styles";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "../../context/auth-context";
-import CryptoJS from "crypto-js";
-import axios from "axios";
+import httpRequest from "../../httpRequest";
+
 
 const LoginPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
-  const authCtx = useContext(AuthContext);
-
-  const [rememberMe, setRememberMe] = useState(false);
+  
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -32,7 +27,7 @@ const LoginPage = () => {
     const email = data.get("email");
     const password = data.get("password");
     try {
-      const resp = await axios.post("http://localhost:5000/login", {
+      const resp = await httpRequest.post("http://localhost:5000/login", {
         email,
         password,
       });
@@ -46,9 +41,6 @@ const LoginPage = () => {
     }
   };
 
-  const handleCheckbox = (event) => {
-    setRememberMe(event.target.checked);
-  };
 
   return (
     <Container component="main" maxWidth="xs" className={classes.rootContainer}>
@@ -92,11 +84,7 @@ const LoginPage = () => {
             ref={passwordInputRef}
             autoComplete="off"
           />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-            onChange={handleCheckbox}
-          />
+          
           <Button
             type="submit"
             fullWidth
