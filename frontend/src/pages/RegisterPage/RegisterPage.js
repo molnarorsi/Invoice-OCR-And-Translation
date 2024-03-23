@@ -21,7 +21,7 @@ const RegisterPage = () => {
 
   const validateName = (event) => {
     const name = event.target.value;
-    if (name.length < 3) {
+    if (name.length < 3 && name.length > 0) {
       setNameValid(false);
     } else {
       setNameValid(true);
@@ -31,7 +31,7 @@ const RegisterPage = () => {
   const validateEmail = (event) => {
     const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const email = event.target.value;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(email) && email.length > 0) {
       setEmailValid(false);
     } else {
       setEmailValid(true);
@@ -40,7 +40,7 @@ const RegisterPage = () => {
 
   const validatePassword = (event) => {
     const password = event.target.value;
-    if (password.length < 6) {
+    if (password.length < 6 && password.length > 0) {
       setPasswordValid(false);
     } else {
       setPasswordValid(true);
@@ -52,16 +52,18 @@ const RegisterPage = () => {
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
     const password = data.get("password");
-    try {
-      const resp = await httpRequest.post("http://localhost:5000/register", {
-        email,
-        password,
-      });
+    if (nameValid && emailValid && passwordValid) {
+      try {
+        const resp = await httpRequest.post("http://localhost:5000/register", {
+          email,
+          password,
+        });
 
-      window.location.href = "/";
-    } catch (error) {
-      if (error.response.status === 401) {
-        alert("Invalid credentials");
+        window.location.href = "/";
+      } catch (error) {
+        if (error.response.status === 401) {
+          alert("Invalid credentials");
+        }
       }
     }
   };
@@ -138,7 +140,7 @@ const RegisterPage = () => {
           >
             Register
           </Button>
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent="flex-start">
             <Grid item>
             <Link href="#" variant="body2" onClick={() => navigate("/login")}>
                 Already have an account? Login

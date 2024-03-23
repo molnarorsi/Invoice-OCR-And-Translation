@@ -1,6 +1,4 @@
-import * as React from "react";
-import { useRef } from "react";
-
+import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -10,16 +8,12 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useStyles } from "./styles";
-import { useNavigate } from "react-router-dom";
 import httpRequest from "../../httpRequest";
 
 
 const LoginPage = () => {
   const classes = useStyles();
-  const navigate = useNavigate();
-  const emailInputRef = useRef();
-  const passwordInputRef = useRef();
-  
+  const navigate = useNavigate();  
 
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -33,7 +27,6 @@ const LoginPage = () => {
       });
 
       window.location.href = "/";
-      console.log(resp)
     } catch (error) {
       if (error.response.status === 401) {
         alert("Invalid credentials");
@@ -56,12 +49,7 @@ const LoginPage = () => {
         <Typography component="h1" variant="h5">
           Login
         </Typography>
-        <Box
-          component="form"
-          onSubmit={submitHandler}
-          noValidate
-          sx={{ mt: 1 }}
-        >
+        <Box component="form" onSubmit={submitHandler} validate sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
@@ -70,7 +58,6 @@ const LoginPage = () => {
             label="Email Address"
             name="email"
             autoComplete="off"
-            ref={emailInputRef}
             autoFocus
           />
           <TextField
@@ -81,7 +68,6 @@ const LoginPage = () => {
             label="Password"
             type="password"
             id="password"
-            ref={passwordInputRef}
             autoComplete="off"
           />
           
@@ -91,14 +77,9 @@ const LoginPage = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            Login
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Forgot password?
-              </Link>
-            </Grid>
             <Grid item>
               <Link
                 href="#"
