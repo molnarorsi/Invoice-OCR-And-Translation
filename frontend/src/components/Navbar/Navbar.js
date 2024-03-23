@@ -4,11 +4,17 @@ import AuthContext from "../../context/auth-context";
 import React, {useContext} from "react";
 import {useStyles} from "./styles"
 import { Grid, Typography } from "@mui/material";
+import httpClient from "../../httpClient";
 
 
 const Navbar = () => {
     const context = useContext(AuthContext);
     const classes = useStyles();
+
+    const logoutUser = async () => {
+        await httpClient.post("//localhost:5000/logout");
+        window.location.href = "/";
+      };
 
     return (
         <>
@@ -25,7 +31,7 @@ const Navbar = () => {
                             className={classes.logout}
                             variant="contained"
                             sx={{mx: 2}}
-                            onClick={context.logout}
+                            onClick={logoutUser}
                         >
                             Log Out
                         </Button>

@@ -10,10 +10,24 @@ import PreprocessingCard from "../../components/PreprocessingCard/PreprocessingC
 import OCRCard from "../../components/OCRCard/OCRCard";
 
 import axios from "axios";
+import httpClient from "../../httpClient";
 
 const HomePage = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
+  const [user, setUser] = useState();
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const resp = await httpClient.get("http://localhost:5000/@me");
+        console.log(resp.data);
+        setUser(resp.data);
+      } catch (error) {
+        console.log("Not authenticated");
+      }
+    })();
+  }, []);
 
   function getData() {
     axios({
