@@ -11,6 +11,7 @@ app = Flask(__name__)
 
 app.config.from_object(ApplicationConfig)
 app.config.update(ENV='development')
+db.init_app(app)
 CORS(app, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
@@ -19,7 +20,7 @@ app.config['SESSION_SQLALCHEMY'] = db
 
 bcrypt = Bcrypt(app)
 server_session = Session(app)
-db.init_app(app)
+
 
 with app.app_context():
     db.create_all()

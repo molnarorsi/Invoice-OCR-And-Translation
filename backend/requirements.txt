@@ -3,6 +3,7 @@ Flask-SQLAlchemy
 psycopg2-binary
 Werkzeug==2.2.2
 flask-cors
+Pillow
 flask-bcrypt
 python-dotenv
 flask-session

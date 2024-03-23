@@ -1,7 +1,7 @@
 import { Button, Grid, IconButton, Typography } from "@mui/material";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { useStyles } from "./styles";
-import axios from "axios";
+import httpRequest from "../../httpRequest";
 import { useContext } from "react";
 import OCRContext from "../../context/ocr-context";
 const cv = window.cv;
@@ -11,24 +11,25 @@ const PreprocessingCard = () => {
   const ocrCtx = useContext(OCRContext)
 
   const handleGrayScale = async () => {
-    const originalImage = ocrCtx.originalImage;
-
+    let formData = new FormData();
+    formData.append("file", ocrCtx.originalImage);
     try {
-      const response = await axios.post("/grayscale", originalImage, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log("cc");
-      const preprocessedImage = response.data;
-      const img = new Image();
+      const resp = await httpRequest.post(
+        "http://localhost:5000/grayscale",
+        formData
+      );
+      let bytestring = resp["data"]["status"];
+      let image = bytestring.split("'")[1];
+      let img = new Image();
       img.onload = () => {
-        cv.imshow("output", img);
+        const mat = cv.imread(img);
+        cv.imshow("output", mat);
+        mat.delete();
       };
-      img.src = URL.createObjectURL(preprocessedImage);
+      img.src = "data:image/jpeg;base64," + image;
       console.log("sucess");
     } catch (error) {
-      console.log(error);
+      console.log("Error");
     }
   };
 
@@ -47,10 +48,26 @@ const PreprocessingCard = () => {
   const handleNoiseReduction = () => {
     let src = cv.imread("output");
     let dst = new cv.Mat();
-    cv.fastNlMeansDenoising(src, dst, 3, 7, 21);
+    let ksize = new cv.Size(3, 3);
+    let anchor = new cv.Point(-1, -1);
+    let borderType = cv.BORDER_DEFAULT;
+    cv.medianBlur(src, dst, ksize, anchor, borderType);
     cv.imshow("output", dst);
     src.delete();
     dst.delete();
+  };
+
+  const handleSkewCorrection = () => {
+    let mat = cv.imread("output");
+    let dst = new cv.Mat();
+    cv.cvtColor(mat, mat, cv.COLOR_RGB2GRAY, 0);
+    cv.Canny(mat, dst, 50, 100, 3, false);
+
+    cv.imshow("output", mat);
+    cv.imshow("output", dst);
+
+    dst.delete();
+    mat.delete();
   };
 
   const handleReset = () => {
@@ -80,7 +97,7 @@ const PreprocessingCard = () => {
             <Button
               variant="contained"
               onClick={handleGrayScale}
-              sx={{ margin: "20px", px: "10%" }}
+              sx={{ px: "10%" }}
             >
               Grayscale
             </Button>
@@ -90,7 +107,7 @@ const PreprocessingCard = () => {
             <Button
               variant="contained"
               onClick={handleBinarization}
-              sx={{ margin: "20px", px: "10%" }}
+              sx={{ px: "10%" }}
             >
               Binarization
             </Button>
@@ -100,12 +117,20 @@ const PreprocessingCard = () => {
             <Button
               variant="contained"
               onClick={handleNoiseReduction}
-              sx={{ margin: "20px", px: "10%" }}
+              sx={{ px: "10%" }}
             >
               Noise Reduction
             </Button>
           </Grid>
-
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              onClick={handleSkewCorrection}
+              sx={{ px: "10%" }}
+            >
+              Skew Correction
+            </Button>
+          </Grid>
         </Grid>
 
         <Button
