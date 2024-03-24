@@ -1,13 +1,31 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, Grid } from "@mui/material";
 import { useStyles } from "./styles";
 import { useContext } from "react";
 //ocrcontext
 import OCRContext from "../../context/ocr-context";
+import httpRequest from "../../httpRequest";
+
 const cv = window.cv;
 
 const OCRCard = () => {
   const classes = useStyles();
-  const ocrCtx = useContext(OCRContext)
+  const ocrCtx = useContext(OCRContext);
+
+  const handleOCRmethod = async (OCRmethod) => {
+    let formData = new FormData();
+    formData.append("file", ocrCtx.originalImage);
+
+    try {
+      const resp = await httpRequest.post(
+        `http://localhost:5000/${OCRmethod}`,
+        formData
+      );
+      console.log(resp["data"]["status"]);
+    } catch (error) {
+      console.log("Error");
+    }
+    ocrCtx.setActivePage(3);
+  };
 
   return (
     <>
@@ -16,13 +34,26 @@ const OCRCard = () => {
           Select OCR method
         </Typography>
 
-        <Button
-          variant="contained"
-          onClick={() => ocrCtx.setActivePage(3)}
-          sx={{ margin: "20px", px: "10%" }}
-        >
-          NEXT
-        </Button>
+        <Grid container spacing={2} sx={{ mt: "15px" }}>
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              onClick={() => handleOCRmethod("tesseract")}
+              sx={{ px: "10%" }}
+            >
+              Tesseract
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              onClick={() => handleOCRmethod("paddleOCR")}
+              sx={{ px: "10%" }}
+            >
+              PaddleOCR
+            </Button>
+          </Grid>
+        </Grid>
       </div>
     </>
   );

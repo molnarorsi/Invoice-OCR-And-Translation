@@ -4,7 +4,8 @@ from flask_bcrypt import Bcrypt
 from flask_session import Session
 from config import ApplicationConfig
 from models import db, User
-from preprocessing import preprocessing
+from preprocessing import preprocessing_bp
+from tesseractOCR import tesseract_bp
 
 
 app = Flask(__name__)
@@ -14,6 +15,8 @@ app.config.update(ENV='development')
 db.init_app(app)
 CORS(app, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
+app.register_blueprint(preprocessing_bp)
+app.register_blueprint(tesseract_bp)
 
 app.register_blueprint(preprocessing)
 app.config['SESSION_SQLALCHEMY'] = db
