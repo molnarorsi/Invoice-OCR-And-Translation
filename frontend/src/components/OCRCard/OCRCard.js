@@ -20,6 +20,7 @@ const OCRCard = () => {
         formData
       );
       ocrCtx.setTextResult(resp["data"]["text"]);
+      ocrCtx.setExtractedData(resp["data"]["parsed_text"]);
     } catch (error) {
       console.log("Error");
     }

@@ -5,10 +5,12 @@ const OCRContext = React.createContext({
   originalImage: null,
   actualImage: null,
   textResult: null,
+  extractedData: null,
   setActivePage: (activePage) => {},
   setOriginalImage: (image) => {},
   setActualImage: (image) => {},
   setTextResult: (text) => {},
+  setExtractedData: (data) => {},
 });
 
 export const OCRContextProvider = (props) => {
@@ -20,6 +22,8 @@ export const OCRContextProvider = (props) => {
 
   const [textResult, setTextResult] = useState(null);
 
+  const [extractedData, setExtractedData] = useState(null);
+
   const pageHandler = (activePage) => {
     setActivePage(activePage);
   };
@@ -29,10 +33,12 @@ export const OCRContextProvider = (props) => {
     originalImage: originalImage,
     actualImage: actualImage,
     textResult: textResult,
+    extractedData: extractedData,
     setActivePage: pageHandler,
     setOriginalImage: setOriginalImage,
     setActualImage: setActualImage,
     setTextResult: setTextResult,
+    setExtractedData: setExtractedData,
   };
 
   return (
