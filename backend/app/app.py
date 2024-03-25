@@ -9,6 +9,7 @@ from app.tesseractOCR import tesseract_bp
 from sqlalchemy import create_engine
 
 
+
 app = Flask(__name__)
 
 app.config.from_object(ApplicationConfig)

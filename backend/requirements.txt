@@ -9,3 +9,4 @@ python-dotenv
 flask-session
 opencv-python-headless
 pytesseract
+deepl

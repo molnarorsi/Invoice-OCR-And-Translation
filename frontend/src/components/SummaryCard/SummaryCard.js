@@ -45,7 +45,6 @@ const SummaryCard = () => {
             <SellerTable />
             <BuyerTable />
           </div>
-          <ProductsTable />
         </div>
       </div>
     </>

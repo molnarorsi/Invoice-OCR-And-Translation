@@ -1,5 +1,5 @@
 import { useStyles } from "./styles";
-import Table from "../../Table/DataTable";
+import DataTable from "../../Table/DataTable";
 
 const SellerTable = () => {
   const classes = useStyles();
