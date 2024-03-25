@@ -1,8 +1,7 @@
 import { makeStyles } from "@mui/styles";
-
 export const useStyles = makeStyles({
-  table: {
-    backgroundColor: "white",
-    borderRadius: "50px",
-  },
+    table: {
+        width: "100%",
+        marginBottom: 10
+    }
 });
