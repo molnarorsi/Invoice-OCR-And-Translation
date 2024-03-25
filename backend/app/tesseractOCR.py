@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 import numpy as np
 import cv2
 import pytesseract
+from app.parserOCR import parse_text
 
 
 tesseract_bp = Blueprint('tesseract', __name__)
@@ -17,4 +18,5 @@ def load_image():
 def tesseract():
     img = load_image()
     text = pytesseract.image_to_string(img, lang='ron')
+    parsed_data = parse_text(text)
     return jsonify({'text':text})
