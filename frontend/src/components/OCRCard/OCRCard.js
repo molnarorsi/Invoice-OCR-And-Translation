@@ -13,7 +13,7 @@ const OCRCard = () => {
 
   const handleOCRmethod = async (OCRmethod) => {
     let formData = new FormData();
-    formData.append("file", ocrCtx.originalImage);
+    formData.append("file", ocrCtx.actualImage);
 
     try {
       const resp = await httpRequest.post(

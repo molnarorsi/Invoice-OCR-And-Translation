@@ -6,27 +6,30 @@ from config import ApplicationConfig
 from models import db, User
 from preprocessing import preprocessing_bp
 from tesseractOCR import tesseract_bp
+from sqlalchemy import create_engine
 
 
 app = Flask(__name__)
 
 app.config.from_object(ApplicationConfig)
 app.config.update(ENV='development')
+
 db.init_app(app)
+
 CORS(app, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
+
 app.register_blueprint(preprocessing_bp)
 app.register_blueprint(tesseract_bp)
 
-app.register_blueprint(preprocessing)
 app.config['SESSION_SQLALCHEMY'] = db
 
 bcrypt = Bcrypt(app)
 server_session = Session(app)
 
-
 with app.app_context():
     db.create_all()
+    print("Database tables created successfully")
 
 @app.route("/hello")
 def hello():

@@ -12,6 +12,7 @@ const HomePage = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
   const [activePage, setActivePage] = useState(0);
+  const [userName, setUserName] = useState();
 
   useEffect(() => {
     (async () => {

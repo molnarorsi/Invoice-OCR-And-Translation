@@ -30,6 +30,9 @@ const LoginPage = () => {
     } catch (error) {
       if (error.response.status === 401) {
         alert("Invalid credentials");
+      } else {
+        console.error("An error occurred:", error);
+        // Handle other types of errors, e.g., network error, server error, etc.
       }
     }
   };
