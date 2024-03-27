@@ -6,6 +6,7 @@ import OCRContext from "../../context/ocr-context";
 import httpRequest from "../../httpRequest";
 
 
+
 const OCRCard = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);

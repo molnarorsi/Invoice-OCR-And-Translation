@@ -6,7 +6,7 @@ from config import ApplicationConfig
 from app.models import db, User
 from app.preprocessing import preprocessing_bp
 from app.tesseractOCR import tesseract_bp
-from sqlalchemy import create_engine
+from app.translate import translate_bp
 
 
 
@@ -22,6 +22,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 app.register_blueprint(preprocessing_bp)
 app.register_blueprint(tesseract_bp)
+app.register_blueprint(translate_bp)
 
 app.config['SESSION_SQLALCHEMY'] = db
 

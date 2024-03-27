@@ -4,7 +4,6 @@ import cv2
 import pytesseract
 from app.parserOCR import parse_text
 
-
 tesseract_bp = Blueprint('tesseract', __name__)
 
 def load_image():
@@ -17,6 +16,6 @@ def load_image():
 @tesseract_bp.route('/tesseract', methods=['POST'])
 def tesseract():
     img = load_image()
-    text = pytesseract.image_to_string(img, lang='ron')
+    text = pytesseract.image_to_string(img)
     parsed_text = parse_text(text)
     return jsonify({'text': text, 'parsed_text': parsed_text})

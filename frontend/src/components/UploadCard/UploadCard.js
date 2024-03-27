@@ -2,6 +2,7 @@ import { Button, Typography } from "@mui/material";
 import { useStyles } from "./styles";
 import { useContext } from "react";
 import OCRContext from "../../context/ocr-context";
+import httpRequest from "../../httpRequest";
 const cv = window.cv;
 
 const UploadCard = () => {
@@ -23,6 +24,8 @@ const UploadCard = () => {
     });
   };
 
+  
+
   const convertPdfToImages = async (file) => {
     let image;
     const data = await readFileData(file);
@@ -39,9 +42,12 @@ const UploadCard = () => {
     return image;
   };
 
+  
+
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (file.type === "application/pdf") {
+      
       const image = convertPdfToImages(event.target.files[0]);
       image.then(async (image) => {
         const img = new Image();
@@ -71,8 +77,12 @@ const UploadCard = () => {
       ocrCtx.setOriginalImage(event.target.files[0]);
       ocrCtx.setActualImage(event.target.files[0]);
     }
-    };
+  };
 
+  
+
+
+    
     return (
         <>
         <div className={classes.rootContainer}>
