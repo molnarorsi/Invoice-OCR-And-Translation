@@ -3,7 +3,7 @@ import { Paper, TextField, Grid } from "@mui/material";
 import { useContext } from "react";
 import OCRContext from "../../context/ocr-context";
 
-const DataTableWide = () => {
+const DataTableExtend = () => {
   const ocrCtx = useContext(OCRContext);
   console.log(ocrCtx.extractedData);
   const invoiceData = ocrCtx.extractedData;
@@ -19,14 +19,16 @@ const DataTableWide = () => {
             fullWidth
           />
         </Grid>
+
         <Grid item xs={6}>
         <TextField
-            label="Invoice ID"
+            label="Invoice CIF"
             defaultValue={invoiceData?.invoice_id || ""}
             variant="standard"
             fullWidth
           />
         </Grid>
+
         <Grid item xs={6}>
         <TextField
             label="Bank"
@@ -35,14 +37,7 @@ const DataTableWide = () => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
-        <TextField
-            label="Variable symbol"
-            defaultValue={invoiceData?.var_symbol || ""}
-            variant="standard"
-            fullWidth
-          />
-        </Grid>
+        
         <Grid item xs={6}>
         <TextField
             label="IBAN"
@@ -59,14 +54,7 @@ const DataTableWide = () => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
-        <TextField
-            label="SWIFT"
-            defaultValue={invoiceData?.swift || ""}
-            variant="standard"
-            fullWidth
-          />
-        </Grid>
+        
         <Grid item xs={6}>
         <TextField
             label="Due date"
@@ -75,22 +63,8 @@ const DataTableWide = () => {
             fullWidth
           />
         </Grid>
-        <Grid item xs={6}>
-        <TextField
-            label="Payment method"
-            defaultValue={invoiceData?.payment_method || ""}
-            variant="standard"
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={6}>
-        <TextField
-            label="Delivery date"
-            defaultValue={invoiceData?.delivery_date || ""}
-            variant="standard"
-            fullWidth
-          />
-        </Grid>
+        
+        
         <Grid item xs={6}>
         <TextField
             label="Total amount"
@@ -104,4 +78,4 @@ const DataTableWide = () => {
   );
 };
 
-export default DataTableWide;
+export default DataTableExtend;

@@ -6,7 +6,7 @@ function DataTable() {
             <TextField label="Name" sx={{mb: 1}} variant="standard" fullWidth/> 
             <TextField label="Address" sx={{mb: 1}} variant="standard" fullWidth/>  
             <TextField label="City" sx={{mb: 1}} variant="standard" fullWidth/>  
-            <TextField label="ID" sx={{mb: 1}} variant="standard" fullWidth/>  
+            <TextField label="CIF" sx={{mb: 1}} variant="standard" fullWidth/>  
             <TextField label="TVA" sx={{mb: 1}} variant="standard" fullWidth/>  
             <TextField label="VAT" sx={{mb: 1}} variant="standard" fullWidth/>         
         </Paper>
