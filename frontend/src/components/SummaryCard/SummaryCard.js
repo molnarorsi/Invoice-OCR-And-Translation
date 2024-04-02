@@ -29,7 +29,7 @@ const SummaryCard = () => {
 
       // if (response.data && response.data.translatedText) {
         
-      //   ocrCtx.setTextResult(response.data.translatedText); // Update textResult
+         ocrCtx.setTextResult(response.data.translatedText); // Update textResult
        }
     } catch (error) {
       console.error("Translation Error:", error);
@@ -63,7 +63,7 @@ const SummaryCard = () => {
             {showText ? "HIDE TEXT" : "SHOW TEXT"}
           </Button>
 
-          {showTranslation && (
+         {showTranslation && (
           <Paper elevation={3} sx={{ p: 2, borderRadius: 5, marginTop: 2 }}>
             <TextField
               id="outlined-multiline-static"
@@ -76,7 +76,7 @@ const SummaryCard = () => {
               value={translatedText}  // Display the translated text
             />
           </Paper>
-        )}
+        )} 
 
           <Button
             variant="contained"

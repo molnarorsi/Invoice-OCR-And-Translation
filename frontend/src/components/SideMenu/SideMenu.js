@@ -31,6 +31,12 @@ const SideMenu = () => {
                 Your scans
               </Typography>
             </Link>
+            <Link to="/chatpdf" className={classes.link}>
+              <Typography variant="h7" >
+                <HistoryIcon />
+                Chat PDF
+              </Typography>
+            </Link>
           </div>
         </div>
       </div>
