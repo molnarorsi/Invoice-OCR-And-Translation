@@ -19,6 +19,8 @@ import {
 import UploadIcon from '@mui/icons-material/Upload'; 
 import SendIcon from '@mui/icons-material/Send';
 import useStyles from './styles';
+import { Document, Page } from 'react-pdf';
+
 
 const ChatPdfPage = () => {
     const classes = useStyles();
@@ -26,6 +28,8 @@ const ChatPdfPage = () => {
     const [pdfSourceId, setPdfSourceId] = useState(null);
     const [newMessage, setNewMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [pdfFile, setPdfFile] = useState(null);
+    
 
     const apiKey = 'sec_0LSWqNmRjyNhtR0rwJx1elsFHZo5rbEW'; 
 
@@ -36,7 +40,7 @@ const ChatPdfPage = () => {
         formData.append('file', file); 
     
         try {
-            const response = await axios.post('https://api.chatpdf.com/v1/sources/add-file', formData, {
+            const response = await axios.post('/upload-file', formData, {
                 headers: { 'x-api-key': apiKey }
             });
             setPdfSourceId(response.data.sourceId); 
@@ -51,6 +55,7 @@ const ChatPdfPage = () => {
         } finally {
             setIsLoading(false);
         }
+        setPdfFile(URL.createObjectURL(file));
     };
 
     const handleSubmit = async (event) => {
@@ -60,7 +65,7 @@ const ChatPdfPage = () => {
         console.log(pdfSourceId, newMessage);
 
         try {
-            const response = await axios.post('https://api.chatpdf.com/v1/chats/message', {
+            const response = await axios.post('/send-message', {
                 sourceId: pdfSourceId,
                 messages: [{ role: 'user', content: newMessage }]
             }, { headers: { 'x-api-key': apiKey }});
@@ -143,7 +148,13 @@ const ChatPdfPage = () => {
                                 }}
                             />
                         </form>
+                        {pdfFile && (
+    <Document file={pdfFile}>
+        <Page pageNumber={1} />
+    </Document>
+)}
                     </div>
+                    
                 )}
             </Paper>
         </div>

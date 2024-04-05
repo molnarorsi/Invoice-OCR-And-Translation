@@ -7,6 +7,8 @@ const DataTableExtend = () => {
   const ocrCtx = useContext(OCRContext);
   console.log(ocrCtx.extractedData);
   const invoiceData = ocrCtx.extractedData;
+  console.log(Object.keys(invoiceData))
+  console.log("Rendering Bank field - data:", invoiceData?.bank)
 
   return (
     <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
@@ -14,7 +16,7 @@ const DataTableExtend = () => {
         <Grid item xs={6}>
         <TextField
             label="Invoice number"
-            defaultValue={invoiceData?.invoice_number || ""}
+            value={invoiceData?.invoice_number || ""}
             variant="standard"
             fullWidth
           />
@@ -23,7 +25,7 @@ const DataTableExtend = () => {
         <Grid item xs={6}>
         <TextField
             label="Invoice CIF"
-            defaultValue={invoiceData?.invoice_id || ""}
+            value={invoiceData?.invoice_CIF || ""}
             variant="standard"
             fullWidth
           />
@@ -32,16 +34,17 @@ const DataTableExtend = () => {
         <Grid item xs={6}>
         <TextField
             label="Bank"
-            defaultValue={invoiceData?.bank || ""}
+            value={invoiceData?.bank || ""}
             variant="standard"
             fullWidth
           />
+          
         </Grid>
         
         <Grid item xs={6}>
         <TextField
             label="IBAN"
-            defaultValue={invoiceData?.iban || ""}
+            value={invoiceData?.IBAN || ""}
             variant="standard"
             fullWidth
           />
@@ -49,7 +52,7 @@ const DataTableExtend = () => {
         <Grid item xs={6}>
         <TextField
             label="Date of issue"
-            defaultValue={invoiceData?.date_of_issue || ""}
+            value={invoiceData?.date_of_issue || ""}
             variant="standard"
             fullWidth
           />
@@ -58,7 +61,7 @@ const DataTableExtend = () => {
         <Grid item xs={6}>
         <TextField
             label="Due date"
-            defaultValue={invoiceData?.due_date || ""}
+            value={invoiceData?.due_date || ""}
             variant="standard"
             fullWidth
           />
@@ -68,7 +71,7 @@ const DataTableExtend = () => {
         <Grid item xs={6}>
         <TextField
             label="Total amount"
-            defaultValue={invoiceData?.total_price + " RON" || ""}
+            value={invoiceData?.total_price + " RON" || ""}
             variant="standard"
             fullWidth
           />

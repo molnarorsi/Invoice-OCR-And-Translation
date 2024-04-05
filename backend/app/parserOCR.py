@@ -154,12 +154,14 @@ def parse_text(text):
 
     parsing_data = [
         get_invoice_number,
+        get_invoice_CIF,
         get_date_of_issue,
         get_due_date,
         get_total_price,
         get_IBAN,
         get_bank,
-        get_buyer_CIF
+        get_buyer_CIF,
+        get_supplier_CIF
     ]
 
     for func in parsing_data:

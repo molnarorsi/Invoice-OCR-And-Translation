@@ -9,4 +9,13 @@ export const useStyles = makeStyles({
         width: "100%",
         backgroundColor: "#B2B2B2",
     },
+
+    customToast: {
+        backgroundColor: "#282c34",
+        color: "white",
+        fontSize: "1.2 rem",
+        borderRadius: "10px",
+        padding: "20px",
+        textAlign: "center",
+    },
 });

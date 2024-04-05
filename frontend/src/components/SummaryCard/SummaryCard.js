@@ -27,9 +27,15 @@ const SummaryCard = () => {
         setTranslatedText(response.data.translatedText); 
         setShowTranslation(true);
 
-      // if (response.data && response.data.translatedText) {
-        
-         ocrCtx.setTextResult(response.data.translatedText); // Update textResult
+        const parseResponse = await httpRequest.post("http://localhost:5000/parse-ocr", {
+          text: response.data.translatedText
+        });
+
+        if (parseResponse.data) {
+          console.log("Extracted data:", parseResponse.data.parsedText);
+          ocrCtx.setExtractedData(parseResponse.data.parsedText);
+        }
+         
        }
     } catch (error) {
       console.error("Translation Error:", error);
@@ -88,10 +94,10 @@ const SummaryCard = () => {
         </div>
 
         <div className={classes.tables}>
-        <InvoiceTable />
+        <InvoiceTable data={ocrCtx.extractedData}/>
           <div className={classes.tableContainer}>
-            <SellerTable />
-            <BuyerTable />
+          <SellerTable data={ocrCtx.extractedData} />
+            <BuyerTable data={ocrCtx.extractedData}/>
           </div>
           
         </div>

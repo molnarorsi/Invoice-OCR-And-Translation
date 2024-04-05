@@ -23,6 +23,7 @@ export const OCRContextProvider = (props) => {
   const [textResult, setTextResult] = useState(null);
 
   const [extractedData, setExtractedData] = useState(null);
+  
 
   const pageHandler = (activePage) => {
     setActivePage(activePage);

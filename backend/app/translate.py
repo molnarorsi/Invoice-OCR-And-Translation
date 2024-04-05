@@ -27,6 +27,7 @@ def parse_ocr():
     data = request.get_json()
     if 'text' in data:
         parsed_text = parse_text(data['text'])
+        print(parsed_text)
         return jsonify({"parsedText": parsed_text }) 
     else:
         return jsonify({"error": "Missing 'text' field in request"})
