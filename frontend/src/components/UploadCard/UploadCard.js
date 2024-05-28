@@ -1,4 +1,4 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Typography} from "@mui/material";
 import { useStyles } from "./styles";
 import { useContext } from "react";
 import OCRContext from "../../context/ocr-context";

@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import OCRContext from "../../context/ocr-context";
-import { TextField, Button, Paper } from "@mui/material";
+import { TextField, Button, Paper, Select, MenuItem } from "@mui/material";
 import { useStyles } from "./styles";
 import SellerTable from "./SellerTable/SellerTable";
 import BuyerTable from "./BuyerTable/BuyerTable";
@@ -13,6 +13,7 @@ const SummaryCard = () => {
   const [showText, setShowText] = useState(true);
   const [translatedText, setTranslatedText] = useState('');
   const [showTranslation, setShowTranslation] = useState(false);
+  const [language, setLanguage] = useState('en');
   
   const handleTranslate = async () => {
     if (!ocrCtx.textResult) return; // Handle case where there's no text
@@ -20,6 +21,7 @@ const SummaryCard = () => {
     try {
       const response = await httpRequest.post("http://localhost:5000/translate", {
         text: ocrCtx.textResult,
+        lang: language,
       });
 
       if (response.data && response.data.translatedText) {
@@ -83,7 +85,15 @@ const SummaryCard = () => {
             />
           </Paper>
         )} 
-
+        <Select
+          value={language}
+          onChange={(event) => setLanguage(event.target.value)}
+>
+          <MenuItem value={'en'}>English</MenuItem>
+          <MenuItem value={'fr'}>French</MenuItem>
+          <MenuItem value={'de'}>German</MenuItem>
+            // Add more languages as needed
+        </Select>
           <Button
             variant="contained"
             onClick={handleTranslate}

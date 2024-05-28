@@ -3,6 +3,7 @@ import { Divider, Typography } from "@mui/material";
 import { useStyles } from "./styles";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import HistoryIcon from "@mui/icons-material/History";
+import logo from "../../assets/logocska.png"
 
 const SideMenu = () => {
   const classes = useStyles();
@@ -10,9 +11,7 @@ const SideMenu = () => {
   return (
     <>
       <div className={classes.rootContainer}>
-      <Typography variant="h4" sx={{ my: 4 }}>
-          OCR app
-        </Typography>
+      <img src={logo} alt="Logo" className={classes.logo} />
         <Divider />
         <div className={classes.linkContainer}>
           <div>
@@ -23,7 +22,6 @@ const SideMenu = () => {
               </Typography>
             </Link>
           </div>
-          <br />
           <div>
             <Link to="/history" className={classes.link}>
               <Typography variant="h7" >
@@ -31,12 +29,18 @@ const SideMenu = () => {
                 Your scans
               </Typography>
             </Link>
+          </div>
+          <div>
             <Link to="/chatpdf" className={classes.link}>
               <Typography variant="h7" >
                 <HistoryIcon />
                 Chat PDF
               </Typography>
             </Link>
+          </div>
+          <br />
+          <div>
+            
           </div>
         </div>
       </div>
