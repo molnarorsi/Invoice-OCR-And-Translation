@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import image from "../../assets/invoice.png";
+import leftImage from "../../assets/data.png";
 
 const AppLayout = (props) => {
   const classes = useStyles();
@@ -37,6 +38,7 @@ const AppLayout = (props) => {
         <Navbar userName={props.userName}/>
         {props.children}
         <img src={image} className={classes.backgroundImage} alt="description" />
+        <img src={leftImage} className={classes.leftBackgroundImage} alt="data" />
       </div>
     </div>
   );

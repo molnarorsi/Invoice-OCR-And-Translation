@@ -1,26 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { 
-  Button, 
-  TextField, 
-  Paper, 
-  Typography,
-  Grid,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Avatar
+    Button, 
+    TextField, 
+    Paper, 
+    Typography,
+    Grid,
+    InputLabel,
+    OutlinedInput,
+    InputAdornment,
+    IconButton,
+    List,
+    ListItem,
+    ListItemText,
+    ListItemIcon,
+    Avatar,
+    Snackbar,
+    Box
 } from '@mui/material';
 import UploadIcon from '@mui/icons-material/Upload'; 
+import MuiAlert from '@mui/material/Alert';
 import SendIcon from '@mui/icons-material/Send';
 import useStyles from './styles';
-import { Document, Page } from 'react-pdf';
+import { Document, Page, pdfjs } from 'react-pdf';
+import image from "../../assets/robot.png";
 
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const ChatPdfPage = () => {
     const classes = useStyles();
@@ -29,9 +38,44 @@ const ChatPdfPage = () => {
     const [newMessage, setNewMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [pdfFile, setPdfFile] = useState(null);
-    
+    const [numPages, setNumPages] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [scale, setScale] = useState(1.0);
+    const [open, setOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const apiKey = 'sec_0LSWqNmRjyNhtR0rwJx1elsFHZo5rbEW'; 
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
+
+    function onDocumentLoadSuccess({ numPages }) {
+        setNumPages(numPages);
+    }
+
+    function changePage(offset) {
+        setPageNumber(prevPageNumber => prevPageNumber + offset);
+    }
+
+    function previousPage() {
+        changePage(-1);
+    }
+
+    function nextPage() {
+        changePage(1);
+    }
+
+    function zoomIn() {
+        setScale(prevScale => prevScale + 0.1);
+    }
+
+    function zoomOut() {
+        setScale(prevScale => prevScale - 0.1);
+    }
 
     const handleFileUpload = async (event) => {
         setIsLoading(true); 
@@ -48,10 +92,11 @@ const ChatPdfPage = () => {
             console.error('Error uploading file:', error.response);
     
             if (error.response.status === 400) {
-               alert("File format likely not supported or file size exceeds the limit. (PDF only, up to 32 MB)");
+                setErrorMessage("File format likely not supported or file size exceeds the limit. (PDF only, up to 32 MB)");
             } else {
-               alert("An error occurred while uploading. Please check the console and try again."); 
+                setErrorMessage("An error occurred while uploading. Please check the console and try again."); 
             }
+            setOpen(true);
         } finally {
             setIsLoading(false);
         }
@@ -62,20 +107,11 @@ const ChatPdfPage = () => {
         event.preventDefault();
         setIsLoading(true);
 
-        console.log(pdfSourceId, newMessage);
-
         try {
             const response = await axios.post('/send-message', {
                 sourceId: pdfSourceId,
                 messages: [{ role: 'user', content: newMessage }]
             }, { headers: { 'x-api-key': apiKey }});
-
-            console.log('ChatPDF Response:', response.data);
-
-            console.log({ 
-                sourceId: pdfSourceId,
-                messages: [{ role: 'user', content: newMessage }] 
-            });
 
             setMessages([...messages, 
                 { text: newMessage, sender: 'user' },
@@ -90,74 +126,94 @@ const ChatPdfPage = () => {
     };
 
     return (
-        <div className={classes.chatpdfContainer}>
-            <Paper elevation={3} sx={{ p: 3, mb: 2 }}>
-                {pdfSourceId === null ? (
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
-                            <Typography variant="h6" align="center">Upload or Add PDF</Typography>
-                        </Grid>
-                        <Grid item xs={9}>
-                            <InputLabel htmlFor="upload-pdf">Upload PDF</InputLabel>
-                            <OutlinedInput
-                                id="upload-pdf"
-                                type="file"
-                                fullWidth
-                                onChange={handleFileUpload} 
-                                endAdornment={
-                                    <InputAdornment position="end">
-                                        <IconButton edge="end">
-                                            <UploadIcon />
-                                        </IconButton>
-                                    </InputAdornment>
-                                }
-                                label="Upload PDF" 
-                            />
-                        </Grid>
-                    </Grid>
-                ) : (
-                    <div className={classes.chatArea}>
-                        <List>
-                            {messages.map((msg, index) => (
-                                <ListItem key={index} className={classes.chatMessage}>  
+        <Box className={classes.root}>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="error">
+                    {errorMessage}
+                </Alert>
+            </Snackbar>
+            <Paper className={classes.chatpdfContainer}>
+                <Typography variant="h5" className={classes.title}>
+                    Chat & PDF Viewer
+                </Typography>
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                        <List className={classes.messageList}>
+                            {messages.map((message, index) => (
+                                <ListItem key={index} className={message.sender === 'user' ? classes.chatMessageUser : classes.chatMessageBot}>
                                     <ListItemIcon>
-                                        <Avatar>
-                                            {msg.sender === 'user' ? 'U' : 'B'} 
-                                        </Avatar>
+                                        <Avatar>{message.sender.charAt(0).toUpperCase()}</Avatar>
                                     </ListItemIcon>
                                     <ListItemText
-                                        primary={msg.text}
-                                        className={msg.sender === 'user' ? classes.chatMessageUser : classes.chatMessageBot} 
+                                        primary={message.text}
                                     />
                                 </ListItem>
                             ))}
                         </List>
-                        <form onSubmit={handleSubmit}>
-                            <TextField
-                                fullWidth
-                                label="Ask a question"
-                                variant='outlined'
-                                value={newMessage} 
-                                onChange={(e) => setNewMessage(e.target.value)}
-                                InputProps={{
-                                    endAdornment: (
-                                        <IconButton type="submit" disabled={isLoading}>
+                        <form onSubmit={handleSubmit} className={classes.form}>
+                            <OutlinedInput
+                                id="message-input"
+                                type="text"
+                                value={newMessage}
+                                onChange={event => setNewMessage(event.target.value)}
+                                endAdornment={
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            edge="end"
+                                            color="primary"
+                                            type="submit"
+                                            disabled={isLoading}
+                                        >
                                             <SendIcon />
                                         </IconButton>
-                                    )
-                                }}
+                                    </InputAdornment>
+                                }
+                                fullWidth
                             />
                         </form>
+                    </Grid>
+                    <Grid item xs={6} className={classes.pdfViewer}>
+                        <Button
+                            variant="outlined"
+                            component="label"
+                            startIcon={<UploadIcon />}
+                            className={classes.uploadButton}
+                            disabled={isLoading}
+                        >
+                            Upload PDF
+                            <input
+                                type="file"
+                                hidden
+                                onChange={handleFileUpload}
+                            />
+                        </Button>
                         {pdfFile && (
-    <Document file={pdfFile}>
-        <Page pageNumber={1} />
-    </Document>
-)}
-                    </div>
-                    
-                )}
+                            <div>
+                                <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
+                                    <Page pageNumber={pageNumber} scale={scale} className={classes.pdfPage} />
+                                </Document>
+                                <p>Page {pageNumber} of {numPages}</p>
+                                <Button type="button" disabled={pageNumber <= 1} onClick={previousPage}>
+                                    Previous
+                                </Button>
+                                <Button type="button" disabled={pageNumber >= numPages} onClick={nextPage}>
+                                    Next
+                                </Button>
+                                <Button type="button" onClick={zoomIn}>
+                                    Zoom In
+                                </Button>
+                                <Button type="button" onClick={zoomOut}>
+                                    Zoom Out
+                                </Button>
+                            </div>
+                        )}
+                    </Grid>
+                </Grid>
             </Paper>
-        </div>
+            <div className={classes.cornerImageContainer}>
+                <img src={image} alt="Robot" className={classes.cornerImage} />
+            </div>
+        </Box>
     );
 };
 
