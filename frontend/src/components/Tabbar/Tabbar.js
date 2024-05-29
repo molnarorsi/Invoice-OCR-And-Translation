@@ -31,7 +31,7 @@ const Tabbar = (props) => {
                 <Tab
                     sx={{mx:5, p:2}}
                     label={
-                        <Typography>
+                        <Typography className={classes.typography}>
                             <FileUploadIcon/>
                             Upload
                         </Typography>
@@ -40,7 +40,7 @@ const Tabbar = (props) => {
                 <Tab
                     sx={{ms:5, p:2}}
                     label={
-                        <Typography>
+                        <Typography className={classes.typography}>
                             <CleanIcon/>
                             Preprocess
                         </Typography>
@@ -49,7 +49,7 @@ const Tabbar = (props) => {
                 <Tab
                     sx={{mx:5, p:2}}
                     label={
-                        <Typography>
+                        <Typography className={classes.typography}>
                             <EyeIcon/>
                             Ocr
                         </Typography>
@@ -58,7 +58,7 @@ const Tabbar = (props) => {
                 <Tab
                     sx={{mx:5, p:2}}
                     label={
-                        <Typography>
+                        <Typography className={classes.typography}>
                             <SummaryIcon/>
                             Summary
                         </Typography>

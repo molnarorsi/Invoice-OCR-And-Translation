@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useEffect } from "react";
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
+import image from "../../assets/invoice.png";
 
 const AppLayout = (props) => {
   const classes = useStyles();
@@ -35,6 +36,7 @@ const AppLayout = (props) => {
       <div className={classes.contentWrapper}>
         <Navbar userName={props.userName}/>
         {props.children}
+        <img src={image} className={classes.backgroundImage} alt="description" />
       </div>
     </div>
   );

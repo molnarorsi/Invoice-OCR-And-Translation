@@ -5,11 +5,18 @@ export const useStyles = makeStyles({
         color:"black",
         width:"100%",
         height:"55px",
-        backgroundColor:"#EDE4E0",
-        boxShadow:"1px 3px 3px #999999",
+        backgroundColor:"#f5f5f5",
+        boxShadow:"0px 3px 5px rgba(0, 0, 0, 0.2)",
+        borderBottom: "2px solid #f54287",
     },
     tabsContainer: {
-        color: "black",
+        color: "#f54287",
         textDecoration: "none"
+    },
+    typography: {
+        fontFamily: "'Roboto', sans-serif",
+        fontStyle: "italic",
+        fontWeight: "bold",
+        color: "#f54287",
     }
 });

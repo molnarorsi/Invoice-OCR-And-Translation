@@ -11,15 +11,19 @@ export const useStyles = makeStyles({
     },
     linkContainer: {
         marginTop: 40, 
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "40px",
     },
     link: {
         color: "white",
         textDecoration: "none",
+        fontSize: "1.2rem",
         '&:hover': {
             color: "#FE6B8B",
         },
     },
-
     logo: {
         width: "100%", // or any other styling you want
     },
