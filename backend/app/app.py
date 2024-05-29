@@ -3,19 +3,25 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from config import ApplicationConfig
-from app.models import db, User
+from app.models import db, User, PDFSource
 from app.preprocessing import preprocessing_bp
 from app.tesseractOCR import tesseract_bp
 from app.translate import translate_bp
 import requests
 
 
+
+
 app = Flask(__name__)
+
+
 
 app.config.from_object(ApplicationConfig)
 app.config.update(ENV='development')
 
 db.init_app(app)
+
+
 
 CORS(app, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -120,6 +126,18 @@ def upload_file():
             )
             upload_response.raise_for_status() 
             source_id = upload_response.json()['sourceId']
+
+            # Get the user's ID from the session
+            user_id = session.get("user_id")
+            if not user_id:
+                return jsonify({"error": "Unauthorized"}), 401
+
+            # Create a new PDFSource instance
+            pdf_source = PDFSource(source_id=source_id, user_id=user_id)
+            # Add the new PDFSource to the database
+            db.session.add(pdf_source)
+            db.session.commit()
+
             return jsonify({"sourceId": source_id}), 200  # Return the sourceId
         except requests.exceptions.RequestException as e:
             return jsonify({"error": f"ChatPDF File Upload Error: {e}"}), 500
