@@ -25,7 +25,7 @@ class Invoice(db.Model):
     __tablename__ = "invoices"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     invoice_number = db.Column(db.String(100))
-    cif = db.Column(db.String(100))
+    invoice_CIF = db.Column(db.String(100))
     date_of_issue = db.Column(db.String(100))
     due_date = db.Column(db.String(100))
     total_price = db.Column(db.String(100))

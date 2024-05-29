@@ -24,7 +24,7 @@ export const useStyles = makeStyles({
         right: '10%', // adjust as needed
         width: '900px', // adjust as needed
         height: '900px', // adjust as needed
-        animation: '$pulse 2s infinite' // referencing the keyframes
+        
     },
     leftBackgroundImage: {
         position: 'absolute',
@@ -32,7 +32,7 @@ export const useStyles = makeStyles({
         left: '10%', // adjust as needed
         width: '900px', // adjust as needed
         height: '900px', // adjust as needed
-        animation: '$pulseLeft 2s infinite', // referencing the keyframes, optional
+         // referencing the keyframes, optional
         transform: 'rotate(-20deg) scaleX(-1)', // rotate and mirror as needed
     },
     "@keyframes pulse": {
