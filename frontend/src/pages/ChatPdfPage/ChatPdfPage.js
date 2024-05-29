@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import AppLayout from "../../components/AppLayout/AppLayout";
 import { 
     Button, 
     TextField, 
@@ -126,6 +127,7 @@ const ChatPdfPage = () => {
     };
 
     return (
+        <AppLayout>
         <Box className={classes.root}>
             <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
                 <Alert onClose={handleClose} severity="error">
@@ -214,6 +216,7 @@ const ChatPdfPage = () => {
                 <img src={image} alt="Robot" className={classes.cornerImage} />
             </div>
         </Box>
+        </AppLayout>
     );
 };
 
