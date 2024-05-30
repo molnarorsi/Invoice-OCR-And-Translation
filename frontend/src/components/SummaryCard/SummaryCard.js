@@ -7,13 +7,16 @@ import BuyerTable from "./BuyerTable/BuyerTable";
 import InvoiceTable from "./InvoiceTable/InvoiceTable";
 import httpRequest from "../../httpRequest";
 
-const SummaryCard = () => {
+const SummaryCard = (props) => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
   const [showText, setShowText] = useState(true);
   const [translatedText, setTranslatedText] = useState('');
   const [showTranslation, setShowTranslation] = useState(false);
   const [language, setLanguage] = useState('en');
+
+  console.log(props.dataFromDB);
+  const dataFromDB = props.dataFromDB;
   
   const handleTranslate = async () => {
     if (!ocrCtx.textResult) return; // Handle case where there's no text
@@ -106,10 +109,10 @@ const SummaryCard = () => {
         </div>
 
         <div className={classes.tables}>
-        <InvoiceTable data={ocrCtx.extractedData}/>
+        <InvoiceTable data={dataFromDB ? dataFromDB : ocrCtx.extractedData}/>
           <div className={classes.tableContainer}>
-          <SellerTable data={ocrCtx.extractedData} />
-            <BuyerTable data={ocrCtx.extractedData}/>
+          <SellerTable data={dataFromDB ? dataFromDB : ocrCtx.extractedData} />
+            <BuyerTable data={dataFromDB ? dataFromDB : ocrCtx.extractedData}/>
           </div>
           
         </div>

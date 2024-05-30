@@ -20,4 +20,4 @@ def get_invoice_data():
             'supplier_CIF': invoice.supplier_CIF
         }
         invoice_data.append(invoice_dictionary)
-    return jsonify({'text': "Hello, World!"})
+    return jsonify({'invoices': invoice_data})

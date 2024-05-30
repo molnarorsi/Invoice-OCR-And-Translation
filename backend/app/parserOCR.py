@@ -214,22 +214,6 @@ def get_IBAN(lines):
                 break
     return IBAN
 
-# def extract_data_from_section(lines, section_title, key_phrase):
-#     data = ''
-#     for i, line in enumerate(lines):
-#         if section_title in line.lower():  
-#             for j in range(i, len(lines)):
-#                 if key_phrase in lines[j].lower():  
-#                     words = lines[j].split()
-#                     for k in range(len(words)):
-#                         if words[k].lower() == key_phrase:
-#                             data = words[k + 1]
-#                             break
-#                     if data:
-#                         break
-#             if data:
-#                 break
-#     return data
 
 def get_buyer_CIF(lines):
     CIF = ''
@@ -277,19 +261,6 @@ def get_supplier_CIF(lines):
             break
     return CIF
 
-# def get_buyer_CIF(lines):
-#     keywords_list = keywords['Buyer']
-#     key_phrase = keywords['buyer_CIF'][0]
-#     for keyword in keywords_list:
-#         section_title = keyword
-#         return extract_data_from_section(lines, section_title, key_phrase)
-
-# def get_supplier_CIF(lines):
-#     keywords_list = keywords['Supplier']
-#     key_phrase = keywords['supplier_CIF'][0]
-#     for keyword in keywords_list:
-#         section_title = keyword
-#         return extract_data_from_section(lines, section_title, key_phrase)
 
 
 def parse_text(text):
