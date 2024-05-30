@@ -25,6 +25,11 @@ COPY ./requirements.txt /app/requirements.txt
 RUN pip install -r requirements.txt
 
 COPY ./tessdata/ron.traineddata $TESSDATA_PREFIX
+COPY ./tessdata/hun.traineddata $TESSDATA_PREFIX
+COPY ./tessdata/eng.traineddata $TESSDATA_PREFIX
+COPY ./tessdata/deu.traineddata $TESSDATA_PREFIX
+COPY ./tessdata/fra.traineddata $TESSDATA_PREFIX
+
 
 COPY . /app/
 
