@@ -7,14 +7,14 @@ import { useStyles } from "./styles";
 
 const HistoryPage = () => {
   const classes = useStyles();
-  const [invoices, setInvoices] = useState([]);
+  const [invoiceNumbers, setInvoiceNumbers] = useState([]);
 
   useEffect(() => {
     (async () => {
       try {
         const response = await httpRequest.get("http://localhost:5000/get-invoice-data");
         console.log(response.data.text);
-        setInvoices(response.data.text);
+        setInvoiceNumbers(response.data.invoice_numbers);
       } catch (error) {
         console.error(error);
       }
@@ -24,15 +24,16 @@ const HistoryPage = () => {
   , []);
 
   return (
-    <>
       <AppLayout>
-        <Grid container sx={{m : 0}}>
-          <Grid item md={2}>
-            {invoices && <InvoiceCard data={invoices} />}
-          </Grid>
+        <Grid container sx={{m : 0, mt: 5}}>
+          {invoiceNumbers &&
+            invoiceNumbers.map((invoiceNumber) => (
+              <Grid key={invoiceNumber} item md={2}>
+                <InvoiceCard data={invoiceNumber} />
+              </Grid>
+            ))}
         </Grid>
       </AppLayout>
-    </>
   );
 };
 

@@ -37,8 +37,8 @@ const AppLayout = (props) => {
       <div className={classes.contentWrapper}>
         <Navbar userName={props.userName}/>
         {props.children}
-        <img src={image} className={classes.backgroundImage} alt="description" />
-        <img src={leftImage} className={classes.leftBackgroundImage} alt="data" />
+        {/* <img src={image} className={classes.backgroundImage} alt="description" />
+        <img src={leftImage} className={classes.leftBackgroundImage} alt="data" /> */}
       </div>
     </div>
   );
