@@ -92,6 +92,7 @@ const SummaryCard = () => {
           <MenuItem value={'en'}>English</MenuItem>
           <MenuItem value={'fr'}>French</MenuItem>
           <MenuItem value={'de'}>German</MenuItem>
+          <MenuItem value={'ro'}>Romanian</MenuItem>
             // Add more languages as needed
         </Select>
           <Button

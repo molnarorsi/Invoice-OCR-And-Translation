@@ -23,7 +23,7 @@ def add_invoice(parsed_text):
 @tesseract_bp.route('/tesseract', methods=['POST'])
 def tesseract():
     img = load_image()
-    text = pytesseract.image_to_string(img)
+    text = pytesseract.image_to_string(img, lang='ron')
     parsed_text = parse_text(text)
     add_invoice(parsed_text)
     return jsonify({'text': text, 'parsed_text': parsed_text})
