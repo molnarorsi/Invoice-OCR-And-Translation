@@ -7,6 +7,7 @@ from app.models import db, User, PDFSource
 from app.preprocessing import preprocessing_bp
 from app.tesseractOCR import tesseract_bp
 from app.translate import translate_bp
+from app.getInvoiceData import getInvoiceData_bp
 import requests
 
 
@@ -29,6 +30,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.register_blueprint(preprocessing_bp)
 app.register_blueprint(tesseract_bp)
 app.register_blueprint(translate_bp)
+app.register_blueprint(getInvoiceData_bp)
 
 app.config['SESSION_SQLALCHEMY'] = db
 

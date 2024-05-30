@@ -4,11 +4,13 @@ export const useStyles = makeStyles({
     pageWrapper: {
         display: "flex",
         minHeight: "100vh",
+        zIndex: 1,
     },
     contentWrapper: {
         width: "100%",
         backgroundColor: "#f88379",
         position: "relative", // Ensure contentWrapper is positioned relative for absolute positioning of children
+        
     },
     customToast: {
         backgroundColor: "#282c34",
@@ -24,6 +26,7 @@ export const useStyles = makeStyles({
         right: '10%', // adjust as needed
         width: '900px', // adjust as needed
         height: '900px', // adjust as needed
+        zIndex: 0, // Ensure image is in the background
         
     },
     leftBackgroundImage: {
@@ -34,6 +37,7 @@ export const useStyles = makeStyles({
         height: '900px', // adjust as needed
          // referencing the keyframes, optional
         transform: 'rotate(-20deg) scaleX(-1)', // rotate and mirror as needed
+        zIndex: 0, // Ensure image is in the background
     },
     "@keyframes pulse": {
         "0%": {
