@@ -8,10 +8,12 @@ import PreprocessingCard from "../../components/PreprocessingCard/PreprocessingC
 import OCRCard from "../../components/OCRCard/OCRCard";
 import SummaryCard from "../../components/SummaryCard/SummaryCard";
 import httpRequest from "../../httpRequest";
+import userContext from "../../context/user-context";
 
 const HomePage = () => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
+  const userCtx = useContext(userContext);
   const [activePage, setActivePage] = useState(0);
   const [userName, setUserName] = useState();
 
@@ -21,6 +23,9 @@ const HomePage = () => {
         const resp = await httpRequest.get("http://localhost:5000/@me");
         console.log(resp.data.name);
         setUserName(resp.data.name);
+        userCtx.setUserName(resp.data.name);
+        userCtx.setEmail(resp.data.email);
+        userCtx.setRole(resp.data.role);
       } catch (error) {
         console.log("Not authenticated");
         window.location.href = "/login";

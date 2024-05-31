@@ -7,8 +7,8 @@ const DataTableExtend = () => {
   const ocrCtx = useContext(OCRContext);
   console.log(ocrCtx.extractedData);
   const invoiceData = ocrCtx.extractedData;
-  console.log(Object.keys(invoiceData))
-  console.log("Rendering Bank field - data:", invoiceData?.bank)
+  // console.log(Object.keys(invoiceData))
+  // console.log("Rendering Bank field - data:", invoiceData?.bank)
 
   return (
     <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>

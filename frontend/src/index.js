@@ -5,16 +5,19 @@ import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 import App from './pages/App/App';
 import { BrowserRouter } from 'react-router-dom';
 import { OCRContextProvider } from './context/ocr-context';
+import { UserContextProvider } from './context/user-context';
 
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
+    <UserContextProvider>
     <OCRContextProvider>
      <BrowserRouter>
       <App/>
      </BrowserRouter>
     </OCRContextProvider>
+    </UserContextProvider>
   </React.StrictMode>
 );
