@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 import numpy as np
 import cv2
 import pytesseract
@@ -16,7 +16,18 @@ def load_image():
 
 
 def add_invoice(parsed_text):
-    invoice = Invoice(**parsed_text)
+    invoice = Invoice(
+        user_id=session.get('user_id'),
+        invoice_number=parsed_text.get('invoice_number'),
+        invoice_CIF=parsed_text.get('invoice_CIF'),
+        date_of_issue=parsed_text.get('date_of_issue'),
+        due_date=parsed_text.get('due_date'),
+        total_price=parsed_text.get('total_price'),
+        IBAN=parsed_text.get('IBAN'),
+        bank=parsed_text.get('bank'),
+        buyer_CIF=parsed_text.get('buyer_CIF'),
+        supplier_CIF=parsed_text.get('supplier_CIF')
+    )
     db.session.add(invoice)
     db.session.commit()
 

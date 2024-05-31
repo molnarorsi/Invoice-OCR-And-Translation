@@ -3,14 +3,14 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from config import ApplicationConfig
-from app.models import db, User, PDFSource
+from app.models import db, User, PDFSource, UserRoles
 from app.preprocessing import preprocessing_bp
 from app.tesseractOCR import tesseract_bp
 from app.translate import translate_bp
 from app.getInvoiceData import getInvoiceData_bp
 import requests
 
-
+from flask_migrate import Migrate
 
 
 app = Flask(__name__)
@@ -22,7 +22,7 @@ app.config.update(ENV='development')
 
 db.init_app(app)
 
-
+migrate = Migrate(app, db)
 
 CORS(app, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -56,10 +56,22 @@ def get_current_user():
 
     user = User.query.filter_by(id=user_id).first()
     return jsonify({
-        "id": user.id,
         "name": user.name,
-        "email": user.email
-    }) 
+        "email": user.email,
+        "role": user.role.value
+    })
+
+@app.route('/users/<string:user_id>', methods=['POST'])
+def user(user_id):
+    user = User.query.filter_by(id=user.id).first()
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+    
+    user.role = UserRoles.ADMIN
+
+    db.session.commit()
+
+    return jsonify({'message': 'User role updated successfully'}), 200
 
 @app.route("/register", methods=["POST"])
 def register_user():
