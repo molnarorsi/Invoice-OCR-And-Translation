@@ -3,6 +3,7 @@ import { Divider, Typography } from "@mui/material";
 import { useStyles } from "./styles";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import HistoryIcon from "@mui/icons-material/History";
+import BusinessIcon from "@mui/icons-material/Business";
 import QuestionAnswerSharpIcon from '@mui/icons-material/QuestionAnswerSharp';
 import logo from "../../assets/logocska.png"
 
@@ -27,7 +28,7 @@ const SideMenu = () => {
             <Link to="/history" className={classes.link}>
               <Typography variant="h7" >
                 <HistoryIcon />
-                Your scans
+                Invoice History
               </Typography>
             </Link>
           </div>
@@ -41,7 +42,12 @@ const SideMenu = () => {
           </div>
           <br />
           <div>
-            
+            <Link to="/groups" className={classes.link}>
+              <Typography variant="h7" >
+                <BusinessIcon />
+                Groups
+              </Typography>
+            </Link>
           </div>
         </div>
       </div>

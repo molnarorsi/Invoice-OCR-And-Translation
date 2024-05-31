@@ -5,6 +5,7 @@ import HomePage from "../HomePage/HomePage";
 import ChatPdfPage from "../ChatPdfPage/ChatPdfPage";
 import { Route } from "react-router-dom";
 import { Routes } from "react-router-dom";
+import GroupsPage from "../GroupsPage/GroupsPage";
 
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/chatpdf" element={<ChatPdfPage />} /> 
+        <Route path="/groups" element={<ChatPdfPage />} /> 
       </Routes>
     </div>
   );
