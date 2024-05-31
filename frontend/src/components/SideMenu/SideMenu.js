@@ -40,7 +40,6 @@ const SideMenu = () => {
               </Typography>
             </Link>
           </div>
-          <br />
           <div>
             <Link to="/groups" className={classes.link}>
               <Typography variant="h7" >
