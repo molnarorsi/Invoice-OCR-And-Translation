@@ -90,6 +90,8 @@ keywords = {
     }
 }
 
+
+# Function to get the invoice number from the text
 def get_invoice_number(lines):
     invoice_number = ''
     for i, line in enumerate(lines):
@@ -111,7 +113,7 @@ def get_invoice_number(lines):
                 break
     return invoice_number
 
-
+# Function to get the CIF from the text
 def get_invoice_CIF(lines):
     CIF = ''
     for i, line in enumerate(lines):
@@ -133,9 +135,11 @@ def get_invoice_CIF(lines):
                 break
     return CIF
 
+# Function to get the date pattern
 def get_date_pattern():
     return re.compile(r"\d{2}\.\d{2}\.\d{4}")
 
+# Function to get the date of issue from the text
 def get_date_of_issue(lines):
     date_pattern = get_date_pattern()
     for line in lines:
@@ -146,6 +150,7 @@ def get_date_of_issue(lines):
                     return word
     return ''
 
+# Function to get the due date from the text
 def get_due_date(lines):
     date_pattern = get_date_pattern()
     for line in lines:
@@ -156,6 +161,7 @@ def get_due_date(lines):
                     return word
     return ''
 
+# Function to get the total price from the text
 def get_total_price(lines):
     pattern = re.compile(r"\b\d+(?:[,\s]\d+)*\b")  
     for i, line in enumerate(lines):
@@ -172,6 +178,7 @@ def get_total_price(lines):
                         return word 
     return '' 
 
+# Function to get the bank from the text
 def get_bank(lines):
     bank = ''
     for i, line in enumerate(lines):
@@ -193,6 +200,7 @@ def get_bank(lines):
                 break
     return bank
 
+# Function to get the IBAN from the text
 def get_IBAN(lines):
     IBAN = ''
     for i, line in enumerate(lines):
@@ -214,7 +222,7 @@ def get_IBAN(lines):
                 break
     return IBAN
 
-
+# Function to get the buyer CIF from the text
 def get_buyer_CIF(lines):
     CIF = ''
     keywords_list = keywords['Buyer']
@@ -238,6 +246,8 @@ def get_buyer_CIF(lines):
             break
     return CIF
 
+
+# Function to get the supplier CIF from the text
 def get_supplier_CIF(lines):
     CIF = ''
     keywords_list = keywords['Supplier']
@@ -262,11 +272,12 @@ def get_supplier_CIF(lines):
     return CIF
 
 
-
+# Function to parse the text
 def parse_text(text):
     lines = text.split('\n')
     invoice_data = {}
 
+    # List of functions to parse the data
     parsing_data = [
         get_invoice_number,
         get_invoice_CIF,
@@ -278,7 +289,7 @@ def parse_text(text):
         get_buyer_CIF,
         get_supplier_CIF
     ]
-
+    # Parse the data
     for func in parsing_data:
         field_name = func.__name__.replace('get_', '')
         invoice_data[field_name] = func(lines)
