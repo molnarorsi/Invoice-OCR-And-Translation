@@ -87,6 +87,46 @@ keywords = {
         'fr': ['fournisseur', 'fournisseur:', 'vendeur', 'vendeur:'],
         'de': ['lieferant', 'lieferant:', 'verkäufer', 'verkäufer:'],
         'hu': ['szállító', 'szállító:', 'eladó', 'eladó:']
+    },
+
+    'name': {
+        'ro': ['nume', 'nume:', 'denumire', 'denumire:'],
+        'en': ['name', 'name:', 'company name', 'company name:'],
+        'fr': ['nom', 'nom:', 'nom de la société', 'nom de la société:'],
+        'de': ['name', 'name:', 'firmenname', 'firmenname:'],
+        'hu': ['név', 'név:', 'cégnév', 'cégnév:']
+    },
+
+    'address': {
+        'ro': ['adresa', 'adresa:', 'adresă', 'adresă:'],
+        'en': ['address', 'address:', 'company address', 'company address:'],
+        'fr': ['adresse', 'adresse:', 'adresse de la société', 'adresse de la société:'],
+        'de': ['adresse', 'adresse:', 'firmenadresse', 'firmenadresse:'],
+        'hu': ['cím', 'cím:', 'céges cím', 'céges cím:']
+    },
+
+    'city': {
+        'ro': ['oras', 'oraș', 'oras:', 'oraș:'],
+        'en': ['city', 'city:', 'company city', 'company city:'],
+        'fr': ['ville', 'ville:', 'ville de la société', 'ville de la société:'],
+        'de': ['stadt', 'stadt:', 'firmenstadt', 'firmenstadt:'],
+        'hu': ['város', 'város:', 'céges város', 'céges város:']
+    },
+
+    'TVA': {
+        'ro': ['tva', 'tva:', 'cod tva', 'cod tva:'],
+        'en': ['vat', 'vat:', 'vat code', 'vat code:'],
+        'fr': ['tva', 'tva:', 'code tva', 'code tva:'],
+        'de': ['ust', 'ust:', 'ust code', 'ust code:'],
+        'hu': ['áfa', 'áfa:', 'áfa kód', 'áfa kód:']
+    },
+
+    'VAT': {
+        'ro': ['vat', 'vat:', 'vat code', 'vat code:'],
+        'en': ['vat', 'vat:', 'vat code', 'vat code:'],
+        'fr': ['vat', 'vat:', 'vat code', 'vat code:'],
+        'de': ['vat', 'vat:', 'vat code', 'vat code:'],
+        'hu': ['vat', 'vat:', 'vat code', 'vat code:']
     }
 }
 
@@ -271,6 +311,192 @@ def get_supplier_CIF(lines):
             break
     return CIF
 
+def get_buyer_name(lines):
+    name = ''
+    keywords_list = keywords['Buyer']
+    key_phrase_list = keywords['name']
+    for keyword in keywords_list:
+        for key_phrase in key_phrase_list:
+            for i, line in enumerate(lines):
+                if keyword in line.lower() and key_phrase in line.lower():
+                    words = lines[i].split()
+                    for word in words:
+                        if word.isalpha():
+                            name = word
+                            break
+                    if name:
+                        break
+                if name:
+                    break
+            if name:
+                break
+        if name:
+            break
+    return name
+
+def get_supplier_name(lines):
+    name = ''
+    keywords_list = keywords['Supplier']
+    key_phrase_list = keywords['name']
+    for keyword in keywords_list:
+        for key_phrase in key_phrase_list:
+            for i, line in enumerate(lines):
+                if keyword in line.lower() and key_phrase in line.lower():
+                    words = lines[i].split()
+                    for word in words:
+                        if word.isalpha():
+                            name = word
+                            break
+                    if name:
+                        break
+                if name:
+                    break
+            if name:
+                break
+        if name:
+            break
+    return name
+
+def get_buyer_address(lines):
+    address = ''
+    keywords_list = keywords['Buyer']
+    key_phrase_list = keywords['address']
+    for keyword in keywords_list:
+        for key_phrase in key_phrase_list:
+            for i, line in enumerate(lines):
+                if keyword in line.lower() and key_phrase in line.lower():
+                    words = lines[i].split()
+                    for word in words:
+                        if word.isalpha():
+                            address = word
+                            break
+                    if address:
+                        break
+                if address:
+                    break
+            if address:
+                break
+        if address:
+            break
+    return address
+
+def get_supplier_address(lines):
+    address = ''
+    keywords_list = keywords['Supplier']
+    key_phrase_list = keywords['address']
+    for keyword in keywords_list:
+        for key_phrase in key_phrase_list:
+            for i, line in enumerate(lines):
+                if keyword in line.lower() and key_phrase in line.lower():
+                    words = lines[i].split()
+                    for word in words:
+                        if word.isalpha():
+                            address = word
+                            break
+                    if address:
+                        break
+                if address:
+                    break
+            if address:
+                break
+        if address:
+            break
+    return address
+
+def get_buyer_city(lines):
+    city = ''
+    keywords_list = keywords['Buyer']
+    key_phrase_list = keywords['city']
+    for keyword in keywords_list:
+        for key_phrase in key_phrase_list:
+            for i, line in enumerate(lines):
+                if keyword in line.lower() and key_phrase in line.lower():
+                    words = lines[i].split()
+                    for word in words:
+                        if word.isalpha():
+                            city = word
+                            break
+                    if city:
+                        break
+                if city:
+                    break
+            if city:
+                break
+        if city:
+            break
+    return city
+
+def get_supplier_city(lines):
+    city = ''
+    keywords_list = keywords['Supplier']
+    key_phrase_list = keywords['city']
+    for keyword in keywords_list:
+        for key_phrase in key_phrase_list:
+            for i, line in enumerate(lines):
+                if keyword in line.lower() and key_phrase in line.lower():
+                    words = lines[i].split()
+                    for word in words:
+                        if word.isalpha():
+                            city = word
+                            break
+                    if city:
+                        break
+                if city:
+                    break
+            if city:
+                break
+        if city:
+            break
+    return city
+
+def get_buyer_TVA(lines):
+    TVA = ''
+    keywords_list = keywords['Buyer']
+    key_phrase_list = keywords['TVA']
+    for keyword in keywords_list:
+        for key_phrase in key_phrase_list:
+            for i, line in enumerate(lines):
+                if keyword in line.lower() and key_phrase in line.lower():
+                    words = lines[i].split()
+                    for word in words:
+                        if word.isdigit():
+                            TVA = word
+                            break
+                    if TVA:
+                        break
+                if TVA:
+                    break
+            if TVA:
+                break
+        if TVA:
+            break
+    return TVA
+
+def get_supplier_TVA(lines):
+    TVA = ''
+    keywords_list = keywords['Supplier']
+    key_phrase_list = keywords['TVA']
+    for keyword in keywords_list:
+        for key_phrase in key_phrase_list:
+            for i, line in enumerate(lines):
+                if keyword in line.lower() and key_phrase in line.lower():
+                    words = lines[i].split()
+                    for word in words:
+                        if word.isdigit():
+                            TVA = word
+                            break
+                    if TVA:
+                        break
+                if TVA:
+                    break
+            if TVA:
+                break
+        if TVA:
+            break
+    return TVA
+
+    
+
 
 # Function to parse the text
 def parse_text(text):
@@ -287,7 +513,16 @@ def parse_text(text):
         get_IBAN,
         get_bank,
         get_buyer_CIF,
-        get_supplier_CIF
+        get_supplier_CIF,
+        get_buyer_name,
+        get_supplier_name,
+        get_buyer_address,
+        get_supplier_address,
+        get_buyer_city,
+        get_supplier_city,
+        get_buyer_TVA,
+        get_supplier_TVA
+        
     ]
     # Parse the data
     for func in parsing_data:
