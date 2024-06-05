@@ -16,7 +16,7 @@ const Navbar = (props) => {
             <Typography className={classes.welcomeText}>Welcome Back {props.userName}!!</Typography>
             <Button
                 className={classes.logoutButton}
-                variant="contained"
+                variant="text"
                 onClick={logoutUser}
                 aria-label="Logout Button"
             >

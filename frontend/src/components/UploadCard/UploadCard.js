@@ -24,8 +24,6 @@ const UploadCard = () => {
     });
   };
 
-  
-
   const convertPdfToImages = async (file) => {
     let image;
     const data = await readFileData(file);
@@ -79,10 +77,6 @@ const UploadCard = () => {
     }
   };
 
-  
-
-
-    
     return (
         <>
         <div className={classes.rootContainer}>
@@ -98,7 +92,8 @@ const UploadCard = () => {
             </div>
             <Button 
                 onClick={() => ocrCtx.setActivePage(1)}
-                variant="contained" 
+                variant="text"
+                className={classes.uploadButton} 
                 sx={{margin: "20px", px: "10%"}}>
                 Next
             </Button>

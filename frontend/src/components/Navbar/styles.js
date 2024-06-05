@@ -15,14 +15,17 @@ export const useStyles = makeStyles({
         padding: "0 20px",
     },
     welcomeText: {
-        fontSize: "1.2rem",
+        fontSize: "1.5rem", // Increase font size
         fontWeight: "bold",
+        padding: "0 10px", // Add some padding
     },
     logoutButton: {
         backgroundColor: "#FE6B8B",
         color: "white",
         '&:hover': {
             backgroundColor: "#FF8E53",
+            transform: "scale(1.05)", // Add a hover effect
         },
+        transition: "transform 0.3s ease-in-out", // Smooth the hover effect
     },
 });
