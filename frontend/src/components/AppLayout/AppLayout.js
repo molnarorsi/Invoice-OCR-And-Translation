@@ -1,4 +1,4 @@
-import SideMenu from "../SideMenu/SideMenu";
+// import SideMenu from "../SideMenu/SideMenu";
 import Navbar from "../Navbar/Navbar";
 import { useStyles } from "./styles";
 import { ToastContainer, toast } from 'react-toastify';
@@ -33,7 +33,7 @@ const AppLayout = (props) => {
   return (
     <div className={classes.pageWrapper}>
       <ToastContainer />
-      <SideMenu/>
+      {/* <SideMenu/> */}
       <div className={classes.contentWrapper}>
         <Navbar userName={props.userName}/>
         {props.children}

@@ -10,7 +10,7 @@ export const useStyles = makeStyles({
         fontFamily: "'Roboto', sans-serif",
         boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "space-evenly",
         alignItems: "center",
         padding: "0 20px",
     },
@@ -18,14 +18,40 @@ export const useStyles = makeStyles({
         fontSize: "1.5rem", // Increase font size
         fontWeight: "bold",
         padding: "0 10px", // Add some padding
+        color: "#097969",
+        fontFamily: "'Playfair Display', serif !important", // Change font style
     },
     logoutButton: {
         backgroundColor: "#FE6B8B",
-        color: "white",
+        color: "#FE6B8B !important",
+        transition: "background-color 0.3s ease-in-out, transform 0.3s ease-in-out",
         '&:hover': {
             backgroundColor: "#FF8E53",
-            transform: "scale(1.05)", // Add a hover effect
+            transform: "scale(1.05)",
         },
-        transition: "transform 0.3s ease-in-out", // Smooth the hover effect
+        marginLeft: "100px",
+        fontWeight: "bold !important",
+    },
+    linkContainer: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
+        margin: "0 20px",
+
+    },
+    link: {
+        color: "#097969",
+        textDecoration: "none",
+        fontSize: "1.5rem", // Increase font size
+        fontFamily: "'Playfair Display', serif", // Change font style
+        padding: "10px",
+        transition: "color 0.3s ease-in-out",
+        '&:hover': {
+            color: "#FFA07A", // Lighter color on hover
+        },    
+    },
+    logo: {
+        width: "100%", // or any other styling you want
     },
 });
