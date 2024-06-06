@@ -13,7 +13,8 @@ const GroupsPage = () => {
     const classes = useStyles();
     const userCtx = useContext(userContext);
     const role = userCtx.role;
-    const [page, setPage] = useState("");
+    const [page, setPage] = useState(0);
+    const [pageName, setPageName] = useState("Groups");
     const [groupData, setGroupData] = useState([]);
 
     useEffect(() => {
@@ -28,8 +29,9 @@ const GroupsPage = () => {
     })();
     }, []);
 
-    const handlePageChange = (page) => {
+    const handlePageChange = (page, name) => {
         setPage(page);
+        setPageName(name);
     };
 
     return (
@@ -37,7 +39,7 @@ const GroupsPage = () => {
             <AppLayout>
                 <GroupTabbar onPageChange={handlePageChange} activePage={page}/>
                 <Grid container spacing={2}>
-                    {page == "Groups" && groupData && groupData.map((groupData) => (
+                    {pageName == "Groups" && groupData && groupData.map((groupData) => (
                         <Grid key={groupData.id} item md={4}>
                             <div>
                                 <InvoiceCard data={groupData.name}/>
@@ -46,8 +48,8 @@ const GroupsPage = () => {
                     ))}
                 </Grid>
                 <div className={classes.card}>
-                    {page == "Join" && <CreateGroupCard/>}
-                    {role == "admin" && page == "Create" && (
+                    {pageName == "Join" && <CreateGroupCard onPageChange={handlePageChange}/>}
+                    {role == "admin" && pageName == "Create" && (
                         <CreateGroupCard onPageChange={handlePageChange}/>
                     )}
                 </div>

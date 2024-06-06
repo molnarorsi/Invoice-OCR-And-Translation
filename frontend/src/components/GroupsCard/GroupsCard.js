@@ -1,12 +1,33 @@
 import {Button, Paper, Typography, TextField} from "@mui/material";
 import {useState} from "react";
 import {useStyles} from "./styles";
+import httpRequest from "../../httpRequest";
 
-const GroupsCard = () => {
+const GroupsCard = (props) => {
     const classes = useStyles();
     const [groupCode, setGroupCode] = useState("");
-    const joinGroup = () => {
+    const joinGroup = async () => {
         console.log(groupCode);
+        try {
+            const response = await httpRequest("http://localhost:5000/join-group",
+                {
+                    groupCode,
+                }
+            );
+            console.log(response);
+            const status = response.status;
+            if(status === 200) {
+                props.onPageChange(0);
+            }
+        }
+        catch (error) {
+            if(error.response.status === 401) {
+                alert("Unauthorized access. Please login to join a group.");
+            }
+            if(error.response.status === 404) {
+                alert("Group not found.");
+            }
+        }
     }
 
     const handleChange = (event) => {

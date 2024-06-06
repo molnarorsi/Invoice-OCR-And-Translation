@@ -1,10 +1,15 @@
 from flask_sqlalchemy import SQLAlchemy
 from uuid import uuid4
 from enum import Enum
+import string
+import random
 
 
 db = SQLAlchemy()
 
+def generate_code(length=6):
+    code = string.ascii_lowercase + string.digits
+    return ''.join(random.choice(code) for i in range(length))
 
 def get_uuid():
     return uuid4().hex
@@ -53,3 +58,4 @@ class Groups(db.Model):
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
     name = db.Column(db.String(100), nullable=False)
     info = db.Column(db.String(600))
+    code = db.Column(db.String(6), default=generate_code, unique=True)

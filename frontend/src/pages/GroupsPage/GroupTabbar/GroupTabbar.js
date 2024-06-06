@@ -19,7 +19,7 @@ const GroupTabbar = (props) => {
 
     const handleChange = (event, newValue, tabname) => {
         setValue(newValue);
-        props.onPageChange(tabname);
+        props.onPageChange(newValue, tabname);
     };
 
     return (

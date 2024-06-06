@@ -23,3 +23,18 @@ def create_groups():
     db.session.commit()
 
     return jsonify({'message': 'Group created successfully'}), 201
+
+@groups_bp.route('/join-group', methods=['POST'])
+def join_group():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+    code = request.json.get('code')
+    group = Groups.query.filter_by(code=code).first()
+    if group:
+        user = User.query.get(user_id)
+        user.groups.append(group)
+        db.session.commit()
+        return jsonify({'message': 'Group joined successfully'}), 200
+    else:
+        return jsonify({'error': 'Group not found'}), 404
