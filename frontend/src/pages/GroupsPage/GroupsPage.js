@@ -21,10 +21,10 @@ const GroupsPage = () => {
     return (
         <>
             <AppLayout>
-                <GroupTabbar onPageChange={handlePageChange} />
-                <div className={classes.root}>
-                    {page == 0 && <GroupsCard />}
-                    {role === 'admin' &&  page == 1 &&<CreateGroupCard />}
+                <GroupTabbar onPageChange={handlePageChange} activePage={page}/>
+                <div className={classes.card}>
+                    {page == 1 && <GroupsCard />}
+                    {role === 'admin' &&  page == 2 &&<CreateGroupCard onPageChange={handlePageChange}/>}
                 </div>
             </AppLayout>
         </>

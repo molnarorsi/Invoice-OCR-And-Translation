@@ -1,18 +1,19 @@
-import { Button, Paper } from "@mui/material";
+import { Button, Paper, Box } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import httpRequest from "../../httpRequest";
 import { useState } from "react";
 import { useStyles } from "./styles";
 
-const CreateGroupCard = () => {
+const CreateGroupCard = (props) => {
     const classes = useStyles();
-    const [groupName, setGroupName] = useState("");
-    const [groupDescription, setGroupDescription] = useState("");
+    
+    const createGroup = async (event) => {
+        event.preventDefault();
+        const data = new FormData(event.currentTarget);
+        const groupName = data.get("name");
+        const groupDescription = data.get("info");
 
-    const createGroup = async () => {
-        console.log("Group name:", groupName);
-        console.log("Group description:", groupDescription);
         try {
             const response = await httpRequest.post("http://localhost:5000/create_group", {
                 name: groupName,
@@ -29,33 +30,24 @@ const CreateGroupCard = () => {
         }
     };
 
-    const handleGroupNameChange = (event) => {
-        setGroupName(event.target.value);
-    };
-
-    const handleGroupDescriptionChange = (event) => {
-        setGroupDescription(event.target.value);
-    };
-
     return (
         <>
         <Paper elevation={3} className={classes.paper} sx={{p: 2, borderRadiud: 5}}>
             <Typography variant="h6">Create Group</Typography>
             <br></br>
-            <div className={classes.inputContainer}>
-                <TextField id="outlined-basic" label="Group Name" variant="outlined" fullWidth onChange={handleGroupNameChange} sx={{width: "100%"}} size="small" value={groupName}/>
+            <Box component="form" onSubmit={createGroup} className={classes.inputContainer}>
+                <TextField id="name" name="name" label="Group Name" variant="outlined" fullWidth sx={{width: "100%"}} size="small" required/>
                 <br/>
-                <TextField  id="outlined-basic"
+                <TextField  id="info"
+                    name="info"
                     label="Description"
                     variant="outlined"
                     sx={{ mt: 2, width: "100%" }}
                     multiline
-                    rows={4}
-                    value={groupDescription}
-                    onChange={handleGroupDescriptionChange}/>
-            </div>
+                    rows={4}/>
             <br/>
-            <Button variant="contained" color="primary" onClick={createGroup}>Create Group</Button>
+            <Button variant="contained" type="submit" sx={{mt: 2}}>Create Group</Button>
+            </Box>
         </Paper>
 
         </>
