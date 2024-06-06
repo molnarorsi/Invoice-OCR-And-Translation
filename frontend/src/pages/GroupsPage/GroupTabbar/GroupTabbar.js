@@ -17,18 +17,18 @@ const GroupTabbar = (props) => {
         setValue(props.activePage);
     }, [props.activePage]);
 
-    const handleChange = (event, newValue) => {
+    const handleChange = (event, newValue, tabname) => {
         setValue(newValue);
-        props.onPageChange(newValue);
+        props.onPageChange(tabname);
     };
 
     return (
         <>
             <div className={classes.rootContainer}>
                 <Tabs className={classes.tabsContainer} centered value={value} onChange={handleChange}>
-                    <Tab sx={{mx:5, p:2}} label={<Typography variant="h6">Groups</Typography>} icon={<GroupAddIcon />} />
-                    <Tab sx={{mx:5, p:2}} label={<Typography variant="h6">Join</Typography>} icon={<GroupAddIcon />} />
-                    {role === "admin" && <Tab sx={{mx:5, p:2}} label={<Typography variant="h6">Create</Typography>} icon={<AddCircleIcon />} />}
+                    <Tab sx={{mx:5, p:2}} label={<Typography variant="h6">Groups</Typography>} value={0} onClick={(e) => handleChange(e, 0, "Groups")} icon={<GroupAddIcon />} />
+                    <Tab sx={{mx:5, p:2}} label={<Typography variant="h6">Join</Typography>} value={1} onClick={(e) => handleChange(e, 1, "Join")} icon={<GroupAddIcon />} />
+                    {role === "admin" && <Tab sx={{mx:5, p:2}} label={<Typography variant="h6">Create</Typography>} value={2} onClick={(e)=> handleChange(e, 2, "Create")} icon={<AddCircleIcon />} />}
                 </Tabs>
             </div>
         </>

@@ -15,7 +15,7 @@ const CreateGroupCard = (props) => {
         const groupDescription = data.get("info");
 
         try {
-            const response = await httpRequest.post("http://localhost:5000/create_group", {
+            const response = await httpRequest.post("http://localhost:5000/create-groups", {
                 name: groupName,
                 description: groupDescription
             });
