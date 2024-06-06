@@ -8,6 +8,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
+    overflow: 'auto',
   },
   chatpdfContainer: {
     fontFamily: 'Arial, sans-serif',
@@ -15,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     width: '90%',
+    height: '100%',
     maxWidth: '800px',
     margin: '20px auto',
     padding: '20px',
@@ -40,9 +42,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   messageList: {
-    maxHeight: '300px',
+    maxHeight: '80vh',
     overflowY: 'auto',
     marginBottom: '20px',
+    flex: '1 1 auto',
+    overflowY: 'auto',
   },
   chatMessage: {
     marginBottom: '15px',

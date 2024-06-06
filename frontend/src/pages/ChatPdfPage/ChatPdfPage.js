@@ -36,7 +36,7 @@ function Alert(props) {
 
 const ChatPdfPage = () => {
     const classes = useStyles();
-    const [messages, setMessages] = useState([]);
+    // const [messages, setMessages] = useState([]);
     const [pdfSourceId, setPdfSourceId] = useState(null);
     const [newMessage, setNewMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -46,6 +46,11 @@ const ChatPdfPage = () => {
     const [scale, setScale] = useState(1.0);
     const [open, setOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [messages, setMessages] = useState([
+    { text: 'Welcome to ChatPDF! First, upload a document, then tell me how can I assist you?', sender: 'bot' }
+    ]);
+
+    const messagesEndRef = React.createRef();
 
     const apiKey = 'sec_0LSWqNmRjyNhtR0rwJx1elsFHZo5rbEW'; 
 
@@ -80,6 +85,24 @@ const ChatPdfPage = () => {
         setScale(prevScale => prevScale - 0.1);
     }
 
+    // Add a new state for the example questions
+    const [exampleQuestions, setExampleQuestions] = useState([
+        "What is the purpose of the document?",
+        "What are the key takeaways?",
+        "What is the invoice's number?",
+        "What is the total amount?",
+    ]);
+
+    // Add a new function to handle example question click
+    const handleExampleQuestionClick = (question) => {
+        setNewMessage(question);
+        handleSubmit();
+    };
+
+    const scrollToBottom = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    }
+
     const handleFileUpload = async (event) => {
         setIsLoading(true); 
         const file = event.target.files[0];
@@ -107,7 +130,7 @@ const ChatPdfPage = () => {
     };
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
+        event && event.preventDefault();
         setIsLoading(true);
 
         try {
@@ -127,6 +150,8 @@ const ChatPdfPage = () => {
             setIsLoading(false);
         }
     };
+
+    React.useEffect(scrollToBottom, [messages]);
 
     return (
         <AppLayout>
@@ -149,6 +174,14 @@ const ChatPdfPage = () => {
                                         <Avatar src={message.sender === 'user' ? user : boticon} />
                                     </ListItemIcon>
                                     <ListItemText primary={message.text} />
+                                </ListItem>
+                            ))}
+                            <div ref={messagesEndRef} />
+                        </List>
+                        <List>
+                            {exampleQuestions.map((question, index) => (
+                                <ListItem key={index} button onClick={() => handleExampleQuestionClick(question)}>
+                                    <ListItemText primary={question} />
                                 </ListItem>
                             ))}
                         </List>
