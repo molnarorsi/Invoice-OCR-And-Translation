@@ -25,6 +25,8 @@ import SendIcon from '@mui/icons-material/Send';
 import useStyles from './styles';
 import { Document, Page, pdfjs } from 'react-pdf';
 import image from "../../assets/robot.png";
+import boticon from "../../assets/boticon.png";
+import user from "../../assets/user.png";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -144,11 +146,9 @@ const ChatPdfPage = () => {
                             {messages.map((message, index) => (
                                 <ListItem key={index} className={message.sender === 'user' ? classes.chatMessageUser : classes.chatMessageBot}>
                                     <ListItemIcon>
-                                        <Avatar>{message.sender.charAt(0).toUpperCase()}</Avatar>
+                                        <Avatar src={message.sender === 'user' ? user : boticon} />
                                     </ListItemIcon>
-                                    <ListItemText
-                                        primary={message.text}
-                                    />
+                                    <ListItemText primary={message.text} />
                                 </ListItem>
                             ))}
                         </List>
