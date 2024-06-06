@@ -10,6 +10,7 @@ from app.tesseractOCR import tesseract_bp
 from app.translate import translate_bp
 from app.getInvoiceData import getInvoiceData_bp
 from app.chatpdf import chatpdf_bp
+from app.groups import groups_bp
 import requests
 
 from flask_migrate import Migrate
@@ -40,6 +41,7 @@ app.register_blueprint(tesseract_bp)
 app.register_blueprint(translate_bp)
 app.register_blueprint(getInvoiceData_bp)
 app.register_blueprint(chatpdf_bp)
+app.register_blueprint(groups_bp)
 
 # Set the Flask app instance to use the database for session management
 app.config['SESSION_SQLALCHEMY'] = db

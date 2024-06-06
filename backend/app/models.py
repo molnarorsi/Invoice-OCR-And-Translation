@@ -13,6 +13,11 @@ class UserRoles(Enum):
     ADMIN = "admin"
     USER = "user"
 
+user_groups = db.Table('user_groups', db.metadata,
+                       db.Column('user_id', db.String(32), db.ForeignKey('users.id')),
+                          db.Column('group_id', db.String(32), db.ForeignKey('groups.id'))
+                      )
+
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
@@ -21,6 +26,7 @@ class User(db.Model):
     password = db.Column(db.Text, nullable=False)
     invoices = db.relationship("Invoice", backref="user")
     role = db.Column(db.Enum(UserRoles), nullable=False, default=UserRoles.USER)
+    groups = db.relationship("Groups", secondary=user_groups, backref=db.backref('users', lazy='dynamic'))
 
 class PDFSource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -41,3 +47,9 @@ class Invoice(db.Model):
     bank = db.Column(db.String(100))
     buyer_CIF = db.Column(db.String(100))
     supplier_CIF = db.Column(db.String(100))
+
+class Groups(db.Model):
+    __tablename__ = "groups"
+    id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
+    name = db.Column(db.String(100), nullable=False)
+    info = db.Column(db.String(600))
