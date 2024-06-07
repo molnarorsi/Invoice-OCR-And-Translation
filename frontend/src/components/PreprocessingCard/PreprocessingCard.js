@@ -105,8 +105,8 @@ const PreprocessingCard = () => {
           </Grid>
         </Grid>
 
-        <Button
-          variant="contained"
+        <Button className={classes.nextButton}
+          variant="text"
           onClick={() => ocrCtx.setActivePage(2)}
           sx={{ margin: "5px", px: "10%" }}
         >

@@ -6,7 +6,7 @@ import ChatPdfPage from "../ChatPdfPage/ChatPdfPage";
 import { Route } from "react-router-dom";
 import { Routes } from "react-router-dom";
 import GroupsPage from "../GroupsPage/GroupsPage";
-
+import InstructionsPage from "../InstructionsPage/InstructionsPage";
 
 const App = () => {
   return (
@@ -18,6 +18,7 @@ const App = () => {
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/chatpdf" element={<ChatPdfPage />} /> 
         <Route path="/groups" element={<GroupsPage />} /> 
+        <Route path="/instructions" element={<InstructionsPage />} />
       </Routes>
     </div>
   );

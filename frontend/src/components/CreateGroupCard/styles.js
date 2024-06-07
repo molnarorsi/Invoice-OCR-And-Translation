@@ -14,4 +14,7 @@ export const useStyles = makeStyles({
         width: "60%",
         margin: "auto",
     },
+    createButton: {
+        color: "#f54287 !important",
+    }
 });

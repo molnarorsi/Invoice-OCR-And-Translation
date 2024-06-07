@@ -27,5 +27,5 @@ def get_invoice_data():
 def getGroups():
     user_id = session.get("user_id")
     user = User.query.get(user_id)
-    group_data = [{'id': group.id, 'name': group.name, 'info': group.info, 'invite_code': group.invide_code} for group in user.groups]
+    group_data = [{'id': group.id, 'name': group.name, 'info': group.info, 'invite_code': group.code} for group in user.groups]
     return jsonify({'groups': group_data})

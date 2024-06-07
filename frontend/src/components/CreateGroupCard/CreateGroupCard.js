@@ -46,7 +46,7 @@ const CreateGroupCard = (props) => {
                     multiline
                     rows={4}/>
             <br/>
-            <Button variant="contained" type="submit" sx={{mt: 2}}>Create Group</Button>
+            <Button className={classes.createButton}variant="text" type="submit" sx={{mt: 2}}>Create Group</Button>
             </Box>
         </Paper>
 

@@ -16,5 +16,8 @@ export const useStyles = makeStyles({
         position: "absolute !important",
         top: "2px",
         right: "10px",
+    },
+    nextButton: {
+        color: "#f54287 !important",
     }
 });

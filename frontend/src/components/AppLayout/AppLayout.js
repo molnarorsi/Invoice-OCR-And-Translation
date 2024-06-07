@@ -22,7 +22,7 @@ const AppLayout = (props) => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      onClick: () => window.location.href = "/chatpdf"
+      onClick: () => window.location.href = "/instructions"
     });
   };
 
