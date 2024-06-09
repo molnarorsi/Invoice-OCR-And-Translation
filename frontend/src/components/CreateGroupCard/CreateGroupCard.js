@@ -16,10 +16,14 @@ const CreateGroupCard = (props) => {
 
         try {
             const response = await httpRequest.post("http://localhost:5000/create-groups", {
-                name: groupName,
-                description: groupDescription
+                groupName,
+                groupDescription
             });
             console.log(response);
+            const status = response.status;
+            if (status === 200) {
+                props.onPageChange(0, "Groups");
+            }
         } catch (error) {
            if (error.response.status === 401) {
                console.log("Unauthorized");

@@ -11,6 +11,7 @@ from app.translate import translate_bp
 from app.getInvoiceData import getInvoiceData_bp
 from app.chatpdf import chatpdf_bp
 from app.groups import groups_bp
+from app.auth import auth_bp
 import requests
 
 from flask_migrate import Migrate
@@ -30,10 +31,11 @@ db.init_app(app)
 # Initialize Flask-Migrate for handling database migrations
 migrate = Migrate(app, db)
 
-# Enable Cross-Origin Resource Sharing (CORS) with the Flask app instance
-CORS(app, supports_credentials=True)
+app.config['SESSION_SQLALCHEMY'] = db
 # Set the CORS headers to 'Content-Type'
 app.config['CORS_HEADERS'] = 'Content-Type'
+# Initialize the CORS extension with the Flask app instance
+CORS(app, supports_credentials=True)
 
 # Register the blueprints with the Flask app instance
 app.register_blueprint(preprocessing_bp)
@@ -42,12 +44,9 @@ app.register_blueprint(translate_bp)
 app.register_blueprint(getInvoiceData_bp)
 app.register_blueprint(chatpdf_bp)
 app.register_blueprint(groups_bp)
+app.register_blueprint(auth_bp)
 
-# Set the Flask app instance to use the database for session management
-app.config['SESSION_SQLALCHEMY'] = db
 
-# Initialize the Flask Bcrypt extension with the Flask app instance
-bcrypt = Bcrypt(app)
 # Initialize the Flask Session extension with the Flask app instance
 server_session = Session(app)
 
@@ -92,63 +91,6 @@ def user(user_id):
     db.session.commit()
 
     return jsonify({'message': 'User role updated successfully'}), 200
-
-# Define the route for the register endpoint
-@app.route("/register", methods=["POST"])
-def register_user():
-    # Get the user's name, email, and password from the request
-    name = request.json["name"]
-    email = request.json["email"]
-    password = request.json["password"]
-
-    # Check if the user already exists in the database
-    user_exists = User.query.filter_by(email=email).first() is not None
-
-    if user_exists:
-        return jsonify({"error": "User already exists"}), 409
-
-    # Hash the user's password
-    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-    new_user = User(name=name, email=email, password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
-
-    session["user_id"] = new_user.id
-
-    return jsonify({
-        "id": new_user.id,
-        "name": new_user.name,
-        "email": new_user.email
-    })
-
-# Define the route for the login endpoint
-@app.route("/login", methods=["POST"])
-def login_user():
-    email = request.json["email"]
-    password = request.json["password"]
-
-    user = User.query.filter_by(email=email).first()
-
-    if user is None:
-        return jsonify({"error": "Unauthorized"}), 401
-
-    if not bcrypt.check_password_hash(user.password, password):
-        return jsonify({"error": "Unauthorized"}), 401
-
-    session["user_id"] = user.id
-
-    return jsonify({
-        "id": user.id,
-        "name": user.name,
-        "email": user.email
-    })
-
-# Define the route for the logout endpoint
-@app.route("/logout", methods=["POST"])
-def logout_user():
-    session.pop("user_id")
-    return "200"
-
 
 # # Define the route for the upload-file endpoint
 # apiKey = "sec_0LSWqNmRjyNhtR0rwJx1elsFHZo5rbEW"  # Replace with your actual key

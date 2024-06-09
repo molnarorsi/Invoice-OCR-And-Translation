@@ -8,6 +8,9 @@ import CreateGroupCard from '../../components/CreateGroupCard/CreateGroupCard';
 import GroupTabbar from './GroupTabbar/GroupTabbar';
 import Grid from "@mui/material/Grid";
 import InvoiceCard from "../../components/InvoiceCard/InvoiceCard";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import IconButton from "@mui/material/IconButton";
+import Group from '../../components/Group/Group';
 
 const GroupsPage = () => {
     const classes = useStyles();
@@ -16,6 +19,23 @@ const GroupsPage = () => {
     const [page, setPage] = useState(0);
     const [pageName, setPageName] = useState("Groups");
     const [groupData, setGroupData] = useState([]);
+    const [isGroupOpen, setIsGroupOpen] = useState(false);
+    const [selectedGroup, setSelectedGroup] = useState({});
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const response = await httpRequest.get("http://localhost:5000/@me");
+                userCtx.setUserName(response.data.name);
+                userCtx.setEmail(response.data.email);
+                userCtx.setRole(response.data.role);
+            } catch (error) {
+                console.log(error);
+                console.log("You are not authenticated!");
+                window.location.href = "/login";
+            }
+        })();
+    }, [page]);
 
     useEffect(() => {
     (async () => {
@@ -32,27 +52,48 @@ const GroupsPage = () => {
     const handlePageChange = (page, name) => {
         setPage(page);
         setPageName(name);
+        setIsGroupOpen(false);
     };
+
+    const openGroup = (groupData) => {
+        setIsGroupOpen(true);
+        setSelectedGroup(groupData);
+    }
 
     return (
         <>
             <AppLayout>
                 <GroupTabbar onPageChange={handlePageChange} activePage={page}/>
-                <Grid container spacing={2}>
-                    {pageName == "Groups" && groupData && groupData.map((groupData) => (
-                        <Grid key={groupData.id} item md={4}>
-                            <div>
-                                <InvoiceCard data={groupData.name}/>
-                            </div>
+                {!isGroupOpen && (
+                    <div>
+                        <Grid container spacing={2}>
+                            {pageName == "Groups" && 
+                            groupData && groupData.map((groupData) => (
+                                <Grid key={groupData.id} item md = {3}>
+                                    <div onClick={() => openGroup(groupData)}>
+                                        <InvoiceCard data={groupData.name}/>
+                                    </div>
+                                </Grid>
+                            ))}
                         </Grid>
-                    ))}
-                </Grid>
-                <div className={classes.card}>
-                    {pageName == "Join" && <CreateGroupCard onPageChange={handlePageChange}/>}
-                    {role == "admin" && pageName == "Create" && (
-                        <CreateGroupCard onPageChange={handlePageChange}/>
-                    )}
-                </div>
+                        <div className={classes.card}>
+                            {pageName == "Join" && (
+                                <GroupsCard onPageChange={handlePageChange}/>
+                            )}
+                            {role == "admin" && pageName == "Create" && (
+                                <CreateGroupCard onPageChange={handlePageChange}/>
+                            )}
+                        </div>{" "}
+                    </div>
+                )}
+                {isGroupOpen && (
+                    <div>
+                        <IconButton onClick={() => setIsGroupOpen(false)}>
+                            <ArrowBackIcon/>
+                        </IconButton>
+                        <Group dataFromDB={selectedGroup}/>
+                    </div>
+                )}
             </AppLayout>
         </>
     );

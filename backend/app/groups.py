@@ -30,6 +30,7 @@ def join_group():
     if not user_id:
         return jsonify({'error': 'Unauthorized'}), 401
     code = request.json.get('code')
+    print(code)
     group = Groups.query.filter_by(code=code).first()
     if group:
         user = User.query.get(user_id)

@@ -6,18 +6,22 @@ import httpRequest from "../../httpRequest";
 const GroupsCard = (props) => {
     const classes = useStyles();
     const [groupCode, setGroupCode] = useState("");
+
+
     const joinGroup = async () => {
         console.log(groupCode);
         try {
-            const response = await httpRequest("http://localhost:5000/join-group",
+            const response = await httpRequest.post("http://localhost:5000/join-group",
                 {
                     groupCode,
                 }
             );
+            console.log("This is the code: $groupCode", groupCode);
             console.log(response);
+            
             const status = response.status;
             if(status === 200) {
-                props.onPageChange(0);
+                props.onPageChange(0, "Groups");
             }
         }
         catch (error) {
