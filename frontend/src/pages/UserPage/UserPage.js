@@ -3,12 +3,14 @@ import userContext from "../../context/user-context";
 import AppLayout from "../../components/AppLayout/AppLayout";
 import {useStyles} from "./styles";
 import {useContext, useEffect, useState} from "react";
+import UserData from "../../components/UserData/UserData";
 
 const UserPage = () => {
     const classes = useStyles();
     const user = useContext(userContext);
     const role = user.role;
     const [userNames, setUserNames] = useState();
+    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -19,6 +21,7 @@ const UserPage = () => {
                 try {
                     const response = await httpRequest.get("http://localhost:5000/get-users");
                     console.log(response.data);
+                    setUsers(response.data.users);
                 } catch (error) {
                     console.error("Error: Not authorized");
                     window.location.href = "/login";
@@ -44,7 +47,11 @@ const UserPage = () => {
 
     return (
         <>
-        <AppLayout userName={userNames}> Handle User Management Here </AppLayout>
+        <AppLayout userName={userNames}> 
+            <div className={classes.rootContainer}>
+                <UserData users={users} />
+            </div>
+        </AppLayout>
         </>
     );
 };
