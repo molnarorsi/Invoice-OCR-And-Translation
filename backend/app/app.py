@@ -89,19 +89,19 @@ def get_current_user():
     })
 
 # Define the route for the users
-@app.route('/users/<string:user_id>', methods=['POST'])
-def user(user_id):
-    # Get the user's ID from the session
-    user = User.query.filter_by(id=user.id).first()
-    if not user:
-        return jsonify({"error": "User not found"}), 404
+# @app.route('/users/<string:user_id>', methods=['POST'])
+# def user(user_id):
+#     # Get the user's ID from the session
+#     user = User.query.filter_by(id=user.id).first()
+#     if not user:
+#         return jsonify({"error": "User not found"}), 404
     
-    # Get the user's role from the session
-    user.role = UserRoles.ADMIN
+#     # Get the user's role from the session
+#     user.role = UserRoles.ADMIN
 
-    db.session.commit()
+#     db.session.commit()
 
-    return jsonify({'message': 'User role updated successfully'}), 200
+#     return jsonify({'message': 'User role updated successfully'}), 200
 
 # # Define the route for the upload-file endpoint
 # apiKey = "sec_0LSWqNmRjyNhtR0rwJx1elsFHZo5rbEW"  # Replace with your actual key

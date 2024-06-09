@@ -11,9 +11,20 @@ const UserPage = () => {
     const [userNames, setUserNames] = useState();
 
     useEffect(() => {
-        if (role !=="admin") {
-            window.location.href = "/";
-        }
+        (async () => {
+            if(role !== "admin") {
+                window.location.href = "/";
+            }
+            else {
+                try {
+                    const response = await httpRequest.get("http://localhost:5000/get-users");
+                    console.log(response.data);
+                } catch (error) {
+                    console.error("Error: Not authorized");
+                    window.location.href = "/login";
+                }
+            }
+        })();
     }, [role]);
 
     useEffect(() => {
