@@ -13,7 +13,7 @@ const GroupsCard = (props) => {
         try {
             const response = await httpRequest.post("http://localhost:5000/join-group",
                 {
-                    groupCode,
+                    code: groupCode,
                 }
             );
             console.log("This is the code: $groupCode", groupCode);

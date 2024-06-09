@@ -46,6 +46,9 @@ app.register_blueprint(chatpdf_bp)
 app.register_blueprint(groups_bp)
 app.register_blueprint(auth_bp)
 
+# Initialize the Flask Bcrypt extension with the Flask app instance
+bcrypt = Bcrypt()
+
 
 # Initialize the Flask Session extension with the Flask app instance
 server_session = Session(app)
@@ -54,6 +57,14 @@ server_session = Session(app)
 with app.app_context():
     db.create_all()
     print("Database tables created successfully")
+
+    admin = User.query.filter_by(email='admin@admin.com').first()
+    if not admin:
+        pwd = bcrypt.generate_password_hash('admin').decode('utf-8')
+        admin = User(email='admin@admin.com', name='admin', password=pwd)
+        admin.role = UserRoles.ADMIN
+        db.session.add(admin)
+        db.session.commit()
 
 # Define the route for the root of the web server
 @app.route("/hello")
