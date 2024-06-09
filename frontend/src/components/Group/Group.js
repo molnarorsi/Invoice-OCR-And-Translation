@@ -4,6 +4,8 @@ const Group = (props) => {
     const classes = useStyles();
     const groupData = props.dataFromDB;
     
+    console.log("This is the groupdata: ", groupData);
+
     return (
         <div className={classes.rootContainer}>
             <h1>{groupData.name}</h1>

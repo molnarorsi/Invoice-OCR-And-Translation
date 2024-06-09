@@ -41,6 +41,7 @@ const GroupsPage = () => {
     (async () => {
         try {
             const response = await httpRequest.get("http://localhost:5000/get-group");
+            setGroupData(response.data.groups);     
             console.log(response.data.groups);
         }
         catch (error) {
@@ -55,10 +56,10 @@ const GroupsPage = () => {
         setIsGroupOpen(false);
     };
 
-    const openGroup = (groupData) => {
+    const openGroup = async (groupData) => {
         setIsGroupOpen(true);
         setSelectedGroup(groupData);
-    }
+    };
 
     return (
         <>
