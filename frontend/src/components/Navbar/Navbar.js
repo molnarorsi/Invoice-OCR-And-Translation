@@ -9,9 +9,14 @@ import HistoryIcon from "@mui/icons-material/History";
 import BusinessIcon from "@mui/icons-material/Business";
 import QuestionAnswerSharpIcon from '@mui/icons-material/QuestionAnswerSharp';
 import logo from "../../assets/logocska.png"
+import {useContext} from "react";
+import userContext from "../../context/user-context";
+import PeopleIcon from '@mui/icons-material/People';
 
 const Navbar = (props) => {
     const classes = useStyles();
+    const user = useContext(userContext);
+    const role = user.role;
 
     const logoutUser = async () => {
         await httpRequest.post("//localhost:5000/logout");
@@ -56,6 +61,16 @@ const Navbar = (props) => {
               </Link>
             </div>
           </div>
+          {role == "admin" && (
+            <div>
+              <Link to="/users" className={classes.link}>
+                <Typography variant="h7">
+                  <PeopleIcon />
+                  Manage users
+                </Typography>
+              </Link>
+            </div>
+          )}
           <Button
             className={classes.logoutButton}
             variant="text"
