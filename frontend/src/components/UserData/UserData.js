@@ -1,78 +1,76 @@
-import {useState} from "react";
-import {DataGrid} from "@mui/x-data-grid";
-import {Button, Typography, Box, Modal, FormControl, InputLabel, Select, MenuItem} from "@mui/material";
-import {useStyles} from "./styles";
+import React, { useState } from "react";
+import { Button, Modal, Box, Typography, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import httpRequest from "../../httpRequest";
+import { useStyles } from "./styles";
 
-function EditRoleModal({open, onClose, user, onSave}) {
-    const [selectedRole, setSelectedRole] = useState("");
-    const handleRoleChange = (event) => {
-        setSelectedRole(event.target.value);
-    };
+const UserData = ({ users, onUserUpdated }) => {
+  const classes = useStyles();
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+  const [selectedRole, setSelectedRole] = useState("");
 
-    const handleSave = () => {
-        onSave(selectedRole);
-    };
+  const handleEdit = (event, user) => {
+    if (user.email !== "admin@admin.com") {
+      setSelectedRole(user.role);
+      setSelectedUser(user);
+      setShowModal(true);
+    }
+  };
 
-    return (
-        <Modal open={open} onClose={onClose}>
-            <Box sx={{position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 400, bgcolor: 'background.paper', boxShadow: 24, p: 4, boerderRadius: 2}}>
-                <Typography variant="h6">Edit {user?.name}'s Role</Typography>
-                <FormControl fullWidth sx={{my: 2}}>
-                    <InputLabel id="role-select-label">Role</InputLabel>
-                    <Select labelId="role-select-label" id="role-select" value={selectedRole} label="Role" onChange={handleRoleChange}>
-                        <MenuItem value={"admin"}>Admin</MenuItem>
-                        <MenuItem value={"admin"}>Owner</MenuItem>
-                        <MenuItem value={"user"}>User</MenuItem>
-                    </Select>
-                </FormControl>
-                <Button variant="contained" onClick={handleSave}>Save</Button>
-            </Box>
-        </Modal>
-    );
-}
+  const handleModalClose = () => setShowModal(false);
 
-function UserData({users}) {
-    const classes = useStyles();
-    const [selectedUser, setSelectedUser] = useState(null);
-    const [showModal, setShowModal] = useState(false);
+  const handleRoleChange = (event) => setSelectedRole(event.target.value);
 
-    const handleEdit = (user) => {
-        if(user.email === "admin@admin.com") {
-            alert("Cannot edit admin's role");
-            return;
-        }
-        setSelectedUser(user);
-        setShowModal(true);
-    };
+  const handleSave = async () => {
+    try {
+      const resp = await httpRequest.post("http://localhost:5000/manage-users", {
+        user_id: selectedUser.id,
+        role: selectedRole,
+      });
+      console.log(resp);
+      onUserUpdated(selectedUser.id, selectedRole);
+    } catch (error) {
+      console.log("Error.Problem in updating user role.");
+    }
+    setShowModal(false);
+  };
 
-    const handleModalClose = () => {
-        setShowModal(false);
-    };
+  const columns = [
+    { field: "name", headerName: "Name", flex: 1 },
+    { field: "email", headerName: "Email", flex: 1 },
+    { field: "role", headerName: "Role", flex: 1 },
+    {
+      field: "actions",
+      headerName: "Actions",
+      flex: 1,
+      renderCell: (params) => (
+        <Button variant="contained" color="primary" onClick={(event) => handleEdit(event, params.row)}>
+          Edit Role
+        </Button>
+      ),
+    },
+  ];
 
-    const handleSave = (role) => {
-        console.log(selectedUser, role);
-        setShowModal(false);
-    };
-
-    return (
-        <>
-        <DataGrid className={classes.dataGrid}
-            rows={users}
-            columns={[
-                {field: "name", headerName: "Name", flex: 1},
-                {field: "email", headerName: "Email", flex: 1},
-                {field: "role", headerName: "Role", flex: 1},
-                {field: "actions", headerName: "Actions", flex: 1, 
-                    renderCell: (params) => 
-                    <Button onClick={() => handleEdit(params.row)}>Edit</Button>
-                },
-            ]}
-            autoHeight
-            sx={{backgroundColor: "white", marginBottom: "30px"}}/>
-
-            {selectedUser && (<EditRoleModal className={classes.editRoleModal} open={showModal} onClose={handleModalClose} user={selectedUser} onSave={handleSave} />)}
-        </>
-    );
-}
+  return (
+    <>
+      <DataGrid className={classes.dataGrid}rows={users} columns={columns} autoHeight sx={{ backgroundColor: "white", marginBottom: "30px" }} />
+      <Modal open={showModal} onClose={handleModalClose}>
+        <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 400, bgcolor: "background.paper", boxShadow: 24, p: 4, borderRadius: 2 }}>
+          <Typography variant="h6">Edit Role for {selectedUser?.name}</Typography>
+          <FormControl fullWidth sx={{ my: 2 }}>
+            <InputLabel id="select-role-label">Role</InputLabel>
+            <Select labelId="select-role-label" id="select-role" value={selectedRole} label="Role" onChange={handleRoleChange}>
+              <MenuItem value="USER">User</MenuItem>
+              <MenuItem value="OWNER">Owner</MenuItem>
+              <MenuItem value="ADMIN">Admin</MenuItem>
+            </Select>
+          </FormControl>
+          <Button variant="contained" color="primary" onClick={handleSave}>Save</Button>
+        </Box>
+      </Modal>
+    </>
+  );
+};
 
 export default UserData;

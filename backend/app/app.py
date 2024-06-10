@@ -88,6 +88,19 @@ def get_current_user():
         "role": user.role.value
     })
 
+@app.route("/manage-users", methods=["POST"])
+def manage_users():
+    role = request.json.get("role")
+    user_id = request.json.get("user_id")
+    user = User.query.filter_by(id=user_id).first()
+
+    if role not in UserRoles.__members__:
+        return jsonify({"error": "Invalid role"}), 400
+
+    user.role = UserRoles[role]
+    db.session.commit()
+    return jsonify({"message": "User role updated successfully"}), 200
+
 # Define the route for the users
 # @app.route('/users/<string:user_id>', methods=['POST'])
 # def user(user_id):

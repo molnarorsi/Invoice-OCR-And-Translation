@@ -11,6 +11,7 @@ const UserPage = () => {
     const role = user.role;
     const [userNames, setUserNames] = useState();
     const [users, setUsers] = useState([]);
+    const [editUser, setEditUser] = useState({});
 
     useEffect(() => {
         (async () => {
@@ -28,7 +29,7 @@ const UserPage = () => {
                 }
             }
         })();
-    }, [role]);
+    }, [role, editUser]);
 
     useEffect(() => {
         (async () => {
@@ -45,11 +46,16 @@ const UserPage = () => {
         })();
     }, []);
 
+    const handleUserEdit = (editUserId, editUserRole) => {
+        console.log("Edit successfull!");
+        setEditUser({editUserId, editUserRole});
+    };
+
     return (
         <>
         <AppLayout userName={userNames}> 
             <div className={classes.rootContainer}>
-                <UserData users={users} />
+                <UserData users={users} onUserEdit={handleUserEdit}/>
             </div>
         </AppLayout>
         </>
