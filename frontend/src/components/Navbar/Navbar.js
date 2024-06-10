@@ -1,6 +1,6 @@
 import Button from "@mui/material/Button";
 import {useStyles} from "./styles"
-import { Typography } from "@mui/material";
+import { Typography, Grid, IconButton, MenuItem, Menu } from "@mui/material";
 import httpRequest from "../../httpRequest";
 import { Link } from "react-router-dom";
 import { Divider } from "@mui/material";
@@ -9,14 +9,26 @@ import HistoryIcon from "@mui/icons-material/History";
 import BusinessIcon from "@mui/icons-material/Business";
 import QuestionAnswerSharpIcon from '@mui/icons-material/QuestionAnswerSharp';
 import logo from "../../assets/logocska.png"
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import userContext from "../../context/user-context";
 import PeopleIcon from '@mui/icons-material/People';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 const Navbar = (props) => {
     const classes = useStyles();
     const user = useContext(userContext);
     const role = user.role;
+
+    const [menuOpen, setMenuOpen] = useState(null);
+    const handleMenuOpen = (event) => {
+        setMenuOpen(event.currentTarget);
+    };
+    const handleMenuClose = () => {
+        setMenuOpen(null);
+    };
+
+    const openProfile = () => {};
+    const openSettings = () => {};
 
     const logoutUser = async () => {
         await httpRequest.post("//localhost:5000/logout");
@@ -71,14 +83,28 @@ const Navbar = (props) => {
               </Link>
             </div>
           )}
-          <Button
+          <Grid item xs={3} sx={{mt: 1, textAlign: "center"}}>
+            <IconButton sx={{p:0.1, color:"white"}} onClick={handleMenuOpen}>
+              <AccountCircleIcon fontSize="large"/>
+            </IconButton>
+            <Menu
+              anchorEl={menuOpen}
+              open={Boolean(menuOpen)}
+              onClose={handleMenuClose}
+              >
+                <MenuItem onClick={openProfile}>Profile</MenuItem>
+                <MenuItem onClick={openSettings}>Settings</MenuItem>
+                <MenuItem onClick={logoutUser}>Logout</MenuItem>
+              </Menu>
+          </Grid>
+          {/* <Button
             className={classes.logoutButton}
             variant="text"
             onClick={logoutUser}
             aria-label="Logout Button"
           >
             Log Out
-          </Button>
+          </Button> */}
         </div>
       );
 };
