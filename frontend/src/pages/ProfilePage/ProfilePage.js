@@ -1,8 +1,9 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import userContext from '../../context/user-context';
 import {Avatar, Button, Card, CardContent, Container, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar, TextField, Typography} from '@mui/material';
 import {useStyles} from './styles';
 import AppLayout from '../../components/AppLayout/AppLayout';
+import httpRequest from '../../httpRequest';
 
 const ProfilePage = () => {
     const classes = useStyles();
@@ -13,15 +14,36 @@ const ProfilePage = () => {
     const [editEmail, setEditEmail] = useState(false);
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
+    const [emailValid, setEmailValid] = useState(true);
 
-    const handleSaveChanges = () => {
-        user.setUserName(userName);
-        user.setEmail(email);
-        setEditName(false);
-        setEditEmail(false);
-        setSnackbarOpen(true);
-        setDialogOpen(false);
+    const validateEmail = (event) => {
+        const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        const email = event.target.value;
+        if (!emailRegex.test(email) && email.length > 0) {
+          setEmailValid(false);
+        } else {
+          setEmailValid(true);
+        }
     };
+
+    const handleSaveChanges = async () => {
+        if (emailValid) {
+          user.setUserName(userName);
+          user.setEmail(email);
+          setEditName(false);
+          setEditEmail(false);
+          setSnackbarOpen(true);
+          setDialogOpen(false);
+          await updateChanges(userName, email);
+        } else {
+          alert("Invalid email format");
+        }
+    };
+
+    useEffect(() => {
+        setUserName(user.userName);
+        setEmail(user.email);
+    }, [user.userName, user.email]);
 
     const handleSnackbarClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -36,6 +58,7 @@ const ProfilePage = () => {
 
     const handleEditEmail = (event) => {
         setEmail(event.target.value);
+        validateEmail(event);
     };
 
     const handleNameEditClick = () => {
@@ -52,6 +75,20 @@ const ProfilePage = () => {
 
     const handleDialogClose = () => {
         setDialogOpen(false);
+    };
+
+    const updateChanges = async (name, email) => {
+        try {
+            const response = await httpRequest.post("http://localhost:5000/update-users", {
+                name: userName,
+                email: email,
+            });
+        } catch (error) {
+            if(error.response.status === 400) {
+                alert("Invalid email format");
+            }
+        }
+        
     };
 
     return (

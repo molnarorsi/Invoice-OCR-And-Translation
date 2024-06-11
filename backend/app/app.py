@@ -101,73 +101,18 @@ def manage_users():
     db.session.commit()
     return jsonify({"message": "User role updated successfully"}), 200
 
-# Define the route for the users
-# @app.route('/users/<string:user_id>', methods=['POST'])
-# def user(user_id):
-#     # Get the user's ID from the session
-#     user = User.query.filter_by(id=user.id).first()
-#     if not user:
-#         return jsonify({"error": "User not found"}), 404
+@app.route("/update-users", methods=["POST"])
+def update_users():
+    user_id = session.get("user_id")
     
-#     # Get the user's role from the session
-#     user.role = UserRoles.ADMIN
+    if not user_id:
+        return jsonify({"error": "Unauthorized"}), 401
+    
+    user = User.query.filter_by(id=user_id).first()
+    name = request.json.get("name")
+    email = request.json.get("email")
 
-#     db.session.commit()
-
-#     return jsonify({'message': 'User role updated successfully'}), 200
-
-# # Define the route for the upload-file endpoint
-# apiKey = "sec_0LSWqNmRjyNhtR0rwJx1elsFHZo5rbEW"  # Replace with your actual key
-# @app.route("/upload-file", methods=["POST"])
-# def upload_file():
-#     if 'file' in request.files:
-#         file = request.files['file']
-
-#         upload_url = 'https://api.chatpdf.com/v1/sources/add-file' 
-#         try:
-#             upload_response = requests.post(
-#                 upload_url, 
-#                 files={'file': file}, 
-#                 headers={'x-api-key': apiKey}
-#             )
-#             upload_response.raise_for_status() 
-#             source_id = upload_response.json()['sourceId']
-
-#             # Get the user's ID from the session
-#             user_id = session.get("user_id")
-#             if not user_id:
-#                 return jsonify({"error": "Unauthorized"}), 401
-
-#             # Create a new PDFSource instance
-#             pdf_source = PDFSource(source_id=source_id, user_id=user_id)
-#             # Add the new PDFSource to the database
-#             db.session.add(pdf_source)
-#             db.session.commit()
-
-#             return jsonify({"sourceId": source_id}), 200  # Return the sourceId
-#         except requests.exceptions.RequestException as e:
-#             return jsonify({"error": f"ChatPDF File Upload Error: {e}"}), 500
-#     else:
-#         return jsonify({"error": "No file provided"}), 400
-
-# # Define the route for the send-message endpoint
-# @app.route("/send-message", methods=["POST"])
-# def send_message():
-#     if 'sourceId' in request.json and 'messages' in request.json:
-#         source_id = request.json['sourceId']
-#         messages = request.json['messages']
-
-#         message_url = 'https://api.chatpdf.com/v1/chats/message' 
-#         try:
-#             message_response = requests.post(
-#                 message_url,
-#                 json={'sourceId': source_id, 'messages': messages}, 
-#                 headers={'x-api-key': apiKey}
-#             )
-#             message_response.raise_for_status()  
-#             chatpdf_response = message_response.json()  
-#             return jsonify(chatpdf_response), 200
-#         except requests.exceptions.RequestException as e:
-#             return jsonify({"error": f"ChatPDF Message Error: {e}"}), 500
-#     else:
-#         return jsonify({"error": "Invalid request"}), 400
+    user.name = name
+    user.email = email
+    db.session.commit()
+    return jsonify({"message": "User updated successfully"}), 200
