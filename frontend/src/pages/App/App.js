@@ -8,6 +8,7 @@ import { Routes } from "react-router-dom";
 import GroupsPage from "../GroupsPage/GroupsPage";
 import InstructionsPage from "../InstructionsPage/InstructionsPage";
 import UserPage from "../UserPage/UserPage";
+import ProfilePage from "../ProfilePage/ProfilePage";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/groups" element={<GroupsPage />} /> 
         <Route path="/instructions" element={<InstructionsPage />} />
         <Route path="/users" element={<UserPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Routes>
     </div>
   );

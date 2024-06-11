@@ -14,9 +14,14 @@ import userContext from "../../context/user-context";
 import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PasswordModal from "../PasswordModal/PasswordModal";
+import {useNavigate} from "react-router-dom";
 
 const Navbar = (props) => {
     const classes = useStyles();
+
+    const navigate = useNavigate();
+    
+
     const user = useContext(userContext);
     const role = user.role;
 
@@ -30,7 +35,9 @@ const Navbar = (props) => {
         setMenuOpen(null);
     };
 
-    const openProfile = () => {};
+    const openProfile = () => {
+      navigate('/profile');
+    };
 
     const handlePassworOpen = () => {
         setOpenPasswordModal(true);
@@ -45,6 +52,7 @@ const Navbar = (props) => {
         await httpRequest.post("//localhost:5000/logout");
         window.location.href = "/login";
     };
+
 
     return (
         <div className={classes.rootContainer}>
