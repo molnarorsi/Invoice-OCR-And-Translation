@@ -13,6 +13,7 @@ import {useContext, useState} from "react";
 import userContext from "../../context/user-context";
 import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PasswordModal from "../PasswordModal/PasswordModal";
 
 const Navbar = (props) => {
     const classes = useStyles();
@@ -20,6 +21,8 @@ const Navbar = (props) => {
     const role = user.role;
 
     const [menuOpen, setMenuOpen] = useState(null);
+    const [openPasswordModal, setOpenPasswordModal] = useState(false);
+
     const handleMenuOpen = (event) => {
         setMenuOpen(event.currentTarget);
     };
@@ -28,7 +31,15 @@ const Navbar = (props) => {
     };
 
     const openProfile = () => {};
-    const openSettings = () => {};
+
+    const handlePassworOpen = () => {
+        setOpenPasswordModal(true);
+        setMenuOpen(null);
+    };
+
+    const handlePasswordClose = () => {
+        setOpenPasswordModal(false);
+    };
 
     const logoutUser = async () => {
         await httpRequest.post("//localhost:5000/logout");
@@ -93,18 +104,19 @@ const Navbar = (props) => {
               onClose={handleMenuClose}
               >
                 <MenuItem onClick={openProfile}>Profile</MenuItem>
-                <MenuItem onClick={openSettings}>Settings</MenuItem>
+                <MenuItem onClick={handlePassworOpen}>Change Password</MenuItem>
                 <MenuItem onClick={logoutUser}>Logout</MenuItem>
               </Menu>
           </Grid>
-          {/* <Button
+          <Button
             className={classes.logoutButton}
             variant="text"
             onClick={logoutUser}
             aria-label="Logout Button"
           >
             Log Out
-          </Button> */}
+          </Button>
+          <PasswordModal open={openPasswordModal} onClose={handlePasswordClose} />
         </div>
       );
 };

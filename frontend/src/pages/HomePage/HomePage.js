@@ -27,7 +27,7 @@ const HomePage = () => {
         userCtx.setEmail(resp.data.email);
         userCtx.setRole(resp.data.role);
       } catch (error) {
-        console.log("Not authenticated");
+        alert("Not authenticated! Please login.");
         window.location.href = "/login";
       }
     })();

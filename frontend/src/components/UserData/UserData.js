@@ -12,7 +12,7 @@ const UserData = ({ users, onUserUpdated }) => {
 
   const handleEdit = (event, user) => {
     if (user.email !== "admin@admin.com") {
-      setSelectedRole(user.role);
+      // setSelectedRole(user.role);
       setSelectedUser(user);
       setShowModal(true);
     }

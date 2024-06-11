@@ -55,3 +55,24 @@ def login():
 def logout():
     session.pop('user_id', None)
     return jsonify({'message': 'User logged out'}), 200
+
+@auth_bp.route('/modify-password', methods=['POST'])
+def modify_password():
+    user_id = session.get('user_id')
+    if not user_id:
+        return jsonify({'error': 'User not logged in'}), 401
+    
+    user = User.query.filter_by(id=user_id).first()
+    # if user is None:
+    #     return jsonify({'error': 'User not found'}), 404
+    
+    old_password = request.json.get('old_password')
+    new_password = request.json.get('new_password')
+
+    if not bcrypt.check_password_hash(user.password, old_password):
+        return jsonify({'error': 'Invalid password'}), 400
+    
+    user.password = bcrypt.generate_password_hash(new_password).decode('utf-8')
+    db.session.commit()
+
+    return jsonify({'message': 'Password updated successfully'}), 200
