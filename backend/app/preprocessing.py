@@ -17,7 +17,7 @@ def load_image_from_request():
 
 # Convert the image to base64
 def convert_to_base64(image):
-    img = Image.fromarray(img.astype("uint8"))
+    img = Image.fromarray(image.astype("uint8"))
     raw_bytes = io.BytesIO()
     img.save(raw_bytes, "JPEG")
     raw_bytes.seek(0)

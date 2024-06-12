@@ -31,7 +31,7 @@ const HomePage = () => {
         window.location.href = "/login";
       }
     })();
-  }, []);
+  }, [userCtx]);
 
   
 

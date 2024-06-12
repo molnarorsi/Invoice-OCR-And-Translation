@@ -16,7 +16,7 @@ const PreprocessingCard = () => {
     formData.append("file", ocrCtx.actualImage);
     try {
       const resp = await httpRequest.post(
-        "http://localhost:5000/${methodEndpoint}`",
+        `http://localhost:5000/${methodEndpoint}`,
         formData
       );
       let bytestring = resp["data"]["image"];
