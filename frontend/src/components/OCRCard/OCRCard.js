@@ -48,10 +48,10 @@ const OCRCard = () => {
           <Grid item xs={6}>
             <Button
               variant="contained"
-              onClick={() => handleOCRmethod("paddleOCR")}
+              onClick={() => handleOCRmethod("doctr")}
               sx={{ px: "10%" }}
             >
-              PaddleOCR
+              DocTROCR
             </Button>
           </Grid>
         </Grid>

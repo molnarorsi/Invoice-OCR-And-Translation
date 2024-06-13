@@ -13,3 +13,7 @@ deepl
 requests
 langdetect
 Flask-Migrate==3.1.0
+doctr
+python-doctr[tf]
+tensorflow
+numpy
