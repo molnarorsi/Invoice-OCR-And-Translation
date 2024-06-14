@@ -39,3 +39,29 @@ def join_group():
         return jsonify({'message': 'Group joined successfully'}), 200
     else:
         return jsonify({'error': 'Group not found'}), 404
+    
+@groups_bp.route('/current-group', methods=['POST'])
+def current_group():
+    user_id = session.get("user_id")
+    group_id = request.json['group_id']
+
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    user = User.query.get(user_id)
+    user.current_group = group_id
+
+    return jsonify({'message': 'Current group set successfully'}), 200
+
+@groups_bp.route('/deactivate-current-group', methods=['POST'])
+def deactivate_current_group():
+    user_id = session.get("user_id")
+    group_id = request.json['group_id']
+
+    if not user_id:
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    user = User.query.get(user_id)
+    user.current_group = None
+
+    return jsonify({'message': 'Current group deactivated successfully'}), 200

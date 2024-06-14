@@ -37,6 +37,7 @@ class User(db.Model):
     invoices = db.relationship("Invoice", backref="user")
     role = db.Column(db.Enum(UserRoles), nullable=False, default=UserRoles.USER)
     groups = db.relationship("Groups", secondary=user_groups, backref=db.backref('users', lazy='dynamic'))
+    current_group = db.Column(db.String(32), unique=True)
 
 class PDFSource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
