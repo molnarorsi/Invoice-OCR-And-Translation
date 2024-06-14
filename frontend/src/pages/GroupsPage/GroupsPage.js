@@ -43,12 +43,13 @@ const GroupsPage = () => {
             const response = await httpRequest.get("http://localhost:5000/get-group");
             setGroupData(response.data.groups);     
             console.log(response.data.groups);
+            userContext.setCurrentGroup(response.data.current_group);
         }
         catch (error) {
             console.log(error);
         }
     })();
-    }, []);
+    }, [page]);
 
     const handlePageChange = (page, name) => {
         setPage(page);
