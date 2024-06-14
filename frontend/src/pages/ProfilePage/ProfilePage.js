@@ -16,7 +16,7 @@ const ProfilePage = () => {
     const [dialogOpen, setDialogOpen] = useState(false);
     const [emailValid, setEmailValid] = useState(true);
     const [currentGroup, setCurrentGroup] = useState("");
-    const [currentGroup, setCurrentGroup] = useState("");
+
 
     const validateEmail = (event) => {
         const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;

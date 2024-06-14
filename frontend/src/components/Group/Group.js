@@ -19,13 +19,6 @@ const Group = (props) => {
             } else {
                 setCurrentGroup(false);
             }
-        console.log(userContextData.currentGroup);
-        if(userContextData.currentGroup) {
-            if(userContextData.currentGroup.id === groupData.id) {
-                setCurrentGroup(true);
-            } else {
-                setCurrentGroup(false);
-            }
         }
     }, [userContextData.currentGroup]);
 
