@@ -28,6 +28,9 @@ def getGroups():
     user_id = session.get("user_id")
     user = User.query.get(user_id)
     group_data = [{'id': group.id, 'name': group.name, 'info': group.info, 'invite_code': group.code} for group in user.groups]
+
+    current_group_id = user.current_group
+    current_group = [group for group in group_data if group['id'] == current_group_id][0]
     return jsonify({'groups': group_data})
 
 @getInvoiceData_bp.route('/get-users')

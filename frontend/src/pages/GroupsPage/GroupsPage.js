@@ -41,7 +41,8 @@ const GroupsPage = () => {
     (async () => {
         try {
             const response = await httpRequest.get("http://localhost:5000/get-group");
-            setGroupData(response.data.groups);     
+            setGroupData(response.data.groups); 
+            userCtx.setCurrentGroup(response.data.current_group);    
             console.log(response.data.groups);
         }
         catch (error) {

@@ -12,13 +12,19 @@ const Group = (props) => {
     const userContextData = useContext(userContext);
 
     useEffect(() => {
-        if(userContextData.currentGroup === groupData.id) {
-            setCurrentGroup(true);
+        console.log(userContextData.currentGroup);
+        if(userContextData.currentGroup) {
+            if(userContextData.currentGroup.id === groupData.id) {
+                setCurrentGroup(true);
+            } else {
+                setCurrentGroup(false);
+            }
         }
     }, [userContextData.currentGroup]);
 
     const setCurrentGroupActive = async () => {
         setCurrentGroup(true);
+        userContextData.setCurrentGroup(groupData);
         userContextData.setCurrentGroup(groupData.id);
         try {
             const response = await httpRequest.post("http://localhost:5000/current-group",
@@ -65,7 +71,7 @@ const Group = (props) => {
             
             )}
             <h1>{groupData.name}</h1>
-            <h3>Invite code: {groupData.code}</h3>
+            <h3>Invite code: {groupData.invite_code}</h3>
          </div>
     );
 };

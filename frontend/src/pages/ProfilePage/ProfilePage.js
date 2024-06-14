@@ -15,6 +15,7 @@ const ProfilePage = () => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [dialogOpen, setDialogOpen] = useState(false);
     const [emailValid, setEmailValid] = useState(true);
+    const [currentGroup, setCurrentGroup] = useState("");
 
     const validateEmail = (event) => {
         const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -43,6 +44,9 @@ const ProfilePage = () => {
     useEffect(() => {
         setUserName(user.userName);
         setEmail(user.email);
+        if(user.currentGroup) {
+            setCurrentGroup(user.currentGroup);
+        }
     }, [user.userName, user.email]);
 
     const handleSnackbarClose = (event, reason) => {
@@ -130,6 +134,9 @@ const ProfilePage = () => {
                             fullWidth
                         />
                     )}
+                    <div className={classes.profile}>
+                        <div>Activated organization: {currentGroup.name}</div>
+                    </div>
                     <Button variant="contained" onClick={handleDialogOpen}>Save Changes</Button>
                 </CardContent>
             </Card>
