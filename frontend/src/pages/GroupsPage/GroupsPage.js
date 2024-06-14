@@ -12,6 +12,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
 import Group from '../../components/Group/Group';
 
+
 const GroupsPage = () => {
     const classes = useStyles();
     const userCtx = useContext(userContext);
@@ -44,7 +45,7 @@ const GroupsPage = () => {
             setGroupData(response.data.groups); 
             userCtx.setCurrentGroup(response.data.current_group);    
             console.log(response.data.groups);
-            userContext.setCurrentGroup(response.data.current_group);
+            userCtx.setCurrentGroup(response.data.current_group);
         }
         catch (error) {
             console.log(error);

@@ -8,7 +8,7 @@ const userContext = React.createContext({
     setUserName:(name) => {},
     setEmail:(email) => {},
     setRole:(role) => {},
-    setCurrentGruop: (active) => {},
+    setCurrentGroup: (active) => {},
 });
 
 export const UserContextProvider = (props) => {
