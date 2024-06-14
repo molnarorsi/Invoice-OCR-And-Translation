@@ -12,7 +12,22 @@ const Group = (props) => {
     const userContextData = useContext(userContext);
 
     useEffect(() => {
-        console.log(userContextData.currentGroup);
+        (async () => {
+            try {
+                const response = await httpRequest.get("http://localhost:5000/get-group-invoices", {
+                    group_id: groupData.id,
+                });
+                console.log("This is the response: ", response.data.invoices);
+            } catch (error) {
+                if (error.response.status === 401) {
+                    alert("You are not authorized to perform this action.");
+                }
+            }
+        })();
+    }, []);
+        
+
+    useEffect(() => {
         if(userContextData.currentGroup) {
             if(userContextData.currentGroup.id === groupData.id) {
                 setCurrentGroup(true);

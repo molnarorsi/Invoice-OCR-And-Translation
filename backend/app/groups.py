@@ -49,7 +49,7 @@ def current_group():
         return jsonify({'error': 'Unauthorized'}), 401
     
     user = User.query.get(user_id)
-    user.current_group = group_id
+    user.current_group_id = group_id
 
     return jsonify({'message': 'Current group set successfully'}), 200
 
@@ -62,6 +62,6 @@ def deactivate_current_group():
         return jsonify({'error': 'Unauthorized'}), 401
     
     user = User.query.get(user_id)
-    user.current_group = None
+    user.current_group_id = None
 
     return jsonify({'message': 'Current group deactivated successfully'}), 200

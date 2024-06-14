@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 import pytesseract
 from app.parserOCR import parse_text
-from app.models import db, Invoice
+from app.models import db, Invoice, User
 
 tesseract_bp = Blueprint('tesseract', __name__)
 
@@ -16,8 +16,12 @@ def load_image():
 
 
 def add_invoice(parsed_text):
+    user_id = session.get('user_id')
+    user = User.query.get(user_id)
+    current_gr_id = user.current_group_id
     invoice = Invoice(
         user_id=session.get('user_id'),
+        group_id=None,
         invoice_number=parsed_text.get('invoice_number'),
         invoice_CIF=parsed_text.get('invoice_CIF'),
         date_of_issue=parsed_text.get('date_of_issue'),
@@ -28,6 +32,10 @@ def add_invoice(parsed_text):
         buyer_CIF=parsed_text.get('buyer_CIF'),
         supplier_CIF=parsed_text.get('supplier_CIF')
     )
+
+    if current_gr_id:
+        invoice.group_id = current_gr_id
+
     db.session.add(invoice)
     db.session.commit()
 

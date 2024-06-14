@@ -37,7 +37,7 @@ class User(db.Model):
     invoices = db.relationship("Invoice", backref="user")
     role = db.Column(db.Enum(UserRoles), nullable=False, default=UserRoles.USER)
     groups = db.relationship("Groups", secondary=user_groups, backref=db.backref('users', lazy='dynamic'))
-    current_group = db.Column(db.String(32), unique=True)
+    current_group_id = db.Column(db.String(32), unique=True)
 
 class PDFSource(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -58,6 +58,7 @@ class Invoice(db.Model):
     bank = db.Column(db.String(100))
     buyer_CIF = db.Column(db.String(100))
     supplier_CIF = db.Column(db.String(100))
+    group_id = db.Column(db.String(32), db.ForeignKey('groups.id'))
 
 class Groups(db.Model):
     __tablename__ = "groups"
@@ -65,3 +66,4 @@ class Groups(db.Model):
     name = db.Column(db.String(100), nullable=False)
     info = db.Column(db.String(600))
     code = db.Column(db.String(6), default=lambda: generate_code(5), unique=True)
+    invoices = db.relationship("Invoice", backref="groups")
