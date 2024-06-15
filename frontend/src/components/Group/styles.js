@@ -5,4 +5,10 @@ export const useStyles = makeStyles({
         textAlign: "center",
         color: "black",
     },
+    table: {
+        marginTop: "20px",
+        width: "80%",
+        margin: "auto",
+        height: "100%",
+    }
 });

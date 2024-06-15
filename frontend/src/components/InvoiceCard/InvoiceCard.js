@@ -9,7 +9,7 @@ const InvoiceCard = (props) => {
         <Paper
             elevation={3}
             className={classes.invoiceCard}
-            sx={{ p: 2, borderRadius: 5 }}
+            sx={{ p: 2, borderRadius: 5, textAlign:"center" }}
         >
             {props.data}
         </Paper>

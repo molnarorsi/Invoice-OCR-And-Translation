@@ -7,6 +7,7 @@ import { useStyles } from "./styles";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
 import SummaryCard from "../../components/SummaryCard/SummaryCard";
+import GroupInvoiceTable from "../../components/GroupInvoiceTable/GroupInvoiceTable";
 
 const HistoryPage = () => {
   const classes = useStyles();
@@ -18,7 +19,7 @@ const HistoryPage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await httpRequest.get("http://localhost:5000/get-invoice-data");
+        const response = await httpRequest.get("http://localhost:5000/get-invoices");
         console.log(response.data.invoices);
         setInvoiceNumbers(response.data.invoices);
       } catch (error) {
@@ -38,16 +39,11 @@ const HistoryPage = () => {
   return (
       <AppLayout>
         <Grid container sx={{m : 0, mt: 5}}>
-          {invoiceNumbers &&
-            !open &&
-            invoiceNumbers.map((invoiceData) => (
-              <Grid key={invoiceData.id} item md={2}>
-                <div onClick={() => handleOpen(invoiceData)}>
-                  <InvoiceCard data={invoiceData.invoice_number} />
-                </div>
-                
-              </Grid>
-            ))}
+          {!open && (
+            <div className={classes.table}>
+                <GroupInvoiceTable invoiceData={invoiceNumbers} openSummary={handleOpen}/>
+            </div>
+          )}
         </Grid>
         {open && (
           <div>

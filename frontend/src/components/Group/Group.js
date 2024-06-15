@@ -2,7 +2,11 @@ import {useStyles} from "./styles";
 import {useState, useEffect, useContext} from "react";
 import httpRequest from "../../httpRequest";
 import userContext from "../../context/user-context";
-import {Button} from "@mui/material";
+import {Button, Grid} from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import IconButton from "@mui/material/IconButton";
+import GroupInvoiceTable from "../GroupInvoiceTable/GroupInvoiceTable";
+import SummaryCard from "../SummaryCard/SummaryCard";
 
 const Group = (props) => {
     const classes = useStyles();
@@ -11,12 +15,17 @@ const Group = (props) => {
     const [currentGroup, setCurrentGroup] = useState(false);
     const userContextData = useContext(userContext);
 
+    const[invoices, setInvoices] = useState([]);
+    const [selectedInvoice, setSelectedInvoice] = useState({});
+    const [openSummary, setOpenSummary] = useState(false);
+
     useEffect(() => {
         (async () => {
             try {
-                const response = await httpRequest.get("http://localhost:5000/get-group-invoices", {
+                const response = await httpRequest.post("http://localhost:5000/get-group-invoices", {
                     group_id: groupData.id,
                 });
+                setInvoices(response.data.invoices);
                 console.log("This is the response: ", response.data.invoices);
             } catch (error) {
                 if (error.response.status === 401) {
@@ -36,6 +45,12 @@ const Group = (props) => {
             }
         }
     }, [userContextData.currentGroup]);
+
+    const handleOpenSummary = (invoiceData) => {
+        console.log("This is the invoice data: ", invoiceData);
+        setOpenSummary(true);
+        setSelectedInvoice(invoiceData);
+    };
 
     const setCurrentGroupActive = async () => {
         setCurrentGroup(true);
@@ -86,6 +101,21 @@ const Group = (props) => {
             )}
             <h1>{groupData.name}</h1>
             <h3>Invite code: {groupData.invite_code}</h3>
+            <Grid container spacing={3}>
+                {!openSummary && (
+                    <div className={classes.table}>
+                        <GroupInvoiceTable invoiceData={invoices} openSummary={handleOpenSummary}/>
+                    </div>
+                )}
+            </Grid>
+            {openSummary && (
+                <div>
+                    <IconButton onClick={() => setOpenSummary(false)}>
+                        <ArrowBackIcon />
+                    </IconButton>
+                    <SummaryCard dataFromDB={selectedInvoice}/>
+                </div>
+            )}
          </div>
     );
 };
