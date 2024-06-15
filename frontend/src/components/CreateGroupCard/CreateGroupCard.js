@@ -1,4 +1,4 @@
-import { Button, Paper, Box } from "@mui/material";
+import { Button, Paper, Box, Snackbar } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import httpRequest from "../../httpRequest";
@@ -8,6 +8,9 @@ import { useStyles } from "./styles";
 const CreateGroupCard = (props) => {
     const classes = useStyles();
     
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+
     const createGroup = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -19,19 +22,27 @@ const CreateGroupCard = (props) => {
                 name: groupName,
                 info: groupDescription
             });
-            console.log(response);
-            const status = response.status;
-            if (status === 200) {
+            if (response.status === 201) {
+                setSnackbarMessage('Group created successfully!');
+                setOpenSnackbar(true);
                 props.onPageChange(0, "Groups");
             }
         } catch (error) {
            if (error.response.status === 401) {
                console.log("Unauthorized");
            }
-           if (error.response.status === 400) {
-                console.log("Bad request. Name is required");
-           }
+           if(error.response.status === 400) {
+            setSnackbarMessage('Name is required.');
+            setOpenSnackbar(true);
+            }
         }
+    };
+
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
     };
 
     return (
@@ -53,7 +64,13 @@ const CreateGroupCard = (props) => {
             <Button className={classes.createButton}variant="text" type="submit" sx={{mt: 2}}>Create Group</Button>
             </Box>
         </Paper>
-
+        <Snackbar
+            open={openSnackbar}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+            message={snackbarMessage}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        />
         </>
     )
 };
