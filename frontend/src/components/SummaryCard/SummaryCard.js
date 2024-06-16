@@ -15,10 +15,15 @@ const SummaryCard = (props) => {
   const [showTranslation, setShowTranslation] = useState(false);
   const [language, setLanguage] = useState('en');
 
-  
-  // const dataFromDB = props.dataFromDB;
-  // console.log(props.dataFromDB);
-  const pdfBase64 = props.dataFromDB ? props.dataFromDB.file_pdf : null;
+  let pdfBase64;
+  let imageBase64;
+  if (Object.keys(props).length !== 0) {
+    if (props.dataFromDB.pdf_file) {
+      pdfBase64 = props.dataFromDB.pdf_file;
+    } else if (props.dataFromDB.image_file) {
+      imageBase64 = props.dataFromDB.image_file;
+    }
+  }
   
   const handleTranslate = async () => {
     if (!ocrCtx.textResult) return; // Handle case where there's no text
@@ -49,16 +54,29 @@ const SummaryCard = (props) => {
     }
   };
 
-  const handleOpenPDF = () => {
-    const byteCharacters = atob(pdfBase64);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
+  const handleOpenFile = () => {
+    console.log(props.dataFromDB);
+    if (pdfBase64) {
+      const byteCharacters = atob(pdfBase64);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: "application/pdf" });
+      const dataUrl = URL.createObjectURL(blob);
+      window.open(dataUrl, "_blank");
+    } else if (imageBase64) {
+      const byteCharacters = atob(imageBase64);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: "image/png" });
+      const url = URL.createObjectURL(blob);
+      window.open(url, "_blank");
     }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: "application/pdf" });
-    const url = URL.createObjectURL(blob);
-    window.open(url, "_blank");
   };
 
   return (
@@ -88,13 +106,15 @@ const SummaryCard = (props) => {
             {showText ? "HIDE TEXT" : "SHOW TEXT"}
           </Button>
 
-          <Button
-            variant="contained"
-            onClick={handleOpenPDF}
-            sx={{ margin: "5px", px: "10%" }}
-          >
-            OPEN PDF
-          </Button>
+          {Object.keys(props).length !== 0 && (
+            <Button
+              variant="contained"
+              onClick={handleOpenFile}
+              sx={{ margin: "5px", px: "10%" }}
+            >
+              OPEN FILE
+            </Button>
+          )}
 
          {showTranslation && (
           <Paper elevation={3} sx={{ p: 2, borderRadius: 5, marginTop: 2 }}>

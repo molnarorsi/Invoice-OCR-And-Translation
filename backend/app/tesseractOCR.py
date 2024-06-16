@@ -19,7 +19,7 @@ def load_image():
     return img
 
 
-def add_invoice(parsed_text, text, file_pdf):
+def add_invoice(parsed_text, text, file_pdf, img_file):
     user_id = session.get('user_id')
     user = User.query.get(user_id)
     current_gr_id = user.current_group_id
@@ -36,11 +36,16 @@ def add_invoice(parsed_text, text, file_pdf):
         buyer_CIF=parsed_text.get('buyer_CIF'),
         supplier_CIF=parsed_text.get('supplier_CIF'),
         text=text,
-        file_pdf=file_pdf
         )
 
     if current_gr_id:
         invoice.group_id = current_gr_id
+
+    if file_pdf:
+        invoice.file_pdf = file_pdf
+
+    if img_file:
+        invoice.file_image = img_file
 
     db.session.add(invoice)
     db.session.commit()
@@ -51,6 +56,11 @@ def tesseract():
     img = load_image()
     text = pytesseract.image_to_string(img, lang='ron+eng+deu+fra+hun')
     parsed_text = parse_text(text)
-    file_pdf = request.files['pdf'].read()
-    add_invoice(parsed_text, text, file_pdf)
+    file_pdf = None
+    file_image = None
+    if request.files.get('pdf'):
+        file_pdf = request.files['pdf'].read()
+    if request.files.get('image'):
+        file_image = request.files['image'].read()
+    add_invoice(parsed_text, text, file_pdf, file_image)
     return jsonify({'text': text, 'parsed_text': parsed_text})

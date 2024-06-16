@@ -61,6 +61,7 @@ class Invoice(db.Model):
     group_id = db.Column(db.String(32), db.ForeignKey('groups.id'))
     text = db.Column(db.String(100000))
     file_pdf = db.Column(db.LargeBinary)
+    file_image = db.Column(db.LargeBinary)
 
 class Groups(db.Model):
     __tablename__ = "groups"

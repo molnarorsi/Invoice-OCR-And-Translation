@@ -26,6 +26,11 @@ def invoice(invoices):
             encoded_pdf = base64.b64encode(file_pdf).decode()
             invoice_dictionary['file_pdf'] = encoded_pdf
 
+        if invoice.file_image:
+            img_file = invoice.file_image
+            encoded_img = base64.b64encode(img_file).decode()
+            invoice_dictionary['file_image'] = encoded_img
+
         invoice_data.append(invoice_dictionary)
     return invoice_data
 
