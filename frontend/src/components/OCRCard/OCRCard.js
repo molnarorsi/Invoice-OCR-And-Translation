@@ -14,6 +14,7 @@ const OCRCard = () => {
   const handleOCRmethod = async (OCRmethod) => {
     let formData = new FormData();
     formData.append("file", ocrCtx.actualImage);
+    formData.append("pdf", ocrCtx.file);
 
     try {
       const resp = await httpRequest.post(

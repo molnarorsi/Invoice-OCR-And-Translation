@@ -15,8 +15,10 @@ const SummaryCard = (props) => {
   const [showTranslation, setShowTranslation] = useState(false);
   const [language, setLanguage] = useState('en');
 
-  console.log(props.dataFromDB);
-  const dataFromDB = props.dataFromDB;
+  
+  // const dataFromDB = props.dataFromDB;
+  // console.log(props.dataFromDB);
+  const pdfBase64 = props.dataFromDB ? props.dataFromDB.file_pdf : null;
   
   const handleTranslate = async () => {
     if (!ocrCtx.textResult) return; // Handle case where there's no text
@@ -47,6 +49,18 @@ const SummaryCard = (props) => {
     }
   };
 
+  const handleOpenPDF = () => {
+    const byteCharacters = atob(pdfBase64);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: "application/pdf" });
+    const url = URL.createObjectURL(blob);
+    window.open(url, "_blank");
+  };
+
   return (
     <>
       <div className={classes.rootContainer}>
@@ -72,6 +86,14 @@ const SummaryCard = (props) => {
             sx={{ margin: "5px", px: "10%" }}
           >
             {showText ? "HIDE TEXT" : "SHOW TEXT"}
+          </Button>
+
+          <Button
+            variant="contained"
+            onClick={handleOpenPDF}
+            sx={{ margin: "5px", px: "10%" }}
+          >
+            OPEN PDF
           </Button>
 
          {showTranslation && (
@@ -109,10 +131,10 @@ const SummaryCard = (props) => {
         </div>
 
         <div className={classes.tables}>
-        <InvoiceTable data={dataFromDB ? dataFromDB : ocrCtx.extractedData}/>
+        <InvoiceTable data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}/>
           <div className={classes.tableContainer}>
-          <SellerTable data={dataFromDB ? dataFromDB : ocrCtx.extractedData} />
-            <BuyerTable data={dataFromDB ? dataFromDB : ocrCtx.extractedData}/>
+          <SellerTable data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData} />
+            <BuyerTable data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}/>
           </div>
           
         </div>

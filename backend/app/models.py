@@ -59,6 +59,8 @@ class Invoice(db.Model):
     buyer_CIF = db.Column(db.String(100))
     supplier_CIF = db.Column(db.String(100))
     group_id = db.Column(db.String(32), db.ForeignKey('groups.id'))
+    text = db.Column(db.String(100000))
+    file_pdf = db.Column(db.LargeBinary)
 
 class Groups(db.Model):
     __tablename__ = "groups"

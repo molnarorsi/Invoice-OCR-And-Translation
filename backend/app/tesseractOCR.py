@@ -4,6 +4,10 @@ import cv2
 import pytesseract
 from app.parserOCR import parse_text
 from app.models import db, Invoice, User
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 tesseract_bp = Blueprint('tesseract', __name__)
 
@@ -15,7 +19,7 @@ def load_image():
     return img
 
 
-def add_invoice(parsed_text):
+def add_invoice(parsed_text, text, file_pdf):
     user_id = session.get('user_id')
     user = User.query.get(user_id)
     current_gr_id = user.current_group_id
@@ -30,19 +34,23 @@ def add_invoice(parsed_text):
         IBAN=parsed_text.get('IBAN'),
         bank=parsed_text.get('bank'),
         buyer_CIF=parsed_text.get('buyer_CIF'),
-        supplier_CIF=parsed_text.get('supplier_CIF')
-    )
+        supplier_CIF=parsed_text.get('supplier_CIF'),
+        text=text,
+        file_pdf=file_pdf
+        )
 
     if current_gr_id:
         invoice.group_id = current_gr_id
 
     db.session.add(invoice)
     db.session.commit()
+    logger.info(f"Added invoice: {invoice}")
 
 @tesseract_bp.route('/tesseract', methods=['POST'])
 def tesseract():
     img = load_image()
     text = pytesseract.image_to_string(img, lang='ron+eng+deu+fra+hun')
     parsed_text = parse_text(text)
-    add_invoice(parsed_text)
+    file_pdf = request.files['pdf'].read()
+    add_invoice(parsed_text, text, file_pdf)
     return jsonify({'text': text, 'parsed_text': parsed_text})

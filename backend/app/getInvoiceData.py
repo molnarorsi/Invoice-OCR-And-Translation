@@ -1,5 +1,7 @@
 from flask import Blueprint, request, jsonify, session
 from app.models import db, Invoice, User, Groups
+import base64
+
 
 getInvoiceData_bp = Blueprint("getInvoiceData", __name__)
 
@@ -15,8 +17,15 @@ def invoice(invoices):
             'IBAN': invoice.IBAN,
             'bank': invoice.bank,
             'buyer_CIF': invoice.buyer_CIF,
-            'supplier_CIF': invoice.supplier_CIF
+            'supplier_CIF': invoice.supplier_CIF,
+            'invoice_text': invoice.text
         }
+
+        if invoice.file_pdf:
+            file_pdf = invoice.file_pdf
+            encoded_pdf = base64.b64encode(file_pdf).decode()
+            invoice_dictionary['file_pdf'] = encoded_pdf
+
         invoice_data.append(invoice_dictionary)
     return invoice_data
 
