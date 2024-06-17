@@ -5,6 +5,7 @@ import pytesseract
 from app.parserOCR import parse_text
 from app.models import db, Invoice, User
 import logging
+import time
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -54,8 +55,19 @@ def add_invoice(parsed_text, text, file_pdf, img_file):
 @tesseract_bp.route('/tesseract', methods=['POST'])
 def tesseract():
     img = load_image()
+
+    start_time_rec = time.time()
+
     text = pytesseract.image_to_string(img, lang='ron+eng+deu+fra+hun')
+
+    rec_time = time.time() - start_time_rec
+
+    start_time_parse = time.time()
+
     parsed_text = parse_text(text)
+
+    parse_time = time.time() - start_time_parse
+
     file_pdf = None
     file_image = None
     if request.files.get('pdf'):
@@ -63,4 +75,4 @@ def tesseract():
     if request.files.get('image'):
         file_image = request.files['image'].read()
     add_invoice(parsed_text, text, file_pdf, file_image)
-    return jsonify({'text': text, 'parsed_text': parsed_text})
+    return jsonify({'text': text, 'parsed_text': parsed_text, 'time': {'recognition': rec_time, 'parsing': parse_time}})

@@ -5,6 +5,7 @@ import numpy as np
 from app.models import Invoice, db
 from flask import session
 from app.parserOCR import parse_text
+import time
 
 doctr_bp = Blueprint('doctr', __name__)
 
@@ -32,6 +33,9 @@ def add_invoice(parsed_text):
 @doctr_bp.route('/doctr', methods=['POST'])
 def doctr():
     img = load_image()
+
+    start_time_rec = time.time()
+
     print(f"Image shape before batch dimension: {img.shape}")
     model = ocr_predictor(det_arch='db_resnet50', reco_arch='crnn_vgg16_bn', pretrained=True)
     
@@ -39,6 +43,7 @@ def doctr():
     print(f"Image shape after adding batch dimension: {img_batch.shape}")
     
     result = model(img_batch)
+    rec_time = time.time() - start_time_rec
     print(f"Result: {result}")  # Print the result to inspect its structure
     
     # Extract text from result
@@ -51,6 +56,11 @@ def doctr():
                     
     text_str = ' '.join(text)  # Convert list of words to a single string
     
+    start_time_parse = time.time()
+
     parsed_text = parse_text(text_str)
+
+    parse_time = time.time() - start_time_parse
+
     add_invoice(parsed_text)
-    return jsonify({'text': text_str, 'parsed_text': parsed_text})
+    return jsonify({'text': text_str, 'parsed_text': parsed_text, 'time': {'recognition': rec_time, 'parsing': parse_time}})

@@ -38,7 +38,7 @@ const HistoryPage = () => {
 
   return (
       <AppLayout>
-        <Grid container sx={{m : 0, mt: 5}}>
+        <Grid container>
           {!open && (
             <div className={classes.table}>
                 <GroupInvoiceTable invoiceData={invoiceNumbers} openSummary={handleOpen}/>

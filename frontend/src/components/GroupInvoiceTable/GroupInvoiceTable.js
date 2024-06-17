@@ -42,7 +42,7 @@ const GroupInvoiceTable = ({invoiceData, openSummary}) => {
     };
 
     return (
-        <Paper>
+        <Paper sx={{width: "100%", overflow: "hidden", mt: 5}}>
             <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
