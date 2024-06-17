@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, TextField} from '@mui/material';
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, TextField, TableSortLabel} from '@mui/material';
 
 const columns = [
     {id: 'InvoiceNumber', label: 'Invoice Number', minWidth: 170},
@@ -15,6 +15,8 @@ const GroupInvoiceTable = ({invoiceData, openSummary}) => {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [search, setSearch] = React.useState("");
+    const [order, setOrder] = React.useState("asc");
+    const [orderBy, setOrderBy] = React.useState("");
 
     const rows = [];
     const invoiceToSearch = [];
@@ -76,6 +78,38 @@ const GroupInvoiceTable = ({invoiceData, openSummary}) => {
         };
     });
 
+    const handleSort = (property) => {
+        const isAsc = orderBy === property && order === "asc";
+        setOrder(isAsc ? "desc" : "asc");
+        setOrderBy(property);
+    };
+
+    const comparator = (a, b, orderBy) => {
+        if (b[orderBy] < a[orderBy]) {
+            return -1;
+        }
+        if (b[orderBy] > a[orderBy]) {
+            return 1;
+        }
+        return 0;
+    };
+
+    const getComparator = (order, orderBy) => {
+        return order === "desc"
+            ? (a, b) => comparator(a, b, orderBy)
+            : (a, b) => -comparator(a, b, orderBy);
+    };
+
+    const stableSort = (array, comparator) => {
+        const stabilizedThis = array.map((el, index) => [el, index]);
+        stabilizedThis.sort((a, b) => {
+            const order = comparator(a[0], b[0]);
+            if (order !== 0) return order;
+            return a[1] - b[1];
+        });
+        return stabilizedThis.map((el) => el[0]);
+    }
+
     return (
         <Paper sx={{width: "100%", overflow: "hidden", mt:5}}>
             <TextField label = "Search" variant="outlined" size="small" value={search} onChange={searchHandler} style={{margin: 10}}/>
@@ -85,13 +119,15 @@ const GroupInvoiceTable = ({invoiceData, openSummary}) => {
                         <TableRow>
                             {columns.map((column) => (
                                 <TableCell key={column.id} align={column.align} style={{minWidth: column.minWidth}}>
-                                    {column.label}
+                                    <TableSortLabel active={orderBy === column.id} direction={orderBy === column.id ? order : "asc"} onClick={()=>handleSort(column.id)}>
+                                        {column.label}
+                                    </TableSortLabel>
                                 </TableCell>
                             ))}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    {filterInvoiceData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                    {stableSort(filterInvoiceData, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                         return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={index} onClick={() => openInvoiceSummary(row)}>
                                     {columns.map((column) => {
