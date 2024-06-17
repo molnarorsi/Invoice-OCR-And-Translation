@@ -98,5 +98,6 @@ def getPerformanceData():
     rec_time = invoice.rec_time
     parse_time = invoice.parse_time
     other_time = invoice.other_time if invoice.other_time is not None else 0
+    ocr_method = invoice.ocr_method
 
-    return jsonify({'avg_score': avg_score, 'rec_time': rec_time, 'parse_time': parse_time, 'other_time': other_time})
+    return jsonify({'avg_score': avg_score, 'rec_time': rec_time, 'parse_time': parse_time, 'other_time': other_time, 'ocr_method': ocr_method})

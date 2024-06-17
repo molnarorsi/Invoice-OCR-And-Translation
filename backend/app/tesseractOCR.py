@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, session
 import pytesseract
 from app.parserOCR import parse_text
-from app.addInvoiceToDB import add_invoice, load_image
+from app.addInvoiceToDB import add_invoice, load_image, check_is_invoice
 import time
 
 
@@ -10,6 +10,7 @@ tesseract_bp = Blueprint('tesseract', __name__)
 @tesseract_bp.route('/tesseract', methods=['POST'])
 def tesseract():
     img = load_image()
+    ocr_method = 'Tesseract'
 
     start_time_rec = time.time()
 
@@ -39,14 +40,19 @@ def tesseract():
 
     parse_time = time.time() - start_time_parse
 
-    file_pdf = None
-    file_image = None
-    if request.files.get('pdf'):
-        file_pdf = request.files['pdf'].read()
-    if request.files.get('image'):
-        file_image = request.files['image'].read()
-        
-    invoice_id = add_invoice(parsed_text, text, file_pdf, file_image, avg_score, rec_time, parse_time)
-    return jsonify({'invoice_id': invoice_id, 'text': text, 'parsed_text': parsed_text, 'time': {'recognition': rec_time, 'parsing': parse_time}, 'avg_score': avg_score})
+    isInvoice = check_is_invoice(parsed_text)
 
+    if isInvoice:
+
+        file_pdf = None
+        file_image = None
+        if request.files.get('pdf'):
+            file_pdf = request.files['pdf'].read()
+        if request.files.get('image'):
+            file_image = request.files['image'].read()
+            
+        invoice_id = add_invoice(parsed_text, text, file_pdf, file_image, avg_score, rec_time, parse_time, ocr_method)
+        return jsonify({'invoice_id': invoice_id, 'text': text, 'parsed_text': parsed_text, 'time': {'recognition': rec_time, 'parsing': parse_time}, 'avg_score': avg_score})
+
+    return jsonify({'text': text, 'parsed_text': parsed_text, 'time': {'recognition': rec_time, 'parsing': parse_time}, 'avg_score': avg_score})
 

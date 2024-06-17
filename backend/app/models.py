@@ -66,6 +66,7 @@ class Invoice(db.Model):
     rec_time = db.Column(db.Float)
     parse_time = db.Column(db.Float)
     other_time = db.Column(db.Float)
+    ocr_method = db.Column(db.String(100))
 
 class Groups(db.Model):
     __tablename__ = "groups"

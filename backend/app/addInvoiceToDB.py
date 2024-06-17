@@ -15,7 +15,7 @@ def load_image():
     return img
 
 
-def add_invoice(parsed_text, text, file_pdf, img_file, avg_score, rec_time, parse_time):
+def add_invoice(parsed_text, text, file_pdf, img_file, avg_score, rec_time, parse_time, ocr_method):
     user_id = session.get('user_id')
     user = User.query.get(user_id)
     current_gr_id = user.current_group_id
@@ -34,7 +34,8 @@ def add_invoice(parsed_text, text, file_pdf, img_file, avg_score, rec_time, pars
         text=text,
         avg_score=avg_score,
         rec_time=rec_time,
-        parse_time=parse_time
+        parse_time=parse_time,
+        ocr_method=ocr_method
         )
 
     if current_gr_id:
@@ -56,3 +57,17 @@ def add_invoice(parsed_text, text, file_pdf, img_file, avg_score, rec_time, pars
     logger.info(f"Added invoice: {invoice}")
     
     return invoice.id
+
+def check_is_invoice(parsed_text):
+    if(parsed_text['invoice_number'] or 
+       parsed_text['invoice_CIF'] or 
+       parsed_text['date_of_issue'] or 
+       parsed_text['due_date'] or 
+       parsed_text['total_price'] or 
+       parsed_text['IBAN'] or 
+       parsed_text['bank'] or 
+       parsed_text['buyer_CIF'] or 
+       parsed_text['supplier_CIF']):
+        return True
+    else:
+        return False
