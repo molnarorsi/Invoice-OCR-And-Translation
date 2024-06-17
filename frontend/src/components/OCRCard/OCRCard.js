@@ -18,7 +18,7 @@ const OCRCard = () => {
       const resp = await httpRequest.post("http://localhost:5000/save-time-other", {
         invoice_id: invoice_id,
         time_other: time_other,
-      });
+      },);
     } catch (error) {
       console.log("Error!");
     }
@@ -52,10 +52,15 @@ const OCRCard = () => {
       const time = resp["data"]["time"];
       time["other"] = time_other;
       ocrCtx.setTextResult(resp["data"]["text"]);
+
+      const isInvoice = checkIsInvoice(resp["data"]);
       ocrCtx.setExtractedData(resp["data"]["parsed_text"]);
 
       ocrCtx.setInvoiceId(resp["data"]["invoice_id"]);
-      saveTimeOther(resp["data"]["invoice_id"], time_other);
+      if(isInvoice) {
+        saveTimeOther(resp["data"]["invoice_id"], time_other);
+      }
+      
     } catch (error) {
       console.log("Error");
     }
@@ -63,7 +68,25 @@ const OCRCard = () => {
     ocrCtx.setActivePage(3);
   };
 
-  
+  const checkIsInvoice = (data) => {
+    if (
+      data["parsed_text"]["invoice_number"] &&
+      data["parsed_text"]["invoice_CIF"] &&
+      data["parsed_text"]["date_of_issue"] &&
+      data["parsed_text"]["due_date"] &&
+      data["parsed_text"]["total_price"] &&
+      data["parsed_text"]["IBAN"] &&
+      data["parsed_text"]["bank"] &&
+      data["parsed_text"]["buyer_CIF"] &&
+      data["parsed_text"]["supplier_CIF"]
+    ) {
+      ocrCtx.setIsInvoice(false);
+      return false;
+    } else {
+      ocrCtx.setIsInvoice(true);
+      return true;
+    }
+  };
 
   return (
     <>
