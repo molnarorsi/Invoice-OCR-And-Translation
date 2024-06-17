@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination} from '@mui/material';
+import {Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination, TextField} from '@mui/material';
 
 const columns = [
     {id: 'InvoiceNumber', label: 'Invoice Number', minWidth: 170},
@@ -14,8 +14,10 @@ const GroupInvoiceTable = ({invoiceData, openSummary}) => {
     console.log("Invoice Data(Groups): ", invoiceData);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [search, setSearch] = React.useState("");
 
     const rows = [];
+    const invoiceToSearch = [];
     invoiceData.forEach((invoice) => {
     rows.push({
         InvoiceNumber: invoice.invoice_number,
@@ -25,7 +27,22 @@ const GroupInvoiceTable = ({invoiceData, openSummary}) => {
         BuyerCIF: invoice.buyer_CIF,
         SupplierCIF: invoice.supplier_CIF,
     });
+    invoiceToSearch.push({
+        InvoiceNumber: invoice.invoice_number,
+        Date: invoice.date_of_issue,
+        Total: invoice.total_price,
+        DueDate: invoice.due_date,
+        BuyerName: invoice.buyer_name,
+        BuyerCIF: invoice.buyer_CIF,
+        SupplierName: invoice.supplier_name,
+        SupplierCIF: invoice.supplier_CIF
+    });
 });
+
+    const searchHandler = (event) => {
+        setSearch(event.target.value);
+        setPage(0);
+    };
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -41,8 +58,27 @@ const GroupInvoiceTable = ({invoiceData, openSummary}) => {
         openSummary(invoiceDataSelected[0]);
     };
 
+    const filterRows = invoiceToSearch.filter((row) => {
+        return Object.values(row).some(
+            (value) => typeof value === "string" && value.toLowerCase().includes(search.toLowerCase()),
+        );
+      }
+    );
+
+    const filterInvoiceData = filterRows.map((row) => {
+        return {
+            InvoiceNumber: row.InvoiceNumber,
+            Date: row.Date,
+            Total: row.Total,
+            DueDate: row.DueDate,
+            BuyerCIF: row.BuyerCIF,
+            SupplierCIF: row.SupplierCIF,
+        };
+    });
+
     return (
         <Paper sx={{width: "100%", overflow: "hidden", mt:5}}>
+            <TextField label = "Search" variant="outlined" size="small" value={search} onChange={searchHandler} style={{margin: 10}}/>
             <TableContainer>
                 <Table stickyHeader aria-label="sticky table">
                     <TableHead>
@@ -55,7 +91,7 @@ const GroupInvoiceTable = ({invoiceData, openSummary}) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                    {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+                    {filterInvoiceData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                         return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={index} onClick={() => openInvoiceSummary(row)}>
                                     {columns.map((column) => {
@@ -75,7 +111,7 @@ const GroupInvoiceTable = ({invoiceData, openSummary}) => {
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25, 100]}
                 component="div"
-                count={rows.length}
+                count={filterInvoiceData.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}
