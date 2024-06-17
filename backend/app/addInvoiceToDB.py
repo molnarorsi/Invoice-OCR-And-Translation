@@ -57,17 +57,3 @@ def add_invoice(parsed_text, text, file_pdf, img_file, avg_score, rec_time, pars
     logger.info(f"Added invoice: {invoice}")
     
     return invoice.id
-
-def check_is_invoice(parsed_text):
-    if(parsed_text['invoice_number'] or 
-       parsed_text['invoice_CIF'] or 
-       parsed_text['date_of_issue'] or 
-       parsed_text['due_date'] or 
-       parsed_text['total_price'] or 
-       parsed_text['IBAN'] or 
-       parsed_text['bank'] or 
-       parsed_text['buyer_CIF'] or 
-       parsed_text['supplier_CIF']):
-        return True
-    else:
-        return False

@@ -19,11 +19,6 @@ const SummaryCard = (props) => {
   const [showTranslation, setShowTranslation] = useState(false);
   const [language, setLanguage] = useState('en');
   const [showChart, setShowChart] = useState(false);
-  const [isInvoice, setIsInvoice] = useState(false);
-
-  useEffect(() => {
-    setIsInvoice(ocrCtx.isInvoice);
-  }, []);
 
   console.log('props:', props.dataFromDB);
 
@@ -163,12 +158,10 @@ const SummaryCard = (props) => {
           ) : (
           <Grid container>
               <Grid item xs={12} sx={{textAlign: "right", marginRight: 10}}>
-                {isInvoice && (
                   <IconButton sx={{padding:"10px"}} onClick={handleOpenChart}>
                     <DonutSmallIcon fontSize="large"/>
                   </IconButton>
-                )}
-                
+          
                 <IconButton sx={{padding:"10px"}} onClick={handleDownloadFile}>
                   <DownloadIcon fontSize="large"/>
                 </IconButton>
@@ -235,7 +228,6 @@ const SummaryCard = (props) => {
                     TRANSLATE
                   </Button>
               
-                  {!props.dataFromDB && isInvoice ? (
                   <Grid item xs={6}>
                     <div className={classes.tables}>
                       <InvoiceTable
@@ -261,18 +253,6 @@ const SummaryCard = (props) => {
                       </div>
                     </div>
                   </Grid>
-            ) : (
-              <Grid item xs={5}>
-                <Paper
-                  elevation={3}
-                  sx={{ mt: 15, p: 10, borderRadius: 5, height: 200 }}
-                >
-                  <h4 style={{ textAlign: "center", marginTop: "-15px" }}>
-                    The recognized document is probably not an invoice!
-                  </h4>
-                </Paper>
-              </Grid>
-            )}
             </div>
           </Grid>
         )}  
