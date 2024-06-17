@@ -23,7 +23,7 @@ const Chart = ({handleCloseChart, invoice_id}) => {
                     invoice_id: invoice_id,    
                 },
             );
-            setRecognition(response.data.rect_time);
+            setRecognition(response.data.rec_time);
             setParsing(response.data.parse_time);
             setOther(response.data.other_time);
             setScore(response.data.avg_score);
@@ -51,6 +51,8 @@ const Chart = ({handleCloseChart, invoice_id}) => {
         };
 
     }
+
+    console.log("Recognition:", recognition);
 
     const handleChartOpen = () => {
         handleCloseChart(false);
