@@ -5,24 +5,52 @@ import {Paper} from "@mui/material";
 import {useStyles} from "./styles";
 import IconButton from "@mui/material/IconButton";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import {useEffect, useState} from 'react';
+import httpRequest from "../../httpRequest";
 
-const Chart = ({handleCloseChart}) => {
+const Chart = ({handleCloseChart, invoice_id}) => {
     const classes = useStyles();
     ChartJS.register(ArcElement, Tooltip, Legend);
+    const [recognition, setRecognition] = useState(null);
+    const [parsing, setParsing] = useState(null);
+    const [other, setOther] = useState(null);
+    const [score, setScore] = useState(null);
 
-    const data = {
-        labels: ["Recognition", "Parsing", "Other"],
-        datasets: [
-            {
-                label: "Time",
-                data: [50, 30, 20],
-                backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-                hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-                borderColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-                borderWidth: 1,
-            },
-        ],
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await httpRequest.post("http://localhost:5000/get-performance-data", {
+                    invoice_id: invoice_id,    
+                },
+            );
+            setRecognition(response.data.rect_time);
+            setParsing(response.data.parse_time);
+            setOther(response.data.other_time);
+            setScore(response.data.avg_score);
+            } catch (error) {
+                console.log("Error!");
+            }
+        };
+        fetchData();
+    }, [invoice_id]);
+
+    let data = "";
+    if (recognition) {
+    data = {
+            labels: ["Recognition", "Parsing", "Other"],
+            datasets: [
+                {
+                    label: "Time",
+                    data: [recognition, parsing, other],
+                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+                    hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+                    borderColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+                    borderWidth: 1,
+                },
+            ],
+        };
+
+    }
 
     const handleChartOpen = () => {
         handleCloseChart(false);
@@ -36,11 +64,23 @@ const Chart = ({handleCloseChart}) => {
                 <IconButton onClick={handleChartOpen}>
                     <ArrowBackIcon/>
                 </IconButton>
-                <div className={classes.chartContainer}>
-                    <Doughnut data={data}/>
-                </div>
-                <p className={classes.centerText}>50%</p>
-                <p className={classes.paragraph}>Total time for invoice processing: </p>
+                {recognition ? (
+                    <>
+                    <div className={classes.chartContainer}>
+                        <Doughnut data={data}/>
+                    </div>
+                    <p className={classes.centerScore}>{score.toFixed(2)}%</p>
+                    <p className={classes.paragraph}>
+                            Total invoice processing time:{" "}
+                            <strong>
+                                {recognition && (recognition + parsing + other).toFixed(2)}s
+                            </strong>
+                    </p>
+                 </>
+                ) : (
+                    <p className={classes.centerText}> No data available! </p>
+                )}
+                
             </Paper>
         </div>
         </>

@@ -7,12 +7,14 @@ const OCRContext = React.createContext({
   textResult: null,
   extractedData: null,
   file: null,
+  invoiceId: null,
   setActivePage: (activePage) => {},
   setOriginalImage: (image) => {},
   setActualImage: (image) => {},
   setTextResult: (text) => {},
   setExtractedData: (data) => {},
   setFile: (file) => {},
+  setInvoiceId: (invoice_id) => {},
 });
 
 export const OCRContextProvider = (props) => {
@@ -27,6 +29,8 @@ export const OCRContextProvider = (props) => {
   const [extractedData, setExtractedData] = useState(null);
 
   const [file, setFile] = useState(null);
+
+  const [invoiceId, setInvoiceId] = useState(null);
   
 
   const pageHandler = (activePage) => {
@@ -40,12 +44,14 @@ export const OCRContextProvider = (props) => {
     textResult: textResult,
     extractedData: extractedData,
     file: file,
+    invoiceId: invoiceId,
     setActivePage: pageHandler,
     setOriginalImage: setOriginalImage,
     setActualImage: setActualImage,
     setTextResult: setTextResult,
     setExtractedData: setExtractedData,
     setFile: setFile,
+    setInvoiceId: setInvoiceId,
   };
 
   return (

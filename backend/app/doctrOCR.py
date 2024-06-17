@@ -6,29 +6,14 @@ from app.models import Invoice, db
 from flask import session
 from app.parserOCR import parse_text
 import time
+from app.addInvoiceToDB import add_invoice, load_image
 
 doctr_bp = Blueprint('doctr', __name__)
 
-def load_image():
-    file = request.files['file']
-    image = Image.open(file.stream).convert('RGB')
-    return np.array(image)
 
-def add_invoice(parsed_text):
-    invoice = Invoice(
-        user_id=session.get('user_id'),
-        invoice_number=parsed_text.get('invoice_number'),
-        invoice_CIF=parsed_text.get('invoice_CIF'),
-        date_of_issue=parsed_text.get('date_of_issue'),
-        due_date=parsed_text.get('due_date'),
-        total_price=parsed_text.get('total_price'),
-        IBAN=parsed_text.get('IBAN'),
-        bank=parsed_text.get('bank'),
-        buyer_CIF=parsed_text.get('buyer_CIF'),
-        supplier_CIF=parsed_text.get('supplier_CIF')
-    )
-    db.session.add(invoice)
-    db.session.commit()
+def calculate_word_score(word):
+    # Assuming `word` is an object with a `confidence` attribute
+    return word.confidence
 
 @doctr_bp.route('/doctr', methods=['POST'])
 def doctr():
@@ -48,11 +33,16 @@ def doctr():
     
     # Extract text from result
     text = []
+    total_score = 0
+    nr_words = 0
     for page in result.pages:
         for block in page.blocks:
             for line in block.lines:
                 for word in line.words:
                     text.append(word.value)
+                    total_score += calculate_word_score(word)
+                    nr_words += 1
+    avg_score = total_score / nr_words if nr_words > 0 else 0
                     
     text_str = ' '.join(text)  # Convert list of words to a single string
     
@@ -61,6 +51,13 @@ def doctr():
     parsed_text = parse_text(text_str)
 
     parse_time = time.time() - start_time_parse
+    file_pdf = None
+    file_image = None
+    if request.files.get('pdf'):
+        file_pdf = request.files['pdf'].read()
+    elif request.files.get('image'):
+        file_image = request.files['image'].read()
 
-    add_invoice(parsed_text)
-    return jsonify({'text': text_str, 'parsed_text': parsed_text, 'time': {'recognition': rec_time, 'parsing': parse_time}})
+    invoice_id = add_invoice(parsed_text, text, file_pdf, file_image, avg_score*100, rec_time, parse_time)
+
+    return jsonify({'invoice_id': invoice_id, 'text': text_str, 'parsed_text': parsed_text, 'time': {'recognition': rec_time, 'parsing': parse_time}, 'avg_score': avg_score*100})

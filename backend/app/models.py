@@ -62,6 +62,10 @@ class Invoice(db.Model):
     text = db.Column(db.String(100000))
     file_pdf = db.Column(db.LargeBinary)
     file_image = db.Column(db.LargeBinary)
+    avg_score = db.Column(db.Float)
+    rec_time = db.Column(db.Float)
+    parse_time = db.Column(db.Float)
+    other_time = db.Column(db.Float)
 
 class Groups(db.Model):
     __tablename__ = "groups"

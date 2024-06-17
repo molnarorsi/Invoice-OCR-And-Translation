@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify, session
 from app.models import db, Invoice, User, Groups
 import base64
-
+import logging
+logger = logging.getLogger(__name__)
 
 getInvoiceData_bp = Blueprint("getInvoiceData", __name__)
 
@@ -37,6 +38,9 @@ def invoice(invoices):
 @getInvoiceData_bp.route("/get-invoices")
 def getInvoices():
     user_id = session.get("user_id")
+    if not user_id:
+        return jsonify({'error': 'User not logged in'}), 401
+
     invoices = Invoice.query.filter_by(user_id=user_id).all()
     invoice_data = invoice(invoices)
     return jsonify({'invoices': invoice_data})
@@ -66,3 +70,33 @@ def getGroupInvoices():
     invoices = Invoice.query.filter_by(group_id=group_id).all()
     invoice_data = invoice(invoices)
     return jsonify({'invoices': invoice_data})
+
+@getInvoiceData_bp.route('/save-time-other', methods=['POST'])
+def saveTimeOther():
+    invoice_id = request.json['invoice_id']
+    time_other = request.json['time_other']
+
+    invoice = Invoice.query.get(invoice_id)
+    invoice.other_time = time_other
+
+    return jsonify({'success': True})
+
+@getInvoiceData_bp.route('/get-performance-data', methods=['POST'])
+def getPerformanceData():
+    invoice_id = request.json['invoice_id']
+    logger.info(f'FETCHING INVOICE WITH ID: {invoice_id}')
+
+    invoice = Invoice.query.get(invoice_id)
+
+    if invoice is None:
+        logger.warning(f'No invoice found with ID: {invoice_id}')
+    else:
+        logger.info(f'Fetched invoice: {invoice}')
+        logger.info(f'avg_score: {invoice.avg_score}, rec_time: {invoice.rec_time}, parse_time: {invoice.parse_time}, other_time: {invoice.other_time}')
+    
+    avg_score = invoice.avg_score
+    rec_time = invoice.rec_time
+    parse_time = invoice.parse_time
+    other_time = invoice.other_time if invoice.other_time is not None else 0
+
+    return jsonify({'avg_score': avg_score, 'rec_time': rec_time, 'parse_time': parse_time, 'other_time': other_time})

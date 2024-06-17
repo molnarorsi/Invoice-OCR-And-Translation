@@ -8,7 +8,7 @@ export const useStyles = makeStyles({
     transform: "translate(-50%, -50%)",
     width: "600px",
   },
-  centerText: {
+  centerScore: {
     position: "absolute",
     top: "50%",
     left: "50%",
@@ -26,8 +26,17 @@ export const useStyles = makeStyles({
     margin: "0",
     padding: "0",
     top: "90%",
+    left: "58%",
+    transform: "translate(-50%, -50%)",
+    fontSize: "1.2rem",
+  },
+  centerText: {
+    position: "absolute",
+    top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     fontSize: "1.2rem",
-  }
+    fontWeight: "bold",
+    color: "black",
+  },
 });

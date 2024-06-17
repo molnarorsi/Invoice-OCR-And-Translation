@@ -20,6 +20,8 @@ const SummaryCard = (props) => {
   const [language, setLanguage] = useState('en');
   const [showChart, setShowChart] = useState(false);
 
+  console.log('props:', props.dataFromDB);
+
   let pdfBase64;
   let imageBase64;
 
@@ -152,7 +154,7 @@ const SummaryCard = (props) => {
     <>
       <div className={classes.rootContainer}>
         {showChart ? (
-          <Chart handleCloseChart={handleCloseChart} />
+          <Chart handleCloseChart={handleCloseChart}  invoice_id={props.dataFromDB ? props.dataFromDB.id : ocrCtx.invoiceId}/>
           ) : (
           <Grid container>
               <Grid item xs={12} sx={{textAlign: "right", marginRight: 10}}>
@@ -164,7 +166,7 @@ const SummaryCard = (props) => {
                 </IconButton>
                 <IconButton sx={{ padding: "10px" }} onClick={handleOpenFile}>
                   <OpenInNewIcon fontSize="large" />
-                </IconButton>)
+                </IconButton>
               </Grid>
               <Grid item xs={6}></Grid>
               <div className={classes.textContainer}>
@@ -205,6 +207,7 @@ const SummaryCard = (props) => {
                     />
                   </Paper>
                   )} 
+
                   <Select
                     value={language}
                     onChange={(event) => setLanguage(event.target.value)}>
@@ -223,21 +226,22 @@ const SummaryCard = (props) => {
                   >
                     TRANSLATE
                   </Button>
-
-              </div>
-        
-              <Grid item xs={6}>
+              
+                  <Grid item xs={6}>
                 <div className={classes.tables}>
                 <InvoiceTable data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}/>
                   <div className={classes.tableContainer}>
-                  <SellerTable data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData} />
+                    <SellerTable data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData} />
                     <BuyerTable data={props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData}/>
                   </div>
                 </div>
               </Grid>
+              </div>
+        
+              
           </Grid>
-      )}  
-    </div>   
+        )}  
+      </div>   
     </>
   );
 };
