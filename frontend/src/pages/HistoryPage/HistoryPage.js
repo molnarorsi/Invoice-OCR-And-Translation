@@ -18,17 +18,20 @@ const HistoryPage = () => {
 
   useEffect(() => {
     (async () => {
-      try {
-        const response = await httpRequest.get("http://localhost:5000/get-invoices");
-        console.log(response.data.invoices);
-        setInvoiceNumbers(response.data.invoices);
-      } catch (error) {
-        console.error(error);
-      }
+      await getInvoiceData();
     }
     )();
-  }
-  , []);
+  }, []);
+  
+  const getInvoiceData = async () => {
+    try {
+      const response = await httpRequest.get("http://localhost:5000/get-invoices");
+      console.log(response.data.invoices);
+      setInvoiceNumbers(response.data.invoices);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleOpen = (invoiceData) => {
     console.log(invoiceData);
@@ -41,7 +44,7 @@ const HistoryPage = () => {
         <Grid container sx={{m : 0, mt: 5}}>
           {!open && (
             <div className={classes.table}>
-                <GroupInvoiceTable invoiceData={invoiceNumbers} openSummary={handleOpen}/>
+                <GroupInvoiceTable invoiceData={invoiceNumbers} openSummary={handleOpen} refreshData={getInvoiceData}/>
             </div>
           )}
         </Grid>

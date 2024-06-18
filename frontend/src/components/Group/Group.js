@@ -21,19 +21,23 @@ const Group = (props) => {
 
     useEffect(() => {
         (async () => {
-            try {
-                const response = await httpRequest.post("http://localhost:5000/get-group-invoices", {
-                    group_id: groupData.id,
-                });
-                setInvoices(response.data.invoices);
-                console.log("This is the response: ", response.data.invoices);
-            } catch (error) {
-                if (error.response.status === 401) {
-                    alert("You are not authorized to perform this action.");
-                }
-            }
+            await getInvoiceData();
         })();
     }, []);
+
+    const getInvoiceData = async () => {
+        try {
+            const response = await httpRequest.post("http://localhost:5000/get-group-invoices", {
+                group_id: groupData.id,
+            });
+            setInvoices(response.data.invoices);
+            console.log("This is the response: ", response.data.invoices);
+        } catch (error) {
+            if (error.response.status === 401) {
+                alert("You are not authorized to perform this action.");
+            }
+        }
+    };
         
 
     useEffect(() => {
@@ -104,7 +108,7 @@ const Group = (props) => {
             <Grid container spacing={3}>
                 {!openSummary && (
                     <div className={classes.table}>
-                        <GroupInvoiceTable invoiceData={invoices} openSummary={handleOpenSummary}/>
+                        <GroupInvoiceTable invoiceData={invoices} openSummary={handleOpenSummary} refreshData={getInvoiceData}/>
                     </div>
                 )}
             </Grid>

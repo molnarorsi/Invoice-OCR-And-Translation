@@ -4,7 +4,7 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask_session import Session
 from config import ApplicationConfig
-from app.models import db, User, PDFSource, UserRoles
+from app.models import db, User, PDFSource, UserRoles, Invoice
 from app.preprocessing import preprocessing_bp
 from app.tesseractOCR import tesseract_bp
 from app.translate import translate_bp
@@ -118,3 +118,25 @@ def update_users():
     user.email = email
     db.session.commit()
     return jsonify({"message": "User updated successfully"}), 200
+
+@app.route('/delete-invoice', methods=['DELETE'])
+def delete_invoice():
+    print(f"Request arguments: {request.args}")  # Debugging statement
+    invoice_id = request.args.get('invoice_id', type=int)
+    print(f"Received invoice ID: {invoice_id}")  # Debugging statement
+    if invoice_id is None:  # Check if invoice_id is None
+        return jsonify({"error": "Invalid invoice id"}), 400
+
+    invoice = Invoice.query.get(invoice_id)
+    if not invoice:
+        return jsonify({"error": "Invoice not found"}), 404
+
+    db.session.delete(invoice)
+    db.session.commit()
+
+    return jsonify({"message": "Invoice deleted successfully"}), 200
+
+
+
+
+
