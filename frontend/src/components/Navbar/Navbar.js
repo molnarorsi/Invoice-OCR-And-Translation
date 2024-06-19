@@ -91,6 +91,14 @@ const Navbar = (props) => {
                 </Typography>
               </Link>
             </div>
+            <div>
+              <Link to="/data-visualization" className={classes.link}>
+                <Typography variant="h7">
+                  <DashboardIcon />
+                  Data Visualization
+                </Typography>
+              </Link>
+            </div>
           </div>
           {role == "admin" && (
             <div>

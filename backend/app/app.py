@@ -13,6 +13,7 @@ from app.chatpdf import chatpdf_bp
 from app.groups import groups_bp
 from app.auth import auth_bp
 from app.doctrOCR import doctr_bp
+from app.visualizations import visualization_bp
 import requests
 
 from flask_migrate import Migrate
@@ -47,6 +48,7 @@ app.register_blueprint(chatpdf_bp)
 app.register_blueprint(groups_bp)
 app.register_blueprint(auth_bp)
 app.register_blueprint(doctr_bp)
+app.register_blueprint(visualization_bp)
 
 # Initialize the Flask Bcrypt extension with the Flask app instance
 bcrypt = Bcrypt()

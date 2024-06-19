@@ -9,6 +9,7 @@ import GroupsPage from "../GroupsPage/GroupsPage";
 import InstructionsPage from "../InstructionsPage/InstructionsPage";
 import UserPage from "../UserPage/UserPage";
 import ProfilePage from "../ProfilePage/ProfilePage";
+import DataVisualizationPage from "../DataVisualizationPage/DataVisualizationPage";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/instructions" element={<InstructionsPage />} />
         <Route path="/users" element={<UserPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/data-visualization" element={<DataVisualizationPage />} />
       </Routes>
     </div>
   );
