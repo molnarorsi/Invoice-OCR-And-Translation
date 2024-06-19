@@ -90,6 +90,10 @@ const Group = (props) => {
     
     console.log("This is the groupdata: ", groupData);
 
+    const handleDataChange = () => {
+        getInvoiceData();
+    };
+
     return (
         <div className={classes.rootContainer}>
             {currentGroup && (
@@ -117,7 +121,7 @@ const Group = (props) => {
                     <IconButton onClick={() => setOpenSummary(false)}>
                         <ArrowBackIcon />
                     </IconButton>
-                    <SummaryCard dataFromDB={selectedInvoice}/>
+                    <SummaryCard dataFromDB={selectedInvoice} dataChanged={handleDataChange}/>
                 </div>
             )}
          </div>

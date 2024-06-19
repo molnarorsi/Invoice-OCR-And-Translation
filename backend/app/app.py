@@ -140,3 +140,37 @@ def delete_invoice():
 
 
 
+@app.route('/modify-invoice-data', methods=['POST'])
+def modify_invoice_data():
+    new_data = request.json["new_data"]
+    invoice_id = new_data["id"]
+
+    if not invoice_id:
+        return jsonify({"error": "Invalid invoice id"}), 400
+    
+    invoice = Invoice.query.get(invoice_id)
+
+    if not invoice:
+        return jsonify({"error": "Invoice not found"}), 404
+    
+    invoice.invoice_number = new_data["invoice_number"]
+    invoice.invoice_CIF = new_data["invoice_CIF"]
+    invoice.date_of_issue = new_data["date_of_issue"]
+    invoice.due_date = new_data["due_date"]
+    invoice.total_price = new_data["total_price"]
+    invoice.IBAN = new_data["IBAN"]
+    invoice.bank = new_data["bank"]
+    invoice.buyer_CIF = new_data["buyer_CIF"]
+    invoice.supplier_CIF = new_data["supplier_CIF"]
+    invoice.buyer_name = new_data["buyer_name"]
+    invoice.supplier_name = new_data["supplier_name"]
+    invoice.buyer_address = new_data["buyer_address"]
+    invoice.supplier_address = new_data["supplier_address"]
+    invoice.buyer_city = new_data["buyer_city"]
+    invoice.supplier_city = new_data["supplier_city"]
+    invoice.buyer_TVA = new_data["buyer_TVA"]
+    invoice.supplier_TVA = new_data["supplier_TVA"]
+
+    db.session.commit()
+
+    return jsonify({"message": "Invoice data updated successfully"}), 200

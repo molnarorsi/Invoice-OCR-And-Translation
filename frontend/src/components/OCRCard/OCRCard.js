@@ -53,7 +53,12 @@ const OCRCard = () => {
       time["other"] = time_other;
       ocrCtx.setTextResult(resp["data"]["text"]);
 
-      ocrCtx.setExtractedData(resp["data"]["parsed_text"]);
+      const extractedData = {
+        ...resp["data"]["parsed_text"],
+        id: resp["data"]["invoice_id"],
+      };
+
+      ocrCtx.setExtractedData(extractedData);
 
       ocrCtx.setInvoiceId(resp["data"]["invoice_id"]);
       

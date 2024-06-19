@@ -2,8 +2,8 @@ import { useContext, useState, useEffect } from "react";
 import OCRContext from "../../context/ocr-context";
 import { TextField, Button, Paper, Select, MenuItem, Grid, IconButton } from "@mui/material";
 import { useStyles } from "./styles";
-import SellerTable from "./SellerTable/SellerTable";
-import BuyerTable from "./BuyerTable/BuyerTable";
+// import SellerTable from "./SellerTable/SellerTable";
+// import BuyerTable from "./BuyerTable/BuyerTable";
 import InvoiceTable from "./InvoiceTable/InvoiceTable";
 import httpRequest from "../../httpRequest";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
@@ -14,13 +14,42 @@ import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 const SummaryCard = (props) => {
   const classes = useStyles();
   const ocrCtx = useContext(OCRContext);
+  const [editableData, setEditableData] = useState({});
   const [showText, setShowText] = useState(true);
   const [translatedText, setTranslatedText] = useState('');
   const [showTranslation, setShowTranslation] = useState(false);
   const [language, setLanguage] = useState('en');
   const [showChart, setShowChart] = useState(false);
+  const [dataChanged, setDataChanged] = useState(false);
 
   console.log('props:', props.dataFromDB);
+
+  useEffect(() => {
+    setEditableData(props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData);
+  }, [props.dataFromDB, ocrCtx.extractedData]);
+
+  const handleDataChange = (updatedData) => {
+    setEditableData(updatedData);
+    if (JSON.stringify(updatedData) !== JSON.stringify(props.dataFromDB)) {
+      setDataChanged(true);
+    } else {
+      setDataChanged(false);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      const resp = await httpRequest.post(
+        "http://localhost:5000/modify-invoice-data",
+        { new_data: editableData }
+      );
+      // props.dataChanged();
+      console.log(resp);
+      setDataChanged(false); // Reset dataChanged after successful save
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
+  };
 
   let pdfBase64;
   let imageBase64;
@@ -230,12 +259,11 @@ const SummaryCard = (props) => {
               
                   <Grid item xs={6}>
                     <div className={classes.tables}>
-                      <InvoiceTable
-                        data={
-                          props.dataFromDB ? props.dataFromDB : ocrCtx.extractedData
-                        }
+                    <InvoiceTable
+                        data={editableData}
+                        setData={handleDataChange}
                       />
-                      <div className={classes.tableContainer}>
+                      {/* <div className={classes.tableContainer}>
                         <SellerTable
                           data={
                             props.dataFromDB
@@ -250,8 +278,17 @@ const SummaryCard = (props) => {
                               : ocrCtx.extractedData
                           }
                         />
-                      </div>
+                      </div> */}
                     </div>
+                    {dataChanged && (
+                      <Button
+                        variant="contained"
+                        onClick={handleSave}
+                        sx={{ margin: "5px", px: "10%" }}
+                      >
+                        SAVE
+                      </Button>
+                    )}
                   </Grid>
             </div>
           </Grid>
