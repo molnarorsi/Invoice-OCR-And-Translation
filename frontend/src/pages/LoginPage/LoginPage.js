@@ -9,17 +9,47 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useStyles } from "./styles";
 import httpRequest from "../../httpRequest";
-
+import { useState } from 'react';
+import CircularProgress from "@mui/material/CircularProgress";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 const LoginPage = () => {
   const classes = useStyles();
   const navigate = useNavigate();  
+  const [loading, setLoading] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [emailValid, setEmailValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
+
+  const validateEmail = (event) => {
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const email = event.target.value;
+    if (!emailRegex.test(email) && email.length > 0) {
+      setEmailValid(false);
+    } else {
+      setEmailValid(true);
+    }
+  };
+
+  const validatePassword = (event) => {
+    const password = event.target.value;
+    if (password.length < 6 && password.length > 0) {
+      setPasswordValid(false);
+    } else {
+      setPasswordValid(true);
+    }
+  };
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const data = new FormData(event.currentTarget);
     const email = data.get("email");
     const password = data.get("password");
+
     try {
       const resp = await httpRequest.post("http://localhost:5000/login", {
         email,
@@ -28,15 +58,25 @@ const LoginPage = () => {
 
       window.location.href = "/";
     } catch (error) {
+      setLoading(false);
+      setSnackbarSeverity("error");
       if (error.response.status === 401) {
-        alert("Invalid credentials");
+        setSnackbarMessage("Invalid credentials");
       } else {
+        setSnackbarMessage("An error occurred");
         console.error("An error occurred:", error);
         // Handle other types of errors, e.g., network error, server error, etc.
       }
+      setOpenSnackbar(true);
     }
   };
 
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
 
   return (
     <Container component="main" maxWidth="xs" className={classes.rootContainer}>
@@ -62,6 +102,10 @@ const LoginPage = () => {
             name="email"
             autoComplete="off"
             autoFocus
+            error={!emailValid}
+            helperText={!emailValid && "Invalid email"}
+            onBlur={validateEmail}
+            FormHelperTextProps={{ className: classes.errorText }}
           />
           <TextField
             margin="normal"
@@ -72,6 +116,10 @@ const LoginPage = () => {
             type="password"
             id="password"
             autoComplete="off"
+            error={!passwordValid}
+            helperText={!passwordValid && "Password must be at least 6 characters"}
+            onBlur={validatePassword}
+            FormHelperTextProps={{ className: classes.errorText }}
           />
           
           <Button
@@ -79,8 +127,10 @@ const LoginPage = () => {
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
+            className={classes.loginButton}
+            disabled={loading}
           >
-            Login
+            {loading ? <CircularProgress size={24} /> : "Login"}
           </Button>
           <Grid container>
             <Grid item>
@@ -94,7 +144,13 @@ const LoginPage = () => {
             </Grid>
           </Grid>
         </Box>
+        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       </Box>
+      
     </Container>
   );
 };

@@ -15,6 +15,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PasswordModal from "../PasswordModal/PasswordModal";
 import {useNavigate} from "react-router-dom";
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
 
 const Navbar = (props) => {
     const classes = useStyles();
@@ -94,7 +95,7 @@ const Navbar = (props) => {
             <div>
               <Link to="/data-visualization" className={classes.link}>
                 <Typography variant="h7" >
-                  <BusinessIcon />
+                  <QueryStatsIcon/>
                   Data Visualization
                 </Typography>
               </Link>

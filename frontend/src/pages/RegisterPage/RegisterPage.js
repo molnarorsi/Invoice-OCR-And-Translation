@@ -10,6 +10,9 @@ import Container from "@mui/material/Container";
 import { useStyles } from "./styles";
 import { useNavigate } from "react-router-dom";
 import httpRequest from "../../httpRequest";
+import CircularProgress from "@mui/material/CircularProgress";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
 
 
 const RegisterPage = () => {
@@ -18,6 +21,10 @@ const RegisterPage = () => {
   const [nameValid, setNameValid] = useState(true);
   const [emailValid, setEmailValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
   const validateName = (event) => {
     const name = event.target.value;
@@ -46,6 +53,13 @@ const RegisterPage = () => {
       setPasswordValid(true);
     }
   };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
   
   const submitHandler = async (event) => {
     event.preventDefault();
@@ -55,7 +69,7 @@ const RegisterPage = () => {
     const password = data.get("password");
     if (nameValid && emailValid && passwordValid) {
       try {
-        const resp = await httpRequest.post("http://localhost:5000/register", {
+        await httpRequest.post("http://localhost:5000/register", {
           name,
           email,
           password,
@@ -140,7 +154,7 @@ const RegisterPage = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Register
+            {loading ? <CircularProgress size={24} /> : "Register"}
           </Button>
           <Grid container justifyContent="flex-start">
             <Grid item>
@@ -150,6 +164,15 @@ const RegisterPage = () => {
             </Grid>
           </Grid>
         </Box>
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+        >
+          <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
       </Box>
     </Container>
   );
