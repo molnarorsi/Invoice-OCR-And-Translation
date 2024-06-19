@@ -93,8 +93,8 @@ const Navbar = (props) => {
             </div>
             <div>
               <Link to="/data-visualization" className={classes.link}>
-                <Typography variant="h7">
-                  <DashboardIcon />
+                <Typography variant="h7" >
+                  <BusinessIcon />
                   Data Visualization
                 </Typography>
               </Link>
