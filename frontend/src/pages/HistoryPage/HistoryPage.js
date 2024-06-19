@@ -57,7 +57,7 @@ const HistoryPage = () => {
             <IconButton onClick={() => setOpen(false)}>
               <ArrowBackIcon/>
             </IconButton>
-            <SummaryCard dataFromDB = {selectedInvoice} dataChanged = {handleDataChange}/>
+            <SummaryCard dataFromDB = {selectedInvoice} onDataChange = {handleDataChange}/>
           </div>
         )}
       </AppLayout>

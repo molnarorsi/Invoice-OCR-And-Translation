@@ -121,7 +121,7 @@ const Group = (props) => {
                     <IconButton onClick={() => setOpenSummary(false)}>
                         <ArrowBackIcon />
                     </IconButton>
-                    <SummaryCard dataFromDB={selectedInvoice} dataChanged={handleDataChange}/>
+                    <SummaryCard dataFromDB={selectedInvoice} onDataChange={handleDataChange}/>
                 </div>
             )}
          </div>
