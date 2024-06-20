@@ -5,7 +5,7 @@ export const useStyles = makeStyles({
         color: "white",
         width: "100%",
         height: "70px",
-        background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
+        background: "#ebe9e1",
         textAlign: "center",
         fontFamily: "'Staatliches', sans-serif",
         boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
@@ -23,7 +23,7 @@ export const useStyles = makeStyles({
         fontSize: "1.3rem", // Increase font size
         fontWeight: "bold",
         padding: "0 10px", // Add some padding
-        color: "#097969",
+        color: "#e43d12",
         fontFamily: "'Staatliches', sans-serif !important",
         '@media (max-width:600px)': {
             fontSize: "1rem", // Decrease font size for mobile
@@ -31,7 +31,7 @@ export const useStyles = makeStyles({
     },
     logoutButton: {
         backgroundColor: "#FE6B8B",
-        color: "#FE6B8B !important",
+        color: "#e43d12 !important",
         transition: "background-color 0.3s ease-in-out, transform 0.3s ease-in-out",
         '&:hover': {
             backgroundColor: "#FF8E53",
@@ -43,6 +43,10 @@ export const useStyles = makeStyles({
         '@media (max-width:600px)': {
             marginLeft: "0", // Remove margin for mobile
         },
+        fontSize:"1.3rem",
+        padding:"10px 20 px",
+        borderRadius:"50px !important",
+        border: "2px solid #e43d12 !important"
     },
 
     linkContainer: {
@@ -58,7 +62,7 @@ export const useStyles = makeStyles({
 
     },
     link: {
-        color: "#097969",
+        color: "#e43d12",
         textDecoration: "none",
         fontSize: "1.5rem", // Increase font size
         fontFamily: "'Staatliches', sans-serif",

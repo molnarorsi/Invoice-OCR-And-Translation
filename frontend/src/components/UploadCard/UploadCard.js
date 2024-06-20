@@ -83,7 +83,7 @@ const UploadCard = () => {
     return (
         <>
         <div className={classes.rootContainer}>
-            <Typography variant="h4" sx={{pt: 2}}>
+            <Typography variant="h4" sx={{pt: 2, fontFamily: "'Staatliches', sans-serif !important"}}>
                 Upload document here
             </Typography>
             <div className={classes.input}>

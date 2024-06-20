@@ -57,7 +57,7 @@ const Navbar = (props) => {
 
     return (
         <div className={classes.rootContainer}>
-          <Typography className={classes.welcomeText}>Welcome Back {props.userName}!!</Typography>
+          
           <Divider />
           <div className={classes.linkContainer}>
             <div>
@@ -113,7 +113,7 @@ const Navbar = (props) => {
           )}
           <Grid item xs={3} sx={{mt: 1, textAlign: "center"}}>
             <IconButton sx={{p:0.1, color:"white"}} onClick={handleMenuOpen}>
-              <AccountCircleIcon fontSize="large"/>
+              <AccountCircleIcon style={{color:"#e43d12"}} fontSize="large"/>
             </IconButton>
             <Menu
               anchorEl={menuOpen}

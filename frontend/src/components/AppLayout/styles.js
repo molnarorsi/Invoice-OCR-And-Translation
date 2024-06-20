@@ -8,9 +8,8 @@ export const useStyles = makeStyles({
     },
     contentWrapper: {
         width: "100%",
-        backgroundColor: "#f88379",
+        backgroundColor: "#ebe9e1", // New background color
         position: "relative", // Ensure contentWrapper is positioned relative for absolute positioning of children
-        
     },
     customToast: {
         backgroundColor: "#282c34",
@@ -27,7 +26,6 @@ export const useStyles = makeStyles({
         width: '900px', // adjust as needed
         height: '900px', // adjust as needed
         zIndex: 0, // Ensure image is in the background
-        
     },
     leftBackgroundImage: {
         position: 'absolute',
@@ -35,7 +33,6 @@ export const useStyles = makeStyles({
         left: '10%', // adjust as needed
         width: '900px', // adjust as needed
         height: '900px', // adjust as needed
-         // referencing the keyframes, optional
         transform: 'rotate(-20deg) scaleX(-1)', // rotate and mirror as needed
         zIndex: 0, // Ensure image is in the background
     },
