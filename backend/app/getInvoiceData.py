@@ -8,7 +8,7 @@ getInvoiceData_bp = Blueprint("getInvoiceData", __name__)
 
 def invoice(invoices):
     invoice_data = []
-    for invoice in invoices:
+    for invoice in invoices: 
         invoice_dictionary = {
             'invoice_number': invoice.invoice_number,
             'invoice_CIF': invoice.invoice_CIF,
@@ -18,8 +18,16 @@ def invoice(invoices):
             'IBAN': invoice.IBAN,
             'bank': invoice.bank,
             'buyer_CIF': invoice.buyer_CIF,
+            'buyer_name': invoice.buyer_name,
+            'buyer_address': invoice.buyer_address,
+            'buyer_city': invoice.buyer_city,
+            'buyer_TVA': invoice.buyer_TVA,
             'supplier_CIF': invoice.supplier_CIF,
-            'invoice_text': invoice.text
+            'supplier_name': invoice.supplier_name,
+            'supplier_address': invoice.supplier_address,
+            'supplier_city': invoice.supplier_city,
+            'supplier_TVA': invoice.supplier_TVA,
+            'invoice_text': invoice.text,
         }
 
         if invoice.file_pdf:

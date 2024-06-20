@@ -37,7 +37,16 @@ const GroupInvoiceTable = ({ invoiceData, openSummary, refreshData }) => {
             Total: invoice.total_price,
             DueDate: invoice.due_date,
             BuyerCIF: invoice.buyer_CIF,
+            BuyerName: invoice.buyer_name,
+            BuyerAddress: invoice.buyer_address,
+            BuyerCity: invoice.buyer_city,
+            BuyerTVA: invoice.buyer_TVA,
             SupplierCIF: invoice.supplier_CIF,
+            SupplierName: invoice.supplier_name,
+            SupplierAddress: invoice.supplier_address,
+            SupplierCity: invoice.supplier_city,
+            SupplierTVA: invoice.supplier_TVA,
+
         });
         invoiceToSearch.push({
             id: index,  // Assign the index as id

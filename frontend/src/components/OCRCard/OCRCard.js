@@ -51,6 +51,7 @@ const OCRCard = () => {
       const time_other = duration - resp.data.time.recognition + resp.data.time.parsing;
       const time = resp["data"]["time"];
       time["other"] = time_other;
+      
       ocrCtx.setTextResult(resp["data"]["text"]);
 
       const extractedData = {
