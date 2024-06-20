@@ -2,12 +2,12 @@ import { useState, useContext } from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
-import CleanIcon from "@mui/icons-material/CleaningServices";
 import EyeIcon from "@mui/icons-material/RemoveRedEye";
 import SummaryIcon from '@mui/icons-material/List';
 import {useStyles} from "./styles";
 import {Typography} from "@mui/material";
 import OCRContext from "../../context/ocr-context";
+import SpellcheckIcon from '@mui/icons-material/Spellcheck';
 
 const Tabbar = (props) => {
     const classes = useStyles();
@@ -41,7 +41,7 @@ const Tabbar = (props) => {
                     sx={{ms:5, p:2}}
                     label={
                         <Typography className={classes.typography}>
-                            <CleanIcon/>
+                            <SpellcheckIcon/>
                             Preprocess
                         </Typography>
                     }
