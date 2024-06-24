@@ -20,7 +20,7 @@ const InvoiceTable = ({ data, setData }) => {
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
+    <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }} className={classes.table}>
       <Grid container spacing={1}>
         <Grid item xs={6}>
           <TextField

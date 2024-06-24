@@ -2,8 +2,6 @@ import { useContext, useState, useEffect } from "react";
 import OCRContext from "../../context/ocr-context";
 import { TextField, Button, Paper, Select, MenuItem, Grid, IconButton } from "@mui/material";
 import { useStyles } from "./styles";
-// import SellerTable from "./SellerTable/SellerTable";
-// import BuyerTable from "./BuyerTable/BuyerTable";
 import InvoiceTable from "./InvoiceTable/InvoiceTable";
 import httpRequest from "../../httpRequest";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
@@ -43,9 +41,8 @@ const SummaryCard = (props) => {
         "http://localhost:5000/modify-invoice-data",
         { new_data: editableData }
       );
-      // props.dataChanged();
       console.log(resp);
-      setDataChanged(false); // Reset dataChanged after successful save
+      setDataChanged(false);
     } catch (error) {
       console.error("Error saving data:", error);
     }
@@ -74,7 +71,7 @@ const SummaryCard = (props) => {
   };
   
   const handleTranslate = async () => {
-    if (!ocrCtx.textResult) return; // Handle case where there's no text
+    if (!ocrCtx.textResult) return;
 
     try {
       const response = await httpRequest.post("http://localhost:5000/translate", {
@@ -101,7 +98,6 @@ const SummaryCard = (props) => {
       console.error("Translation Error:", error);
     }
   };
-
 
   const handleOpenFile = () => {
     if (Object.keys(props).length === 0) {
@@ -185,45 +181,43 @@ const SummaryCard = (props) => {
         {showChart ? (
           <Chart handleCloseChart={handleCloseChart}  invoice_id={props.dataFromDB ? props.dataFromDB.id : ocrCtx.invoiceId}/>
           ) : (
-          <Grid container>
-              <Grid item xs={12} sx={{textAlign: "right", marginRight: 10}}>
-                  <IconButton sx={{padding:"10px"}} onClick={handleOpenChart}>
-                    <DonutSmallIcon fontSize="large"/>
-                  </IconButton>
-          
-                <IconButton sx={{padding:"10px"}} onClick={handleDownloadFile}>
-                  <DownloadIcon fontSize="large"/>
-                </IconButton>
-                <IconButton sx={{ padding: "10px" }} onClick={handleOpenFile}>
-                  <OpenInNewIcon fontSize="large" />
-                </IconButton>
-              </Grid>
-              <Grid item xs={6}></Grid>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sx={{ textAlign: "right", marginRight: 10 }}>
+              <IconButton sx={{ padding: "10px" }} onClick={handleOpenChart}>
+                <DonutSmallIcon fontSize="large" />
+              </IconButton>
+              <IconButton sx={{ padding: "10px" }} onClick={handleDownloadFile}>
+                <DownloadIcon fontSize="large" />
+              </IconButton>
+              <IconButton sx={{ padding: "10px" }} onClick={handleOpenFile}>
+                <OpenInNewIcon fontSize="large" />
+              </IconButton>
+            </Grid>
+            <Grid item xs={12} md={6}>
               <div className={classes.textContainer}>
-                  {showText && (
-                    <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
-                      <TextField
-                        id="outlined-multiline-static"
-                        sx={{ backgroundColor: "white", borderRadius: "20px" }}
-                        label="Text from OCR"
-                        multiline
-                        fullWidth
-                        rows={20}
-                        variant={"standard"}
-                        defaultValue={ocrCtx.textResult}
-                      />
-                    </Paper>
-                  )}
-              
-                  <Button
-                    variant="contained"
-                    onClick={() => setShowText(!showText)}
-                    sx={{ margin: "5px", px: "10%" }}
-                  >
-                    {showText ? "HIDE TEXT" : "SHOW TEXT"}
-                  </Button>
-
-                  {showTranslation && (
+                {showText && (
+                  <Paper elevation={3} sx={{ p: 2, borderRadius: 5 }}>
+                    <TextField
+                      id="outlined-multiline-static"
+                      sx={{ backgroundColor: "white", borderRadius: "20px" }}
+                      label="Text from OCR"
+                      multiline
+                      fullWidth
+                      rows={20}
+                      variant={"standard"}
+                      defaultValue={ocrCtx.textResult}
+                    />
+                  </Paper>
+                )}
+                <Button
+                  className={classes.actionButton}
+                  variant="text"
+                  onClick={() => setShowText(!showText)}
+                  sx={{ margin: "5px", px: "10%" }}
+                >
+                  {showText ? "HIDE TEXT" : "SHOW TEXT"}
+                </Button>
+                {showTranslation && (
                   <Paper elevation={3} sx={{ p: 2, borderRadius: 5, marginTop: 2 }}>
                     <TextField
                       id="outlined-multiline-static"
@@ -233,67 +227,45 @@ const SummaryCard = (props) => {
                       fullWidth
                       rows={20}
                       variant={"standard"}
-                      value={translatedText}  // Display the translated text
+                      value={translatedText}
                     />
                   </Paper>
-                  )} 
-
-                  <Select
-                    value={language}
-                    onChange={(event) => setLanguage(event.target.value)}>
-                    <MenuItem value={'en'}>English</MenuItem>
-                    <MenuItem value={'fr'}>French</MenuItem>
-                    <MenuItem value={'de'}>German</MenuItem>
-                    <MenuItem value={'ro'}>Romanian</MenuItem>
-                    <MenuItem value={'hu'}>Hungarian</MenuItem>
-                      // Add more languages as needed
-                  </Select>
-
-                  <Button
-                    variant="contained"
-                    onClick={handleTranslate}
-                    sx={{ margin: "5px", px: "10%" }}
-                  >
-                    TRANSLATE
-                  </Button>
-              
-                  <Grid item xs={6}>
-                    <div className={classes.tables}>
-                    <InvoiceTable
-                        data={editableData}
-                        setData={handleDataChange}
-                      />
-                      {/* <div className={classes.tableContainer}>
-                        <SellerTable
-                          data={
-                            props.dataFromDB
-                              ? props.dataFromDB
-                              : ocrCtx.extractedData
-                          }
-                        />
-                        <BuyerTable
-                          data={
-                            props.dataFromDB
-                              ? props.dataFromDB
-                              : ocrCtx.extractedData
-                          }
-                        />
-                      </div> */}
-                    </div>
-                    {dataChanged && (
-                      <Button
-                        variant="contained"
-                        onClick={handleSave}
-                        sx={{ margin: "5px", px: "10%" }}
-                      >
-                        SAVE
-                      </Button>
-                    )}
-                  </Grid>
-            </div>
+                )}
+                <Select value={language} onChange={(event) => setLanguage(event.target.value)}>
+                  <MenuItem value={'en'}>English</MenuItem>
+                  <MenuItem value={'fr'}>French</MenuItem>
+                  <MenuItem value={'de'}>German</MenuItem>
+                  <MenuItem value={'ro'}>Romanian</MenuItem>
+                  <MenuItem value={'hu'}>Hungarian</MenuItem>
+                </Select>
+                <Button
+                  className={classes.actionButton}
+                  variant="text"
+                  onClick={handleTranslate}
+                  sx={{ margin: "5px", px: "10%" }}
+                >
+                  TRANSLATE
+                </Button>
+              </div>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <div className={classes.tables}>
+                <InvoiceTable className={classes.tableContainer} data={editableData} setData={handleDataChange} />
+              </div>
+              {dataChanged && (
+                <Button
+                  className={classes.actionButton}
+                  variant="text"
+                  onClick={handleSave}
+                  sx={{ margin: "5px", px: "10%" }}
+                >
+                  SAVE
+                </Button>
+              )}
+            </Grid>
           </Grid>
-        )}  
-      </div>   
+        )}
+      </div>
     </>
   );
 };

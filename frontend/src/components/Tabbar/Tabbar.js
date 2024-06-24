@@ -24,7 +24,7 @@ const Tabbar = (props) => {
         <div className={classes.rootContainer}>
             <Tabs
                 className={classes.tabsContainer}
-                centered
+                orientation="vertical"
                 value={ocrCtx.activePage}
                 onChange={handleChange}
             >

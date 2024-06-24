@@ -41,77 +41,36 @@ const PreprocessingCard = () => {
     }
   };
 
-  const handleReset = () => {
-    ocrCtx.setActualImage(ocrCtx.originalImage);
-    const originalImage = ocrCtx.originalImage;
-    if (originalImage) {
-      const img = new Image();
-      img.onload = () => {
-        const mat = cv.imread(img);
-        cv.imshow("output", mat);
-        mat.delete();
-      };
-      img.src = URL.createObjectURL(originalImage);
-    }
-  };
+  // const handleReset = () => {
+  //   ocrCtx.setActualImage(ocrCtx.originalImage);
+  //   const originalImage = ocrCtx.originalImage;
+  //   if (originalImage) {
+  //     const img = new Image();
+  //     img.onload = () => {
+  //       const mat = cv.imread(img);
+  //       cv.imshow("output", mat);
+  //       mat.delete();
+  //     };
+  //     img.src = URL.createObjectURL(originalImage);
+  //   }
+  // };
 
   return (
     <>
       <div className={classes.rootContainer}>
-        <Typography variant="h5" sx={{ pt: 2 }}>
-          Select preprocessing
+        <Typography variant="h4" sx={{pt: 2, fontFamily: "'Staatliches', sans-serif !important"}}>
+          Select preprocessing method
         </Typography>
-        <IconButton className={classes.resetButton} onClick={handleReset}>
+        {/* <IconButton className={classes.resetButton} onClick={handleReset}>
           <RestartAltIcon />
-        </IconButton>
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              onClick={() => handlePreprocessingMethod("grayscale")}
-              sx={{ px: "10%" }}
-            >
-              Grayscale
-            </Button>
-          </Grid>
-
-          <Grid item xs={3}>
-            <Button
-              variant="contained"
-              onClick={() => handlePreprocessingMethod("binarization")}
-              sx={{ px: "10%" }}
-            >
-              Binarization
-            </Button>
-          </Grid>
-
-          <Grid item xs={6}>
-            <Button
-              variant="contained"
-              onClick={() => handlePreprocessingMethod("noise_reduction")}
-              sx={{ px: "10%" }}
-            >
-              Noise Reduction
-            </Button>
-          </Grid>
-          <Grid item xs={6}>
-            <Button
-              variant="contained"
-              onClick={() => handlePreprocessingMethod("skew_correction")}
-              sx={{ px: "10%" }}
-            >
-              Skew Correction
-            </Button>
-          </Grid>
-        </Grid>
-
-        <Button className={classes.nextButton}
-          variant="text"
-          onClick={() => ocrCtx.setActivePage(2)}
-          sx={{ margin: "5px", px: "10%" }}
-        >
-          NEXT
-        </Button>
+        </IconButton> */}
+        <div className={classes.buttonGroup}>
+          <Button className={classes.actionButton} onClick={() => handlePreprocessingMethod("grayscale")}>Grayscale</Button>
+          <Button className={classes.actionButton} onClick={() => handlePreprocessingMethod("binarization")}>Binarization</Button>
+          <Button className={classes.actionButton} onClick={() => handlePreprocessingMethod("noise_reduction")}>Noise Reduction</Button>
+          <Button className={classes.actionButton} onClick={() => handlePreprocessingMethod("skew_correction")}>Skew Correction</Button>
+        </div>
+        <Button className={classes.actionButton} onClick={() => ocrCtx.setActivePage(2)} sx={{margin: "20px", px: "10%"}}>NEXT</Button>
       </div>
     </>
   );

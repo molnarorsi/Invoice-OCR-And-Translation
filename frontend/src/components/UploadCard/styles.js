@@ -5,6 +5,7 @@ export const useStyles = makeStyles({
         display: "flex", // Add this line to make the container a flex container
         flexDirection: "column", // Add this line to align children vertically
         justifyContent: "space-between", // Add this line to distribute space evenly between children
+        alignItems: "center", // Add this line to center children horizontally
         margin: "0 auto",
         marginTop: "10%",
         width:"50%",
@@ -35,6 +36,7 @@ export const useStyles = makeStyles({
         marginTop: "20px",
         fontFamily: "'Staatliches', sans-serif !important",
         color: "#efb11d !important", // Keep button color
+        padding: "5px 10px",
         backgroundColor: "transparent", // Keep the background transparent
         border: "2px solid #efb11d !important", // Add a border to the button
         borderRadius: "50px !important", // Round the corners of the button
@@ -42,5 +44,6 @@ export const useStyles = makeStyles({
             backgroundColor: "transparent", // Keep the background transparent when hovered
             transform: "scale(1.05)", // Slightly scale up the button when hovered
         },
+        marginBottom: "10px", // Add some space between the button and the input
     },
 });

@@ -1,27 +1,33 @@
+// frontend/src/components/Tabbar/styles.js
 import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles({
     rootContainer: {
-        color: "#e43d12", // Change text color to #e43d12
-        width: "100%",
-        height: "65px",
-        backgroundColor: "#ebe9e1", // Change background color to match AppLayout's
+        color: "#e43d12",
+        width: "250px", // Adjust width as needed
+        height: "100vh", // Full height
+        backgroundColor: "#ebe9e1",
         boxShadow: "0px 3px 5px rgba(0, 0, 0, 0.2)",
-        borderBottom: "2px solid #f54287",
+        position: "fixed",
+        left: 0,
+        top: "70px", // Adjust top position as needed
         display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        flexDirection: "column",
     },
     tabsContainer: {
-        color: "#e43d12", // Change text color to #e43d12
+        color: "#e43d12",
         textDecoration: "none",
-        padding: "0 20px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "start", // Align items to the start
+        padding: "20px", // Add some padding
     },
     typography: {
-        fontSize: "1.2rem", // fixed typo from "1.2 rem" to "1.2rem"
+        fontSize: "1.2rem",
         fontFamily: "'Staatliches', sans-serif !important",
         fontStyle: "italic",
         fontWeight: "bold",
-        color: "#e43d12", // Change text color to #e43d12
+        color: "#e43d12",
+        textAlign: "left", // Align text to the left
     }
 });

@@ -64,7 +64,7 @@ const Navbar = (props) => {
               <Link to="/" className={classes.link}>
                 <Typography variant="h7">
                   <DashboardIcon />
-                  Dashboard
+                  Home
                 </Typography>
               </Link>
             </div>

@@ -74,26 +74,26 @@ const OCRCard = () => {
   return (
     <>
       <div className={classes.rootContainer}>
-        <Typography variant="h5" sx={{ pt: 2 }}>
+        <Typography variant="h4" sx={{pt: 2, fontFamily: "'Staatliches', sans-serif !important"}}>
           Select OCR method
         </Typography>
 
         <Grid container spacing={2} sx={{ mt: "15px" }}>
-          <Grid item xs={6}>
-            <Button
-              variant="contained"
+          <Grid item xs={6} className={classes.buttonContainer}>
+            <Button className={classes.actionButton}
+              variant="text"
               onClick={() => handleOCRmethod("tesseract")}
-              sx={{ px: "10%" }}
+              sx={{margin: "20px", px: "10%"}}
               disabled={loading}
             >
               Tesseract
             </Button>
           </Grid>
           <Grid item xs={6}>
-            <Button
-              variant="contained"
+            <Button className={classes.actionButton}
+              variant="text"
               onClick={() => handleOCRmethod("doctr")}
-              sx={{ px: "10%" }}
+              sx={{margin: "20px", px: "10%"}}
               disabled={loading}
             >
               DocTROCR
