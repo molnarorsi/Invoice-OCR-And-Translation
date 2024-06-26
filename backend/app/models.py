@@ -20,7 +20,6 @@ def get_uuid():
 
 class UserRoles(Enum):
     ADMIN = "admin"
-    OWNER = "owner"
     USER = "user"
 
 user_groups = db.Table('user_groups', db.metadata,

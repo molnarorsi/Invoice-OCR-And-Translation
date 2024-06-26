@@ -77,7 +77,6 @@ const UserData = ({ users, onUserEdit }) => {
             <InputLabel id="select-role-label">Role</InputLabel>
             <Select labelId="select-role-label" id="select-role" value={selectedRole} label="Role" onChange={handleRoleChange}>
               <MenuItem value="USER">User</MenuItem>
-              <MenuItem value="OWNER">Owner</MenuItem>
               <MenuItem value="ADMIN">Admin</MenuItem>
             </Select>
           </FormControl>

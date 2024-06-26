@@ -12,5 +12,3 @@ class ApplicationConfig:
 
     SESSION_TYPE = "sqlalchemy"
     SESSION_PERMEMNAT = True
-
-

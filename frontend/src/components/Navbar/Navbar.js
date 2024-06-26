@@ -72,7 +72,7 @@ const Navbar = (props) => {
               <Link to="/history" className={classes.link}>
                 <Typography variant="h7" >
                   <HistoryIcon />
-                  Invoice History
+                  History
                 </Typography>
               </Link>
             </div>

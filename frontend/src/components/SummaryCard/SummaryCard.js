@@ -8,6 +8,8 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import DownloadIcon from "@mui/icons-material/Download";
 import Chart from "../../components/Chart/Chart";
 import DonutSmallIcon from "@mui/icons-material/DonutSmall";
+import CircularProgress from '@mui/material/CircularProgress';
+import { Snackbar } from '@mui/material';
 
 const SummaryCard = (props) => {
   const classes = useStyles();
@@ -19,6 +21,11 @@ const SummaryCard = (props) => {
   const [language, setLanguage] = useState('en');
   const [showChart, setShowChart] = useState(false);
   const [dataChanged, setDataChanged] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false); // Added state for snackbar visibility
+  const [snackbarMessage, setSnackbarMessage] = useState(''); // Added state for snackbar message
+  const [isSaving, setIsSaving] = useState(false);
+  const [isTranslating, setIsTranslating] = useState(false);
+
 
   console.log('props:', props.dataFromDB);
 
@@ -36,6 +43,7 @@ const SummaryCard = (props) => {
   };
 
   const handleSave = async () => {
+    setIsSaving(true); // Start loading
     try {
       const resp = await httpRequest.post(
         "http://localhost:5000/modify-invoice-data",
@@ -43,9 +51,22 @@ const SummaryCard = (props) => {
       );
       console.log(resp);
       setDataChanged(false);
+      setSnackbarMessage("Data saved successfully!");
+      setOpenSnackbar(true);
     } catch (error) {
       console.error("Error saving data:", error);
+      setSnackbarMessage("Invoice data can be modified only from Summary!");
+      setOpenSnackbar(true);
+    } finally {
+      setIsSaving(false); // End loading
     }
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
   };
 
   let pdfBase64;
@@ -72,30 +93,32 @@ const SummaryCard = (props) => {
   
   const handleTranslate = async () => {
     if (!ocrCtx.textResult) return;
-
+  
+    setIsTranslating(true); // Start loading
     try {
       const response = await httpRequest.post("http://localhost:5000/translate", {
         text: ocrCtx.textResult,
         lang: language,
       });
-
+  
       if (response.data && response.data.translatedText) {
         console.log("Translated Text:", response.data.translatedText);
         setTranslatedText(response.data.translatedText); 
         setShowTranslation(true);
-
+  
         const parseResponse = await httpRequest.post("http://localhost:5000/parse-ocr", {
           text: response.data.translatedText
         });
-
+  
         if (parseResponse.data) {
           console.log("Extracted data:", parseResponse.data.parsedText);
           ocrCtx.setExtractedData(parseResponse.data.parsedText);
         }
-         
-       }
+      }
     } catch (error) {
       console.error("Translation Error:", error);
+    } finally {
+      setIsTranslating(false); // End loading
     }
   };
 
@@ -127,54 +150,6 @@ const SummaryCard = (props) => {
     }
   };
 
-  const handleDownloadFile = () => {
-    if (Object.keys(props).length == 0) {
-      const fileURL = URL.createObjectURL(ocrCtx.file);
-      const link = document.createElement("a");
-      link.href = fileURL;
-      link.download = "file." + ocrCtx.file.type.split("/")[1]; 
-      link.click();
-      setTimeout(() => {
-        URL.revokeObjectURL(fileURL);
-      }, 100);
-    }
-    if (pdfBase64) {
-      const byteCharacters = atob(pdfBase64);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: "application/pdf" });
-      const url = URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "file.pdf";
-      link.click();
-      setTimeout(() => {
-        URL.revokeObjectURL(url);
-      }, 100);
-    } else if (imageBase64) {
-      const byteCharacters = atob(imageBase64);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: "image/png" });
-      const url = URL.createObjectURL(blob);
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "file.png";
-      link.click();
-      setTimeout(() => {
-        URL.revokeObjectURL(url);
-      }, 100);
-    }
-  };
-
   return (
     <>
       <div className={classes.rootContainer}>
@@ -185,9 +160,6 @@ const SummaryCard = (props) => {
             <Grid item xs={12} sx={{ textAlign: "right", marginRight: 10 }}>
               <IconButton sx={{ padding: "10px" }} onClick={handleOpenChart}>
                 <DonutSmallIcon fontSize="large" />
-              </IconButton>
-              <IconButton sx={{ padding: "10px" }} onClick={handleDownloadFile}>
-                <DownloadIcon fontSize="large" />
               </IconButton>
               <IconButton sx={{ padding: "10px" }} onClick={handleOpenFile}>
                 <OpenInNewIcon fontSize="large" />
@@ -239,13 +211,14 @@ const SummaryCard = (props) => {
                   <MenuItem value={'hu'}>Hungarian</MenuItem>
                 </Select>
                 <Button
-                  className={classes.actionButton}
-                  variant="text"
-                  onClick={handleTranslate}
-                  sx={{ margin: "5px", px: "10%" }}
-                >
-                  TRANSLATE
-                </Button>
+                className={classes.actionButton}
+                variant="text"
+                onClick={handleTranslate}
+                sx={{ margin: "5px", px: "10%" }}
+                disabled={isTranslating} // Disable the button when isTranslating is true
+              >
+                {isTranslating ? <CircularProgress size={24} /> : "TRANSLATE"}
+              </Button>
               </div>
             </Grid>
             <Grid item xs={12} md={6}>
@@ -254,18 +227,26 @@ const SummaryCard = (props) => {
               </div>
               {dataChanged && (
                 <Button
-                  className={classes.actionButton}
-                  variant="text"
-                  onClick={handleSave}
-                  sx={{ margin: "5px", px: "10%" }}
-                >
-                  SAVE
-                </Button>
+                className={classes.actionButton}
+                variant="text"
+                onClick={handleSave}
+                sx={{ margin: "5px", px: "10%" }}
+                disabled={isSaving} // Disable the button when isSaving is true
+              >
+                {isSaving ? <CircularProgress size={24} /> : "SAVE"}
+              </Button>
               )}
             </Grid>
           </Grid>
         )}
       </div>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message={snackbarMessage}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      />
     </>
   );
 };

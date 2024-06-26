@@ -8,6 +8,7 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import IconButton from "@mui/material/IconButton";
 import SummaryCard from "../../components/SummaryCard/SummaryCard";
 import GroupInvoiceTable from "../../components/GroupInvoiceTable/GroupInvoiceTable";
+import { Snackbar } from '@mui/material';
 
 const HistoryPage = () => {
   const classes = useStyles();
@@ -15,6 +16,18 @@ const HistoryPage = () => {
   const [invoiceData, setInvoiceData] = useState([]);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [open, setOpen] = useState(false);
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+
+  const handleOpenSnackbar = () => {
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
 
   useEffect(() => {
     (async () => {
@@ -60,6 +73,13 @@ const HistoryPage = () => {
             <SummaryCard dataFromDB = {selectedInvoice} onDataChange = {handleDataChange}/>
           </div>
         )}
+        <Snackbar
+          open={openSnackbar}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+          message="Modifying invoice data is only accessible from the summary."
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        />
       </AppLayout>
   );
 };
