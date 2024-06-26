@@ -152,7 +152,7 @@ const RegisterPage = () => {
             type="submit"
             fullWidth
             variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            sx={{ mt: 3, mb: 2, fontFamily: "'Staatliches', sans-serif !important", color: "#efb11d !important",}}
           >
             {loading ? <CircularProgress size={24} /> : "Register"}
           </Button>

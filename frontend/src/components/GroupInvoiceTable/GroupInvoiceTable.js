@@ -213,7 +213,7 @@ const GroupInvoiceTable = ({ invoiceData, openSummary, refreshData }) => {
                 onClose={handleCancelDelete}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title" sx={{ fontFamily: "Oxanium, cursive" }}>
+                <DialogTitle id="alert-dialog-title" sx={{ fontFamily: "Staatliches', sans-serif !important" }}>
                     Delete Invoice
                 </DialogTitle>
                 <DialogContent>
@@ -222,10 +222,10 @@ const GroupInvoiceTable = ({ invoiceData, openSummary, refreshData }) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleDelete} color="primary">
+                    <Button onClick={handleDelete} color="#efb11d">
                         Delete
                     </Button>
-                    <Button onClick={handleCancelDelete} color="primary" autoFocus>
+                    <Button onClick={handleCancelDelete} color="#efb11d" autoFocus>
                         Cancel
                     </Button>
                 </DialogActions>

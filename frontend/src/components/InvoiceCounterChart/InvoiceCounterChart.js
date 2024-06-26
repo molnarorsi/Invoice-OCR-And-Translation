@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import httpRequest from "../../httpRequest";
 
 const InvoiceCountChart = () => {
@@ -20,25 +20,25 @@ const InvoiceCountChart = () => {
     }, []);
 
     return (
-      <LineChart
-          width={500}
-          height={300}
-          data={data}
-          margin={{
-              top: 50, right: 30, left: 20, bottom: 50,
-          }}
-      >
-        <CartesianGrid strokeDasharray="3 3" stroke="#C5C6C7" />
-        <XAxis dataKey="name" stroke="#C5C6C7" padding={{ left: 30, right: 30 }} />
-        <YAxis stroke="#C5C6C7" />
-        <Tooltip 
-            wrapperStyle={{ backgroundColor: "#f0f0f0" }} 
-            labelStyle={{ color: "#000000" }} 
-            itemStyle={{ color: "#8884d8" }} 
-        />
-        <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />
-        <Line type="monotone" dataKey="count" name="Invoice count over time" stroke="#8884d8" activeDot={{ r: 8 }} />
-      </LineChart>
+      <ResponsiveContainer width="100%" height={800}>
+        <LineChart
+            data={data}
+            margin={{
+                top: 50, right: 30, left: 20, bottom: 50,
+            }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#EDEDED" />
+          <XAxis dataKey="name" stroke="#666" padding={{ left: 30, right: 30 }} />
+          <YAxis stroke="#666" />
+          <Tooltip 
+              wrapperStyle={{ backgroundColor: "#ffffff", borderColor: "#cccccc" }} 
+              labelStyle={{ color: "#000000" }} 
+              itemStyle={{ color: "#007bff" }} 
+          />
+          <Legend verticalAlign="top" wrapperStyle={{ lineHeight: '40px' }} />
+          <Line type="monotone" dataKey="count" name="Invoice count over time" stroke="#007bff" strokeWidth={3} activeDot={{ r: 8 }} />
+        </LineChart>
+      </ResponsiveContainer>
     );
 };
 

@@ -102,7 +102,7 @@ const ProfilePage = () => {
     return (
         <AppLayout>
         <Container className={classes.container}>
-            <Typography variant="h4" gutterBottom> Your Profile </Typography>
+            <Typography variant="h4" gutterBottom sx={{fonFamily: "Staatliches', sans-serif !important"}}> Your Profile </Typography>
             <Card className={classes.card}>
                 <CardContent>
                     <Avatar className={classes.avatar}>{userName.charAt(0).toUpperCase()}</Avatar>
@@ -141,7 +141,7 @@ const ProfilePage = () => {
                     <div className={classes.profile}>
                         <div>Active Group: {currentGroup.name}</div>
                     </div>
-                    <Button variant="contained" onClick={handleDialogOpen}>Save Changes</Button>
+                    <Button className={classes.button} variant="contained" onClick={handleDialogOpen}>Save Changes</Button>
                 </CardContent>
             </Card>
             <Snackbar
@@ -160,6 +160,7 @@ const ProfilePage = () => {
                     <Button className={classes.button} onClick={handleSaveChanges}>Save</Button>
                 </DialogActions>
             </Dialog>
+            
         </Container>
         </AppLayout>
     );

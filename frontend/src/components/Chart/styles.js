@@ -6,6 +6,8 @@ export const useStyles = makeStyles({
     left: "55%",
     transform: "translate(-50%, -50%)",
     width: "650px",
+    width: "90vw", // Use viewport width for responsiveness
+    maxWidth: "650px", // Set a max-width to prevent the chart from becoming too large
   },
   title: {
     textAlign: "center",
@@ -41,7 +43,8 @@ export const useStyles = makeStyles({
     color: "black",
   },
   chartContainer: {
-    width: 325,
+    width: "100%", // Make the chart container width responsive
+    maxWidth: "325px", // Set a max-width to maintain aspect ratio
     margin: "0 auto",
   },
   paragraph: {

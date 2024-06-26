@@ -7,7 +7,6 @@ import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import 'react-pdf/dist/esm/Page/TextLayer.css';
 import image from "../../assets/invoice.png";
 import leftImage from "../../assets/data.png";
-import Footer from "../Footer/Footer";
 
 const AppLayout = (props) => {
   const classes = useStyles();
@@ -39,7 +38,6 @@ const AppLayout = (props) => {
         {/* <img src={image} className={classes.backgroundImage} alt="description" />
         <img src={leftImage} className={classes.leftBackgroundImage} alt="data" /> */}
       </div>
-      <Footer />
     </div>
   );
 };

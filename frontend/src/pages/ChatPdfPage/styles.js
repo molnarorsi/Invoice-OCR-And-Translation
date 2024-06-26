@@ -3,7 +3,7 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles((theme) => ({
   root: {
     minHeight: '100vh',
-    backgroundColor: '#f88379',
+    // backgroundColor: '#f88379',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

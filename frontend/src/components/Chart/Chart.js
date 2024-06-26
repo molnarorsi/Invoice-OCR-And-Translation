@@ -45,8 +45,8 @@ const Chart = ({handleCloseChart, invoice_id}) => {
                 {
                     label: "Time",
                     data: [recognition, parsing, other],
-                    backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
-                    hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
+                    backgroundColor: ["#3498db", "#e74c3c", "#f1c40f"],
+                    hoverBackgroundColor: ["#2980b9", "#c0392b", "#f39c12"],
                     borderColor: ["#FF6384", "#36A2EB", "#FFCE56"],
                     borderWidth: 1,
                 },

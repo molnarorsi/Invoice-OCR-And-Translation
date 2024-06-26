@@ -47,7 +47,7 @@ const CreateGroupCard = (props) => {
 
     return (
         <>
-        <Paper elevation={3} className={classes.paper} sx={{p: 2, borderRadiud: 5}}>
+        <Paper elevation={3} className={classes.paper} sx={{p: 2, borderRadius: 5}}>
             <Typography variant="h6">Create Group</Typography>
             <br></br>
             <Box component="form" onSubmit={createGroup} className={classes.inputContainer}>

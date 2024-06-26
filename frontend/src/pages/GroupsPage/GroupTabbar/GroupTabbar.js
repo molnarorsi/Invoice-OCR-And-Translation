@@ -3,6 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import GroupsIcon from '@mui/icons-material/Groups';
 import { useStyles } from '../styles';
 import Typography from '@mui/material/Typography';
 import userContext from '../../../context/user-context';
@@ -26,7 +27,7 @@ const GroupTabbar = (props) => {
         <>
             <div className={classes.rootContainer}>
                 <Tabs className={classes.tabsContainer} centered value={value} onChange={handleChange}>
-                    <Tab sx={{mx:5, p:2}} label={<Typography variant="h6">Groups</Typography>} value={0} onClick={(e) => handleChange(e, 0, "Groups")} icon={<GroupAddIcon />} />
+                    <Tab sx={{mx:5, p:2}} label={<Typography variant="h6">Groups</Typography>} value={0} onClick={(e) => handleChange(e, 0, "Groups")} icon={<GroupsIcon />} />
                     <Tab sx={{mx:5, p:2}} label={<Typography variant="h6">Join</Typography>} value={1} onClick={(e) => handleChange(e, 1, "Join")} icon={<GroupAddIcon />} />
                     {role === "admin" && <Tab sx={{mx:5, p:2}} label={<Typography variant="h6">Create</Typography>} value={2} onClick={(e)=> handleChange(e, 2, "Create")} icon={<AddCircleIcon />} />}
                 </Tabs>
