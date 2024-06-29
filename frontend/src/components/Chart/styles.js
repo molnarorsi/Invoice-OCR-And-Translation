@@ -2,9 +2,9 @@ import { makeStyles } from "@mui/styles";
 export const useStyles = makeStyles({
   center: {
     position: "absolute",
-    top: "50%",
+    top: "70px",
     left: "55%",
-    transform: "translate(-50%, -50%)",
+    transform: "translate(-50%, 0)",
     width: "650px",
     width: "90vw", // Use viewport width for responsiveness
     maxWidth: "650px", // Set a max-width to prevent the chart from becoming too large

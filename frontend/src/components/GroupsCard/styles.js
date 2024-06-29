@@ -6,6 +6,6 @@ export const useStyles = makeStyles({
         margin: 'auto',
         textAlign: 'center',
         marginTop: 50,
-
+        backgroundColor: '#d6536d',
     },
 });

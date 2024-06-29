@@ -73,7 +73,7 @@ const GroupsPage = () => {
                         <Grid container spacing={2}>
                             {pageName == "Groups" && 
                             groupData && groupData.map((groupData) => (
-                                <Grid key={groupData.id} item md = {3}>
+                                <Grid key={groupData.id} item md = {3} sx={{ fontFamily: "'Staatliches', sans-serif !important",}}>
                                     <div onClick={() => openGroup(groupData)}>
                                         <InvoiceCard data={groupData.name}/>
                                     </div>

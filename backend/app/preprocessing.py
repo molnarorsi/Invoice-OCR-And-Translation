@@ -49,19 +49,16 @@ def noise_reduction():
     
 # Skew correction
 @preprocessing_bp.route('/skew_correction', methods=['POST'])
-def skew_correction():
-    img = load_image_from_request()
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
-    coords = np.column_stack(np.where(thresh > 0))
-    angle = cv2.minAreaRect(coords)[-1]
-    if angle < -45:
-        angle = -(90 + angle)
-    else:
-        angle = -angle
-    (h, w) = img.shape[:2]
-    center = (w // 2, h // 2)
-    M = cv2.getRotationMatrix2D(center, angle, 1.0)
-    rotated = cv2.warpAffine(img, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+def correct_image_skew():
+    image = load_image_from_request()
+    grayscale_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    binary_image = cv2.threshold(grayscale_image, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+    non_zero_pixels = np.column_stack(np.where(binary_image > 0))
+    rotation_angle = cv2.minAreaRect(non_zero_pixels)[-1]
+    rotation_angle = -(90 + rotation_angle) if rotation_angle < -45 else -rotation_angle
+    image_height, image_width = image.shape[:2]
+    image_center = (image_width // 2, image_height // 2)
+    rotation_matrix = cv2.getRotationMatrix2D(image_center, rotation_angle, 1.0)
+    corrected_image = cv2.warpAffine(image, rotation_matrix, (image_width, image_height), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
 
-    return jsonify({'image': convert_to_base64(rotated), 'filename': request.files['file'].filename})
+    return jsonify({'image': convert_to_base64(corrected_image), 'filename': request.files['file'].filename})

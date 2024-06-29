@@ -59,7 +59,7 @@ const UserData = ({ users, onUserEdit }) => {
       headerName: "Actions",
       flex: 1,
       renderCell: (params) => (
-        <Button variant="contained" color="primary" onClick={(event) => handleEdit(event, params.row)}>
+        <Button variant="text" sx={{fontFamily: "'Staatliches', sans-serif !important", color: "#efb11d !important", backgroundColor: "transparent", border: "2px solid #efb11d !important", borderRadius: "50px !important",}} onClick={(event) => handleEdit(event, params.row)}>
           Edit Role
         </Button>
       ),
@@ -68,7 +68,7 @@ const UserData = ({ users, onUserEdit }) => {
 
   return (
     <>
-      <TextField label="Search Users" value={search} onChange={handleSearchChange} />
+      <TextField label="Search Users"  value={search} onChange={handleSearchChange} />
       <DataGrid className={classes.dataGrid} rows={filteredUsers} columns={columns} autoHeight sx={{ backgroundColor: "white", marginBottom: "30px" }} />
       <Modal open={showModal} onClose={handleModalClose}>
         <Box sx={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: 400, bgcolor: "background.paper", boxShadow: 24, p: 4, borderRadius: 2 }}>

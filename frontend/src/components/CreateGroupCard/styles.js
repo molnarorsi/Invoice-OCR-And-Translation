@@ -4,12 +4,12 @@ export const useStyles = makeStyles({
     paper: {
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        justifyContent: "center",
         alignItems: "center",
         margin: "0 auto",
-        marginTop: "10%",
+        // marginTop: "10%",
         width: "50%",
-        height: "600px",
+        height: "500px",
         borderRadius: 50,
         color: "#efb11d",
         fontFamily: "'Staatliches', sans-serif !important",
@@ -28,8 +28,8 @@ export const useStyles = makeStyles({
         margin: "0 auto",
         marginTop: 20,
         width: "70%",
-        border: "2px solid #efb11d",
-        borderRadius: "5px",
+        
+
     },
     createButton: {
         cmarginTop: "20px",

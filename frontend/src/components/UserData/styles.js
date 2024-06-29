@@ -10,6 +10,7 @@ export const useStyles = makeStyles({
     '& .MuiDataGrid-columnHeader': {
       backgroundColor: '#f5f5f5',
     },
+    fontFamily: "'Staatliches', sans-serif !important",
   },
   editRoleModal: {
     position: "absolute",

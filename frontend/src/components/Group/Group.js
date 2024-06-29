@@ -110,12 +110,12 @@ const Group = (props) => {
     return (
         <div className={classes.rootContainer}>
             {currentGroup && (
-                <Button onClick={deactivateCurrentGroup} variant="contained" color="secondary">
+                <Button onClick={deactivateCurrentGroup} variant="text" sx={{fontFamily: "'Staatliches', sans-serif !important", color: "#efb11d !important", backgroundColor: "transparent", border: "2px solid #efb11d !important",}}>
                     Deactivate
                 </Button>
             )}
             {!currentGroup && (
-                <Button onClick={setCurrentGroupActive} variant="contained" color="primary">
+                <Button onClick={setCurrentGroupActive} variant="text" sx={{fontFamily: "'Staatliches', sans-serif !important", color: "#efb11d !important", backgroundColor: "transparent", border: "2px solid #efb11d !important",}}>
                     Set as current group
                 </Button>
             

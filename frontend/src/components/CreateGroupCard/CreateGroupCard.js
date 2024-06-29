@@ -47,19 +47,20 @@ const CreateGroupCard = (props) => {
 
     return (
         <>
-        <Paper elevation={3} className={classes.paper} sx={{p: 2, borderRadius: 5}}>
-            <Typography variant="h6">Create Group</Typography>
+        <Paper elevation={3} className={classes.paper} sx={{p: 2, borderRadius: 5, fontFamily: "'Staatliches', sans-serif !important", backgroundColor: "#d6536d",}}>
+            <Typography variant="h6" sx={{fontFamily: "'Staatliches', sans-serif !important",}}>Create Group</Typography>
             <br></br>
             <Box component="form" onSubmit={createGroup} className={classes.inputContainer}>
-                <TextField id="name" name="name" label="Group Name" variant="outlined" fullWidth sx={{width: "100%"}} size="small" required/>
+                <TextField id="name" name="name" label="Group Name" variant="outlined" fullWidth sx={{width: "100%", border: "2px solid #efb11d", borderRadius: "5px", fontFamily: "'Staatliches', sans-serif !important",}} size="small" required/>
                 <br/>
                 <TextField  id="info"
                     name="info"
                     label="Description"
                     variant="outlined"
-                    sx={{ mt: 2, width: "100%" }}
+                    sx={{ mt: 2, width: "100%" , border: "2px solid #efb11d", borderRadius: "5px", fontFamily: "'Staatliches', sans-serif !important",}}
                     multiline
-                    rows={4}/>
+                    rows={4}
+                    />
             <br/>
             <Button className={classes.createButton}variant="text" type="submit" sx={{mt: 2}}>Create Group</Button>
             </Box>

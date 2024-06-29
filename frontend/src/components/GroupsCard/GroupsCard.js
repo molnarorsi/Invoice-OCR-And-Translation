@@ -39,7 +39,7 @@ const GroupsCard = (props) => {
     }
 
     return (
-        <Paper className={classes.card} elevation={3} sx={{ p: 2, borderRadius: 5 }}>
+        <Paper className={classes.card} elevation={3} sx={{ p: 2, borderRadius: 5, backgroundColor: "#d6536d", }}>
             <Typography variant="h6" gutterBottom>Join a group</Typography>
             <TextField
                 label="Group code"
@@ -47,8 +47,9 @@ const GroupsCard = (props) => {
                 onChange={handleChange}
                 variant="standard"
                 fullWidth
+                sx={{fontFamily: "'Staatliches', sans-serif !important"}}
             />
-            <Button variant="contained" color="primary" onClick={joinGroup} className={classes.button}>Join</Button>
+            <Button variant="text" sx={{fontFamily: "'Staatliches', sans-serif !important",color: "#efb11d !important", backgroundColor: "transparent", border: "2px solid #efb11d !important",}} onClick={joinGroup} className={classes.button}>Join</Button>
         </Paper>
     );
 };

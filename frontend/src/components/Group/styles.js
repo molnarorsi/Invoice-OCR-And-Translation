@@ -4,6 +4,7 @@ export const useStyles = makeStyles({
     rootContainer: {
         textAlign: "center",
         color: "black",
+        fontFamily: "'Staatliches', sans-serif !important",
     },
     table: {
         marginTop: "20px",

@@ -85,22 +85,26 @@ const RegisterPage = () => {
   };
   return (
     <Container component="main" maxWidth="xs" className={classes.rootContainer}>
-      <CssBaseline />
+      
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 2,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          backgroundColor: "#d6536d",
+          justifyContent: "center",
+          height:"400px"
         }}
       >
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" sx={{fontFamily: "'Staatliches', sans-serif !important", }}>
           Register
         </Typography>
-        <Box component="form" validate onSubmit={submitHandler} sx={{ mt: 3 }}>
+        <Box component="form" validate onSubmit={submitHandler} sx={{ mt: 3, fontFamily: "'Staatliches', sans-serif !important", justifyContent:"center",}}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
+              className={classes.textField}
                 error={!nameValid}
                 helperText={
                   !nameValid ? "Name must be at least 3 characters." : ""
@@ -113,11 +117,13 @@ const RegisterPage = () => {
                 label="Name"
                 onBlur={validateName}
                 autoFocus
+                sx={{ fontFamily: "'Staatliches', sans-serif !important",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
               />
             </Grid>
             
             <Grid item xs={12}>
               <TextField
+              className={classes.textField}
                 error={!emailValid}
                 helperText={!emailValid ? "Incorrect email format." : ""}
                 required
@@ -127,10 +133,12 @@ const RegisterPage = () => {
                 name="email"
                 onBlur={validateEmail}
                 autoComplete="off"
+                sx={{ fontFamily: "'Staatliches', sans-serif !important",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
+              className={classes.textField}
                 error={!passwordValid}
                 helperText={
                   !passwordValid
@@ -145,14 +153,16 @@ const RegisterPage = () => {
                 id="password"
                 onBlur={validatePassword}
                 autoComplete="off"
+                sx={{ fontFamily: "'Staatliches', sans-serif !important",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
               />
             </Grid>
           </Grid>
           <Button
             type="submit"
             fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2, fontFamily: "'Staatliches', sans-serif !important", color: "#efb11d !important",}}
+            variant="text"
+            className={classes.registerButton}
+            sx={{ mt: 3, mb: 2, fontFamily: "'Staatliches', sans-serif !important",  backgroundColor: "transparent",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
           >
             {loading ? <CircularProgress size={24} /> : "Register"}
           </Button>

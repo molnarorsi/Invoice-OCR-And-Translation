@@ -222,12 +222,12 @@ const GroupInvoiceTable = ({ invoiceData, openSummary, refreshData }) => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleDelete} color="#efb11d">
-                        Delete
-                    </Button>
-                    <Button onClick={handleCancelDelete} color="#efb11d" autoFocus>
-                        Cancel
-                    </Button>
+                <Button onClick={handleDelete} style={{ backgroundColor: "transparent", color: "#efb11d" }}>
+                    Delete
+                </Button>
+                <Button onClick={handleCancelDelete} style={{ backgroundColor: "transparent", color: "#efb11d" }} autoFocus>
+                    Cancel
+                </Button>
                 </DialogActions>
             </Dialog>
         </Paper>

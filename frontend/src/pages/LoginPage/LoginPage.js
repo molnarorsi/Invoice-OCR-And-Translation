@@ -80,20 +80,24 @@ const LoginPage = () => {
 
   return (
     <Container component="main" maxWidth="xs" className={classes.rootContainer}>
-      <CssBaseline />
+      
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: 2,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          backgroundColor: "#d6536d",
+          justifyContent: "center",
+          height:"400px"
         }}
       >
-        <Typography component="h1" variant="h5">
+        <Typography component="h1" variant="h5" sx={{fontFamily: "'Staatliches', sans-serif !important", }}>
           Login
         </Typography>
-        <Box component="form" onSubmit={submitHandler} validate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={submitHandler} validate sx={{ mt: 1, fontFamily: "'Staatliches', sans-serif !important", justifyContent:"center", }}>
           <TextField
+          className={classes.textField}
             margin="normal"
             required
             fullWidth
@@ -106,8 +110,10 @@ const LoginPage = () => {
             helperText={!emailValid && "Invalid email"}
             onBlur={validateEmail}
             FormHelperTextProps={{ className: classes.errorText }}
+            sx={{ fontFamily: "'Staatliches', sans-serif !important",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
           />
           <TextField
+          className={classes.textField}
             margin="normal"
             required
             fullWidth
@@ -120,13 +126,14 @@ const LoginPage = () => {
             helperText={!passwordValid && "Password must be at least 6 characters"}
             onBlur={validatePassword}
             FormHelperTextProps={{ className: classes.errorText }}
+            sx={{ fontFamily: "'Staatliches', sans-serif !important",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
           />
           
           <Button
             type="submit"
             fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+            variant="text"
+            sx={{ mt: 3, mb: 2 , fontFamily: "'Staatliches', sans-serif !important",  backgroundColor: "transparent", border: "2px solid #efb11d !important", borderRadius: "50px !important",}}
             className={classes.loginButton}
             disabled={loading}
           >
