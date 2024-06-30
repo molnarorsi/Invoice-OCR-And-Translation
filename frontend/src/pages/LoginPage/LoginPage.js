@@ -110,7 +110,7 @@ const LoginPage = () => {
             helperText={!emailValid && "Invalid email"}
             onBlur={validateEmail}
             FormHelperTextProps={{ className: classes.errorText }}
-            sx={{ fontFamily: "'Staatliches', sans-serif !important",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
+            //sx={{ fontFamily: "'Staatliches', sans-serif !important",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
           />
           <TextField
           className={classes.textField}
@@ -126,7 +126,7 @@ const LoginPage = () => {
             helperText={!passwordValid && "Password must be at least 6 characters"}
             onBlur={validatePassword}
             FormHelperTextProps={{ className: classes.errorText }}
-            sx={{ fontFamily: "'Staatliches', sans-serif !important",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
+            //sx={{ fontFamily: "'Staatliches', sans-serif !important",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
           />
           
           <Button

@@ -22,6 +22,7 @@ export const useStyles = makeStyles({
         '& .MuiOutlinedInput-root': {
           '& fieldset': {
             borderColor: '#efb11d !important', // Your custom border color
+            borderRadius: "50px !important", // Add a border radius to the input field
           },
           '&:hover fieldset': {
             borderColor: '#efb11d !important', // Custom border color on hover

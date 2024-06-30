@@ -117,7 +117,7 @@ const RegisterPage = () => {
                 label="Name"
                 onBlur={validateName}
                 autoFocus
-                sx={{ fontFamily: "'Staatliches', sans-serif !important",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
+                //sx={{ fontFamily: "'Staatliches', sans-serif !important",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
               />
             </Grid>
             
@@ -133,7 +133,7 @@ const RegisterPage = () => {
                 name="email"
                 onBlur={validateEmail}
                 autoComplete="off"
-                sx={{ fontFamily: "'Staatliches', sans-serif !important",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
+                //sx={{ fontFamily: "'Staatliches', sans-serif !important",border: "2px solid #efb11d !important", borderRadius: "50px !important", }}
               />
             </Grid>
             <Grid item xs={12}>
