@@ -159,10 +159,10 @@ const SummaryCard = (props) => {
           <Grid container spacing={2}>
             <Grid item xs={12} sx={{ textAlign: "right", marginRight: 10 }}>
               <IconButton sx={{ padding: "10px" }} onClick={handleOpenChart}>
-                <DonutSmallIcon fontSize="large" />
+                <DonutSmallIcon sx={{color: '#ffa2b6'}} fontSize="large" />
               </IconButton>
               <IconButton sx={{ padding: "10px" }} onClick={handleOpenFile}>
-                <OpenInNewIcon fontSize="large" />
+                <OpenInNewIcon sx={{color: '#ffa2b6'}} fontSize="large" />
               </IconButton>
             </Grid>
             <Grid item xs={12} md={6}>

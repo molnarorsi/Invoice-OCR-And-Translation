@@ -4,7 +4,6 @@ import { Typography, Grid, IconButton, MenuItem, Menu } from "@mui/material";
 import httpRequest from "../../httpRequest";
 import { Link } from "react-router-dom";
 import { Divider } from "@mui/material";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import HistoryIcon from "@mui/icons-material/History";
 import BusinessIcon from "@mui/icons-material/Business";
 import QuestionAnswerSharpIcon from '@mui/icons-material/QuestionAnswerSharp';
@@ -16,6 +15,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PasswordModal from "../PasswordModal/PasswordModal";
 import {useNavigate} from "react-router-dom";
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
+import HomeIcon from '@mui/icons-material/Home';
 
 const Navbar = (props) => {
     const classes = useStyles();
@@ -63,7 +63,7 @@ const Navbar = (props) => {
             <div>
               <Link to="/" className={classes.link}>
                 <Typography variant="h7">
-                  <DashboardIcon />
+                  <HomeIcon />
                   Home
                 </Typography>
               </Link>
@@ -88,7 +88,7 @@ const Navbar = (props) => {
               <Link to="/groups" className={classes.link}>
                 <Typography variant="h7" >
                   <BusinessIcon />
-                  Groups
+                  Businesses
                 </Typography>
               </Link>
             </div>

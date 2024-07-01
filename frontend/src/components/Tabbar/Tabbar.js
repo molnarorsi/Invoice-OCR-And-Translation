@@ -3,11 +3,11 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 import EyeIcon from "@mui/icons-material/RemoveRedEye";
-import SummaryIcon from '@mui/icons-material/List';
 import {useStyles} from "./styles";
 import {Typography} from "@mui/material";
 import OCRContext from "../../context/ocr-context";
 import SpellcheckIcon from '@mui/icons-material/Spellcheck';
+import TableChartIcon from '@mui/icons-material/TableChart';
 
 const Tabbar = (props) => {
     const classes = useStyles();
@@ -59,7 +59,7 @@ const Tabbar = (props) => {
                     sx={{mx:5, p:2}}
                     label={
                         <Typography className={classes.typography}>
-                            <SummaryIcon/>
+                            <TableChartIcon/>
                             Summary
                         </Typography>
                     }
