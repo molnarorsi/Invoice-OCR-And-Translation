@@ -76,7 +76,7 @@ def hello():
     return "Hello, World!"
 
 # Define the route for the current user
-@app.route("/@me")
+@app.route("/@")
 def get_current_user():
 
     user_id = session.get("user_id")

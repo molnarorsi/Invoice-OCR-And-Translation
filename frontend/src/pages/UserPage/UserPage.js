@@ -34,7 +34,7 @@ const UserPage = () => {
     useEffect(() => {
         (async () => {
             try {
-                const response = await httpRequest.get("http://localhost:5000/@me");
+                const response = await httpRequest.get("http://localhost:5000/@");
                 user.setUserName(response.data.userName);
                 user.setEmail(response.data.email);
                 user.setRole(response.data.role);

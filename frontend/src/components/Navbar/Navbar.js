@@ -122,7 +122,6 @@ const Navbar = (props) => {
               >
                 <MenuItem onClick={openProfile}>Profile</MenuItem>
                 <MenuItem onClick={handlePassworOpen}>Change Password</MenuItem>
-                <MenuItem onClick={logoutUser}>Logout</MenuItem>
               </Menu>
           </Grid>
           <Button

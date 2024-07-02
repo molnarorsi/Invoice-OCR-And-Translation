@@ -26,7 +26,7 @@ const GroupsPage = () => {
     useEffect(() => {
         (async () => {
             try {
-                const response = await httpRequest.get("http://localhost:5000/@me");
+                const response = await httpRequest.get("http://localhost:5000/@");
                 userCtx.setUserName(response.data.name);
                 userCtx.setEmail(response.data.email);
                 userCtx.setRole(response.data.role);

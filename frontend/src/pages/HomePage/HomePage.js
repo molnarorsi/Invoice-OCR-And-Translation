@@ -20,7 +20,7 @@ const HomePage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const resp = await httpRequest.get("http://localhost:5000/@me");
+        const resp = await httpRequest.get("http://localhost:5000/@");
         console.log(resp.data.name);
         setUserName(resp.data.name);
         userCtx.setUserName(resp.data.name);
