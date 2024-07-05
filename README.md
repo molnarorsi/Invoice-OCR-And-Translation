@@ -1,5 +1,7 @@
 # Invoice-OCR-And-Translation
 
+## Demo video: https://screenrec.com/share/zr31iZeMyn
+
 ## About the application
 Invoice OCR And Translation it's a web app that let's you extract data from invoices in 5 different languages(romanian, hungarian, english, deutsch and french) to structured data and also translate the extracted text in order to understand better what the invoice contains. It's mainly made for accountants that work with more businesesses. 
 
